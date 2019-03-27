@@ -1,48 +1,49 @@
 :global{
-  :root{
-    --readFont: "Manuale", "Source Han Serif SC", monospace
-    --defaultFont: ''
-  }
   html, body{
     padding 0
     margin 0
-    -webkit-overflow-scrolling: touch;
-    overflow-scrolling: touch;
-    font-family: -apple-system, "Manuale", "Source Han Serif SC", monospace;
+    -webkit-overflow-scrolling: touch
+    overflow-scrolling: touch
+    font-family: -apple-system, "Manuale", "Source Han Serif SC", monospace
     height 100%
   }
+  html{
+    font-size: 16px
+  }
   body{
-    font-size: 14px;
-    color: rgb(85,85,85);
-    transition-property:backgound;
+    font-size 1rem
+    color: rgb(85,85,85)
+    transition-property:backgound
   }
   article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{
-    display: block;
+    display: block
   }
   h2, h3, h4, h5, h6 {
-    margin: 20px 0 15px;
+    margin: 20px 0 15px
   }
   h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
+    position: relative
+    margin-top: 1em
+    margin-bottom: 1em
+    font-weight: bold
+    line-height: 1.4em
   }
   input,textarea,button{
-    outline: none;
-    -webkit-appearance: none;
+    outline: none
+    -webkit-appearance: none
   }
   input[type=search]::-webkit-search-cancel-button{
-    -webkit-appearance: none;
+    -webkit-appearance: none
   }
   ol,ul{
-    list-style: none;
+    list-style: none
     margin 0
     padding 0
   }
   a {
-    text-decoration: none;
-    position: relative;
-    color: rgb(85,85,85);
+    text-decoration: none
+    position: relative
+    color: rgb(85,85,85)
   }
   .wrapper{
     background-color #fff

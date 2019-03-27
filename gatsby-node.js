@@ -46,7 +46,6 @@ exports.createPages = async function createPages({
   let tags = []
   if (!_.isArray(posts)) throw new Error('数据错误')
   // 创建每篇文章
-  console.log(posts.map(post => post.node.fields.title))
   posts.forEach((post, index) => {
     if (_.has(post, `${fields}.tags`)) {
       tags = tags.concat(_.get(post, `${fields}.tags`))
