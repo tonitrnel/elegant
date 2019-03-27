@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import Layout from '@/component/layout'
+import Container from '@/component/container'
+import classes from './index.styl'
 
 interface PageProps {
   data: {
@@ -17,21 +20,21 @@ export default (props: PageProps) => {
     tag => !!tag.fieldValue
   )
   return (
-    <section>
-      <div className="tags">
-        <h1>已存在分类：</h1>
-        <p>共有{categories.length}个分类</p>
-        <ul>
+    <Layout title='分类'>
+      <Container>
+        <h1>分类</h1>
+        <p>共设有{categories.length}个分类</p>
+        <ul className={classes.category__list}>
           {categories.map((category, i) => (
-            <li style={{ padding: '10px' }} key={i}>
-              <Link to={`/categories/${category.fieldValue}`}>
+            <li className={classes.category__item} key={i}>
+              <Link title={`分类下共有${category.totalCount}篇文章`} to={`/categories/${category.fieldValue}`}>
                 {category.fieldValue} {`(${category.totalCount})`}
               </Link>
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </Container>
+    </Layout>
   )
 }
 export const Query = graphql`

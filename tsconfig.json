@@ -20,16 +20,13 @@
     "jsx": "react",
     "strict": true,
     "types": ["node"],
+    "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@config": ["./config/index.json"]
     },
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ],
+  "exclude": ["node_modules", "**/*.spec.ts"],
   "compileOnSave": false
 }

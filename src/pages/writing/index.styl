@@ -1,0 +1,50 @@
+.post{
+  box-sizing border-box
+  padding 20px 0
+  .post__title{
+    margin 0
+    font-weight 400
+  }
+  a{
+    color #333
+    text-decoration none
+  }
+  .post__meta{
+    font-size 14px
+    a, time{
+      margin-right 10px
+      color #888
+    }
+    time{
+      cursor help
+    }
+    small{
+      margin-right: 10px;
+      color: #999;
+    }
+  }
+  .post__intro{
+    color #888
+  }
+}
+.view__more{
+  margin 2em 0
+  a{
+    font-size 18px
+    text-decoration none
+    position relative
+  }
+  a::after{
+    width 0
+    height 2px
+    content ""
+    position absolute
+    bottom -10px
+    left 0
+    transition width .1s
+    background-color #666
+  }
+  a:hover::after{
+      width 100%
+    }
+}

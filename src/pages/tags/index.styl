@@ -1,0 +1,27 @@
+.tags{
+  width 890px
+  .tags__list{
+    display block
+    li{
+      display inline-block
+      margin 10px 10px 10px 0
+    }
+    a{
+      padding 6px 0
+      position relative
+      &:after{
+        content ""
+        width 100%
+        height 1px
+        background-color #ccc
+        position absolute
+        left 0
+        transition background-color .3s
+        bottom 0
+      }
+      &:hover:after{
+        background-color #666
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+.header{
+  padding 40px 200px
+}
+.site__logo{
+  width 60px
+  display inline-block
+  vertical-align middle
+}
+.site__title{
+  display inline-block
+  margin-left 40px
+  font-size 18px
+}
+.menu{
+  display inline-block
+  margin-left 40px
+  .menu__list{
+    list-style none
+    padding 0
+    .menu__item{
+      margin 0 20px
+      display inline-block
+      a{
+        color #888
+        text-decoration none
+        padding 4px
+        letter-spacing 2px
+        &:hover{
+          color #111
+        }
+      }
+    }
+    .menu__item__active{
+      a{
+        color #111
+        border-bottom 1px dashed #ccc
+        border-top 1px dashed #ccc
+      }
+    }
+  }
+}

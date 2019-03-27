@@ -1,10 +1,12 @@
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import {StaticQuery, graphql} from 'gatsby'
-import { ReactNode } from 'react'
+import { ReactNode, createContext } from 'react'
+import './index.styl'
 
 interface PageProps {
-  children: any
+  children: ReactNode
+  title?: string
 }
 interface QueryData {
   site: {
@@ -30,15 +32,17 @@ const query = graphql`
   }
 `
 interface WrapperProps {
-  (children: PageProps['children']): (siteData: QueryData) => ReactNode
+  (props: PageProps): (siteData: QueryData) => ReactNode
 }
 type MetaType = {
   name: string,
   content: string,
   [key: string]: string
 }[]
+export type LayoutContextProps = QueryData['site']['siteMetadata']
+export const LayoutContext = createContext<LayoutContextProps | null>(null)
 // 为了接收两个组件的数据
-const Wrapper: WrapperProps = (children) => {
+const Wrapper: WrapperProps = (props) => {
   return ({site: {siteMetadata: data}}: QueryData) => {
     const meta: MetaType = [
       {
@@ -50,12 +54,13 @@ const Wrapper: WrapperProps = (children) => {
         content: data.keywords
       }
     ]
+    const title = props.title ? `${props.title} - ${data.title}` : data.title
     return (
-      <>
-        <Helmet title={data.title} meta={meta} htmlAttributes={{lang: 'zh-CN'}} />
-        {children}
-      </>
+      <LayoutContext.Provider value={data}>
+        <Helmet title={title} meta={meta} htmlAttributes={{lang: 'zh-CN'}} />
+        {props.children}
+      </LayoutContext.Provider>
     )
   }
 }
-export default ({children}: PageProps) => <StaticQuery query={query} render={Wrapper(children)}/>
+export default (props: PageProps) => <StaticQuery query={query} render={Wrapper(props)}/>

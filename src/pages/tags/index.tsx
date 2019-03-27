@@ -1,5 +1,9 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import Layout from '@/component/layout'
+import Container from '@/component/container'
+import classes from './index.styl'
+import _ from 'lodash'
 
 interface TagsPageProps {
   data: {
@@ -12,26 +16,29 @@ interface TagsPageProps {
   }
 }
 
+const getColor = (num) => '#'.padEnd(7, Math.ceil(160 - num * 160).toString(16).padStart(2, '0'))
+
 export default (props: TagsPageProps) => {
   const tags = props.data.allMarkdownRemark.group.filter(
     tag => !!tag.fieldValue
   )
+  const total = tags.map(value => value.totalCount).reduce((v, c) => v + c)
   return (
-    <section>
-      <div className="tags">
-        <h1>已存在标签：</h1>
-        <p>共有{tags.length}个标签</p>
-        <ul>
+    <Layout title='标签'>
+      <Container className={classes.tags}>
+        <h1>标签</h1>
+        <p>共使用 {tags.length} 个标签</p>
+        <ul className={classes.tags__list}>
           {tags.map((tag, i) => (
             <li style={{ padding: '10px' }} key={i}>
-              <Link to={`/tags/${tag.fieldValue}`}>
-                {tag.fieldValue} {`(${tag.totalCount})`}
+              <Link title={`${tag.fieldValue}下存在${tag.totalCount}篇文章`} to={`/tags/${_.kebabCase(tag.fieldValue)}`} style={{fontSize: `${12 + Math.ceil(tag.totalCount / total * 16)}px`, color: getColor(tag.totalCount / total)}}>
+                {tag.fieldValue}
               </Link>
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </Container>
+    </Layout>
   )
 }
 export const Query = graphql`

@@ -1,0 +1,39 @@
+.post{
+  width 780px
+  .post__data{
+    padding 10px 0 20px 0
+    .post__title{
+      font-size 28px
+      font-weight 400
+    }
+    .post__category{
+      color #777
+    }
+    small{
+      margin-right: 10px;
+      margin-left: 10px;
+      color: #777;
+    }
+    .post__date{
+      color: #777;
+    }
+  }
+  .post__content{
+    @import "post.styl"
+  }
+  .post__tags{
+    margin 4em 0 2em
+    a{
+      padding 1px 5px
+      background #f5f5f5
+      display: inline-block;
+      line-height 26px
+    }
+  }
+  .post__nav{
+    border-top 1px solid #eee
+    padding 2em 0
+    display flex
+    justify-content space-between
+  }
+}

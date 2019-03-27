@@ -1,23 +1,19 @@
 const path = require('path')
-const writingDirectory = path.resolve('D://Writing/')
+const config = require('./config')
 module.exports = {
-  siteMetadata: {
-    title: '似返',
-    siteUrl: 'https://mostearly.com',
-    description: '无',
-    keywords: 'web前端, HTML5, CSS3, html, CSS'
-  },
+  siteMetadata: config.site,
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-stylus',
+    // 'gatsby-plugin-stylus',
     'gatsby-plugin-sharp',
+    'gatsby-plugin-sitemap',
     'gatsby-transformer-sharp',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: 'article',
-        path: writingDirectory,
+        path: path.resolve(config.path),
         // 屏蔽git文件夹
         ignore: ['**/.git']
       }
@@ -25,8 +21,26 @@ module.exports = {
     {
       resolve: 'gatsby-transformer-remark',
       options: {
-        plugins: ['gatsby-remark-prismjs', 'gatsby-remark-images']
+        plugins: [{
+          resolve: 'gatsby-remark-prismjs',
+          options: {
+            showLineNumbers: true
+          }
+        }, 'gatsby-remark-images']
       }
+    },
+
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: 'MostEarly',
+        short_name: 'MostEarly',
+        start_url: '/',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
+        display: 'minimal-ui',
+        icon: 'src/assets/images/favicon.png',
+      },
     },
     {
       resolve: 'gatsby-plugin-feed',

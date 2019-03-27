@@ -4,8 +4,7 @@ declare module '*.jpg'
 declare module '*.jpeg'
 declare module '*.svg'
 declare module '*.css'
-declare module '*.styl'
-declare module '*.graphql' {
-  const value: string
-  export default value
+declare module '*.styl' {
+  const content: { [className: string]: string }
+  export default content
 }
