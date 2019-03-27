@@ -67,7 +67,7 @@ export default class Post extends React.Component<PageProps>{
   postContentRef: HTMLDivElement | null = null
   componentDidMount(): void {
     if (!this.postContentRef) return
-    console.log(this.postContentRef.querySelectorAll('a>img'))
+    console.log(this.postContentRef.querySelectorAll('.gatsby-resp-image-link'))
   }
 
   render() {

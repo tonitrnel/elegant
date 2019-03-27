@@ -12,7 +12,7 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'article',
+        name: 'posts',
         path: path.resolve(config.path),
         // 屏蔽git文件夹
         ignore: ['**/.git']
@@ -26,7 +26,14 @@ module.exports = {
           options: {
             showLineNumbers: true
           }
-        }, 'gatsby-remark-images']
+        }, {
+          resolve: 'gatsby-remark-images',
+          options: {
+            maxWidth: 800,
+            showCaptions: true,
+            withWebp: true
+          }
+        }, "gatsby-remark-katex"]
       }
     },
 
