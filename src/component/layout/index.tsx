@@ -7,6 +7,7 @@ import './index.styl'
 interface PageProps {
   children: ReactNode
   title?: string
+  description?: string
 }
 interface QueryData {
   site: {
@@ -47,7 +48,7 @@ const Wrapper: WrapperProps = (props) => {
     const meta: MetaType = [
       {
         name: 'description',
-        content: data.description
+        content: props.description || data.description
       },
       {
         name: 'keywords',

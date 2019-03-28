@@ -2,8 +2,10 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Layout from '@/component/layout'
 import Container from '@/component/container'
+import preview from '@/component/preview_picture'
 import classes from './index.styl'
 import _ from 'lodash'
+import moment from 'moment'
 
 type Fields = {
   title: string
@@ -17,7 +19,7 @@ interface PageProps {
   data: {
     markdownRemark: {
       html: string
-      fields: Fields & {rawDate: string}
+      fields: Fields & {rawDate: string, dateModified: string}
     }
   }
   pageContext: {
@@ -64,12 +66,6 @@ const PostNavComponent = (props: PostNavComponentProps) => {
 }
 
 export default class Post extends React.Component<PageProps>{
-  postContentRef: HTMLDivElement | null = null
-  componentDidMount(): void {
-    if (!this.postContentRef) return
-    console.log(this.postContentRef.querySelectorAll('.gatsby-resp-image-link'))
-  }
-
   render() {
     const {data: {markdownRemark: posts}, pageContext: {prev, next}} = this.props
     return (
@@ -91,9 +87,10 @@ export default class Post extends React.Component<PageProps>{
             </div>
             <div
               className={classes.post__content}
-              ref={ref => this.postContentRef = ref}
+              onClick={preview}
               dangerouslySetInnerHTML={{ __html: posts.html }}
             />
+            <time className={classes.post__modified} dateTime={posts.fields.dateModified}>本文最后编辑于{moment(posts.fields.dateModified).format('YYYY-MM-DD HH:mm')}分</time>
             <PostTagsComponent
               tags={posts.fields.tags}
               className={classes.post__tags}
@@ -119,6 +116,7 @@ export const query = graphql`
         category
         date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
         rawDate: date
+        dateModified
         slug
         status
       }
@@ -130,3 +128,4 @@ export const query = graphql`
 // todo: 文章的列表
 // todo： PWA
 // todo: Mobile可用
+// todo：无法使用在GraphQL中Date format时使用HH，因为会自动将北京时间转换成格林时间,除非引入Moment或者使用new Date重新格式化

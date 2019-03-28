@@ -3,6 +3,7 @@ import classes from './index.styl'
 import Header from '@/component/header'
 import Sidebar from '@/component/sidebar'
 import Footer from '@/component/footer'
+import ToTop from '@/component/to_top'
 
 interface ComponentProps {
   className?: string
@@ -10,7 +11,23 @@ interface ComponentProps {
   children: React.ReactNode
 }
 
+
 export default function Container({ children, className, style }: ComponentProps) {
+  const [hideToTop, setHideToTop] = React.useState(true)
+  const cdTop = () => requestAnimationFrame(()=>{
+    if (scrollY < 300) {
+      setHideToTop(true)
+    }
+    else {
+      setHideToTop(false)
+    }
+  })
+  React.useEffect(() => {
+    window.addEventListener('scroll', cdTop)
+    return () => {
+      window.removeEventListener('scroll', cdTop)
+    }
+  })
   return (
     <>
       <Header/>
@@ -19,6 +36,7 @@ export default function Container({ children, className, style }: ComponentProps
         <main className={`${className || ''} ${classes.main}`.trimLeft()} style={style} >
           {children}
         </main>
+        <ToTop hide={hideToTop}/>
       </section>
       <Footer/>
     </>

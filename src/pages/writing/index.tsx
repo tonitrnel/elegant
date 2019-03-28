@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Link, graphql } from 'gatsby'
+import Image, {FluidObject} from 'gatsby-image'
 import Layout from '@/component/layout'
 import Container from '@/component/container'
 import classes from './index.styl'
@@ -21,6 +22,13 @@ export const query = graphql`
                         dateModified(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
                         dateCreated: date(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
                         rawDate: date
+                        picture{
+                            childImageSharp{
+                                fluid {
+                                    ...GatsbyImageSharpFluid
+                                }
+                            }
+                        }
                         category
                     }
                     excerpt
@@ -30,6 +38,11 @@ export const query = graphql`
         }
     }
 `
+type ChildImageSharp = {
+  childImageSharp: {
+    fluid: FluidObject
+  }
+}
 interface PageProps {
   data: {
     posts: {
@@ -43,6 +56,7 @@ interface PageProps {
             dateCreated: string
             rawDate: string
             category: string
+            picture: ChildImageSharp | null
           }
           excerpt: string
         }
@@ -70,12 +84,13 @@ export default (props: PageProps) => {
               <small>•</small>
               <time dateTime={post.node.fields.rawDate} title={`创建时间：${post.node.fields.dateCreated} - 修改时间${post.node.fields.dateModified}`}>{post.node.fields.date}</time>
             </section>
+            {post.node.fields.picture && <Image className={classes.post__featured__image} sizes={post.node.fields.picture.childImageSharp.fluid}/>}
             <p className={classes.post__intro}>{post.node.excerpt}</p>
-            <Link to={post.node.fields.slug} className={classes.load__more}>阅读更多</Link>
+            <Link to={post.node.fields.slug} className={classes.load__more}>继续阅读 >></Link>
           </div>
         ))}
         <div className={classes.view__more}>
-          <Link to="/archive/page=1" children="在归档处查看更多文章" />
+          <Link to="/archive/page=1" children="在归档处查看更多文章 >>" />
         </div>
       </Container>
     </Layout>

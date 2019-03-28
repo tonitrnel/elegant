@@ -3,12 +3,6 @@ const config = require('./config')
 module.exports = {
   siteMetadata: config.site,
   plugins: [
-    'gatsby-plugin-typescript',
-    'gatsby-plugin-react-helmet',
-    // 'gatsby-plugin-stylus',
-    'gatsby-plugin-sharp',
-    'gatsby-plugin-sitemap',
-    'gatsby-transformer-sharp',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -21,33 +15,37 @@ module.exports = {
     {
       resolve: 'gatsby-transformer-remark',
       options: {
-        plugins: [{
-          resolve: 'gatsby-remark-prismjs',
-          options: {
-            showLineNumbers: true
-          }
-        }, {
-          resolve: 'gatsby-remark-images',
-          options: {
-            maxWidth: 800,
-            showCaptions: true,
-            withWebp: true
-          }
-        }, "gatsby-remark-katex"]
+        plugins: [
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 800,
+              showCaptions: true,
+              withWebp: true
+            }
+          },
+          {
+            resolve: 'gatsby-remark-prismjs',
+            options: {
+              showLineNumbers: true
+            }
+          },
+          'gatsby-remark-katex',
+          'gatsby-remark-copy-linked-files'
+        ]
       }
     },
-
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'MostEarly',
-        short_name: 'MostEarly',
+        name: "NaturalSoul's Blog",
+        short_name: 'NaturalSoul',
         start_url: '/',
         background_color: '#ffffff',
         theme_color: '#ffffff',
         display: 'minimal-ui',
-        icon: 'src/assets/images/favicon.png',
-      },
+        icon: 'src/assets/images/favicon.png'
+      }
     },
     {
       resolve: 'gatsby-plugin-feed',
@@ -97,10 +95,16 @@ module.exports = {
               }
             `,
             output: '/rss.xml',
-            title: "Natural Soul Blog RSS Feed"
+            title: 'Natural Soul Blog RSS Feed'
           }
         ]
       }
-    }
+    },
+    'gatsby-plugin-typescript',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sitemap',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    'gatsby-plugin-offline'
   ]
 }

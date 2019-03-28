@@ -1,7 +1,6 @@
 const path = require('path')
 const _ = require('lodash')
 const moment = require('moment')
-const webpack = require('webpack')
 const config = require('./config')
 
 const fields = 'node.fields'
@@ -111,7 +110,7 @@ exports.createPages = async function createPages({
 
 const firstLetterUpper = str => str.charAt(0).toUpperCase() + str.slice(1)
 
-const ambiguity = {
+const synonymDictionary = {
   js: 'JavaScript',
   javascript: 'JavaScript'
 }
@@ -129,9 +128,12 @@ exports.onCreateNode = function onCreateNode(method) {
     // 获取文件信息
     const fileNode = getNode(node.parent)
     const dateCreated = _.get(node, 'frontmatter.date') || _.get(node, 'frontmatter.createDate') || fileNode.atime
-    const dateModified = _.get(node, 'frontmatter.updateDate') || fileNode.mtime
+    const dateModified = _.get(node, 'frontmatter.modifiedDate') || _.get(node, 'frontmatter.updateDate') || fileNode.mtime
     const title = _.get(node, 'frontmatter.title') || fileNode.name
     const category = _.get(node, 'frontmatter.category') || '默认'
+    const picture = _.get(node, 'frontmatter.picture')
+    // _.set(node, 'frontmatter.test', 'this is test')
+    // _.unset(node, 'frontmatter.picture')
     const tags =
       _.get(node, 'frontmatter.tag') || _.get(node, 'frontmatter.tags')
     const status = _.get(node, 'frontmatter.status') === 'publish'
@@ -161,7 +163,7 @@ exports.onCreateNode = function onCreateNode(method) {
         name: 'tags',
         value: tags
           ? tags.map(tag =>
-              ambiguity[tag] ? ambiguity[tag] : firstLetterUpper(tag)
+              synonymDictionary[tag] ? synonymDictionary[tag] : firstLetterUpper(tag)
             )
           : null
       },
@@ -170,6 +172,12 @@ exports.onCreateNode = function onCreateNode(method) {
         value: status
       }
     ]
+    if (picture) {
+      willCreateFieldList.push({
+        name: 'picture',
+        value: path.isAbsolute(picture) ? './' + picture : picture
+      })
+    }
     willCreateFieldList.forEach(field => createNodeField({ node, ...field }))
   }
 }
@@ -219,14 +227,13 @@ exports.onCreateWebpackConfig = function onCreateWebpackConfig(
     plugins: [
       plugins.define({
         __DEVELOPMENT__: isDEV
-      }),
-      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
+      })
     ],
   //  解决ts设置的paths无效
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        '@config': path.resolve(__dirname, 'config/index.json')
+        '@config': path.resolve(__dirname, 'config')
       }
     }
   })

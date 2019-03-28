@@ -3,7 +3,7 @@ import React from 'react'
 import classes from './index.styl'
 import config from '@config'
 
-import {InjectLayoutContext, InjectProps} from '@/component/InjectLayoutContext'
+import {InjectLayoutContext, InjectProps} from '@/component/inject_layout_context'
 
 // 从InjectLayoutContext接收一部分数据
 type DispatchProps = {
