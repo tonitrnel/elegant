@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@config": ["./config/index.json"]
+      "@config": ["./config/"]
     },
     "typeRoots": ["node_modules/@types"]
   },
