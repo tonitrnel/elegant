@@ -1,0 +1,15 @@
+//  所使用的字体
+[
+  {
+    fontname: 'Consola',
+    fontuse: 'Code preview font'
+  },
+  {
+    fontname: 'Manuale',
+    fontuse: 'Main English font'
+  },
+  {
+    fontname: '思源宋体SourceHanSerifSC',
+    fontuse: 'Main Chinese font'
+  }
+]
