@@ -11,34 +11,42 @@ interface ComponentProps {
   children: React.ReactNode
 }
 
-
-export default function Container({ children, className, style }: ComponentProps) {
+export default function Container({
+  children,
+  className,
+  style
+}: ComponentProps) {
   const [hideToTop, setHideToTop] = React.useState(true)
-  const cdTop = () => requestAnimationFrame(()=>{
-    if (scrollY < 300) {
-      setHideToTop(true)
-    }
-    else {
-      setHideToTop(false)
-    }
-  })
-  React.useEffect(() => {
-    window.addEventListener('scroll', cdTop)
-    return () => {
-      window.removeEventListener('scroll', cdTop)
-    }
-  })
+  const cdTop = () =>
+    requestAnimationFrame(() => {
+      if (scrollY < 300) {
+        setHideToTop(true)
+      } else {
+        setHideToTop(false)
+      }
+    })
+  if (typeof window === 'object') {
+    React.useEffect(() => {
+      window.addEventListener('scroll', cdTop)
+      return () => {
+        window.removeEventListener('scroll', cdTop)
+      }
+    })
+  }
   return (
     <>
-      <Header/>
+      <Header />
       <section className={classes.container}>
-        <Sidebar/>
-        <main className={`${className || ''} ${classes.main}`.trimLeft()} style={style} >
+        <Sidebar />
+        <main
+          className={`${className || ''} ${classes.main}`.trimLeft()}
+          style={style}
+        >
           {children}
         </main>
-        <ToTop hide={hideToTop}/>
+        <ToTop hide={hideToTop} />
       </section>
-      <Footer/>
+      <Footer />
     </>
   )
 }

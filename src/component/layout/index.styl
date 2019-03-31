@@ -10,10 +10,16 @@
   html{
     font-size: 16px
   }
+  @media (max-width 800px){
+    html{
+      font-size: 14px
+    }
+  }
   body{
     font-size 1rem
     color: rgb(85,85,85)
     transition-property:backgound
+    transition font-size color .3s linear
   }
   ::selection{
     background-color #333

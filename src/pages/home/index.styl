@@ -1,20 +1,39 @@
 .main{
-  background url("../../assets/images/background2.jpg") no-repeat 100% center
+  background url("../../assets/images/background.jpg") no-repeat 100% center
   height 100vh
   width 100vw
+  .menu{
+    display flex
+    flex-direction row-reverse
+    ul{
+      list-style none
+      margin 40px
+      li{
+        margin 0 20px
+        display inline-block
+        a{
+          color #fff
+          text-decoration none
+        }
+      }
+    }
+  }
 }
-.menu{
-  display flex
-  flex-direction row-reverse
-  ul{
-    list-style none
-    margin 40px
-    li{
-      margin 0 20px
-      display inline-block
-      a{
-        color #fff
-        text-decoration none
+.main__mobile{
+  background url("../../assets/images/background.jpg") no-repeat 100% center
+  height 100vh
+  width 100vw
+  .menu{
+    display flex
+    flex-direction row-reverse
+    ul{
+      list-style none
+      li{
+        margin 20px
+        a{
+          color #fff
+          text-decoration none
+        }
       }
     }
   }

@@ -23,7 +23,7 @@ export default (event: React.MouseEvent) => {
   if (classList.contains('gatsby-resp-image-image')){
     event.preventDefault()
     const target = _.get(event.target, 'parentElement.parentElement.parentElement') as HTMLLinkElement | null
-    if (!target) return
+    if (!target || typeof document !== 'object') return
     const container = document.createElement('section')
     container.id = previewPictureID
     ReactDOM.render(<PreviewPicture src={target.href}/>, container)

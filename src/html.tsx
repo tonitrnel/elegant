@@ -16,10 +16,14 @@ export default function HTML(props: PageProps) {
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+        <meta name="renderer" content="webkit" />
+        <meta content="yes" name="apple-touch-fullscreen" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
         />
+        <title>页面加载中...</title>
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

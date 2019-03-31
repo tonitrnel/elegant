@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { LayoutContext, LayoutContextProps } from '../layout'
-
+// 不能在Layout组件外面使用注入
 export type InjectProps = LayoutContextProps
 export function InjectLayoutContext<DP, P = {}>(
   Component: React.ComponentType<P & DP>,
