@@ -63,7 +63,7 @@
    yarn run develop
    ```
 
-   运行构建模式(当前提交暂时不能，尚未处理document，会报错)：
+   运行构建模式：
 
    ```powershell
    yarn run build
