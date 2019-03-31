@@ -16,6 +16,10 @@ interface QueryData {
       description: string
       keywords: string
       siteUrl: string
+      menu: {
+        name: string
+        path: string
+      }[]
     }
   }
 }
@@ -28,6 +32,10 @@ const query = graphql`
               description
               keywords
               siteUrl
+              menu{
+                  name
+                  path
+              }
           }
       }
   }

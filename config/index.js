@@ -19,36 +19,36 @@
 module.exports = {
   // 站点信息
   site: {
-    title: '初',
+    title: '初生雪，映夕阳',
     siteUrl: 'https://mostearly.com',
     description: '无',
-    keywords: 'web前端, HTML5, CSS3, html, CSS'
+    keywords: 'web前端, HTML5, CSS3, html, CSS',
+    // 页面菜单
+    menu: [
+      {
+        name: '首页',
+        path: '/'
+      },
+      {
+        name: '日记',
+        path: '/writing'
+      },
+      {
+        name: '分类',
+        path: '/categories'
+      },
+      {
+        name: '标签',
+        path: '/tags'
+      },
+      {
+        name: '归档',
+        path: '/archive/page=1'
+      }
+    ],
   },
   // 文章路径
   path: 'D://Writing/',
-  // 页面菜单
-  menu: [
-    {
-      name: '首页',
-      path: '/'
-    },
-    {
-      name: '日记',
-      path: '/writing'
-    },
-    {
-      name: '分类',
-      path: '/categories'
-    },
-    {
-      name: '标签',
-      path: '/tags'
-    },
-    {
-      name: '归档',
-      path: '/archive/page=1'
-    }
-  ],
   // 分页
   pagination: 10,
   // 重定向
