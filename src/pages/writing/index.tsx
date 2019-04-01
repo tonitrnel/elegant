@@ -69,7 +69,7 @@ interface PageProps {
 export default (props: PageProps) => {
   const posts = props.data.posts.edges
   return (
-    <Layout title={'繁花落净，终将枯萎'}>
+    <Layout title='日记'>
       <Container className={classes.container}>
         {posts.map((post, index) => (
           <div className={classes.post} key={index}>

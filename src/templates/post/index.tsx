@@ -19,7 +19,8 @@ interface PageProps {
   data: {
     markdownRemark: {
       html: string
-      fields: Fields & {rawDate: string, dateModified: string}
+      fields: Fields & { rawDate: string; dateModified: string }
+      excerpt: string
     }
   }
   pageContext: {
@@ -48,12 +49,20 @@ type PostNavComponentProps = {
 }
 const PostNavComponent = (props: PostNavComponentProps) => {
   const next = props.next ? (
-    <Link title={`前往下一篇`} to={props.next.slug} children={`${props.next.title} »`} />
+    <Link
+      title={`前往下一篇`}
+      to={props.next.slug}
+      children={`${props.next.title} »`}
+    />
   ) : (
     ''
   )
   const prev = props.prev ? (
-    <Link title={`前往上一篇`} to={props.prev.slug} children={`« ${props.prev.title}`} />
+    <Link
+      title={`前往上一篇`}
+      to={props.prev.slug}
+      children={`« ${props.prev.title}`}
+    />
   ) : (
     ''
   )
@@ -65,11 +74,14 @@ const PostNavComponent = (props: PostNavComponentProps) => {
   )
 }
 
-export default class Post extends React.Component<PageProps>{
+export default class Post extends React.Component<PageProps> {
   render() {
-    const {data: {markdownRemark: posts}, pageContext: {prev, next}} = this.props
+    const {
+      data: { markdownRemark: posts },
+      pageContext: { prev, next }
+    } = this.props
     return (
-      <Layout title={posts.fields.title}>
+      <Layout title={posts.fields.title} description={posts.excerpt}>
         <Container>
           <article className={classes.post}>
             <div className={classes.post__data}>
@@ -81,7 +93,10 @@ export default class Post extends React.Component<PageProps>{
                 {posts.fields.category}
               </Link>
               <small>•</small>
-              <time className={classes.post__date} dateTime={posts.fields.rawDate}>
+              <time
+                className={classes.post__date}
+                dateTime={posts.fields.rawDate}
+              >
                 {posts.fields.date}
               </time>
             </div>
@@ -90,7 +105,13 @@ export default class Post extends React.Component<PageProps>{
               onClick={preview}
               dangerouslySetInnerHTML={{ __html: posts.html }}
             />
-            <time className={classes.post__modified} dateTime={posts.fields.dateModified}>本文最后编辑于{moment(posts.fields.dateModified).format('YYYY-MM-DD HH:mm')}分</time>
+            <time
+              className={classes.post__modified}
+              dateTime={posts.fields.dateModified}
+            >
+              本文最后编辑于
+              {moment(posts.fields.dateModified).format('YYYY-MM-DD HH:mm')}分
+            </time>
             <PostTagsComponent
               tags={posts.fields.tags}
               className={classes.post__tags}
@@ -120,6 +141,7 @@ export const query = graphql`
         slug
         status
       }
+      excerpt(pruneLength: 50)
     }
   }
 `
