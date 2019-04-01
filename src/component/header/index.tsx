@@ -1,7 +1,7 @@
 import { Link } from 'gatsby'
 import React from 'react'
 import classes from './index.styl'
-import { Desktop, Mobile } from '@/component/media_query'
+import { Desktop, Mobile, MobileLoader } from '@/component/media_query'
 
 import {
   InjectLayoutContext,
@@ -22,7 +22,7 @@ function Header(props: DispatchProps) {
         {/*<img className={classes.site__logo} src={logo} alt="site logo"/>*/}
         <Desktop>
           <header className={classes.header}>
-            <h1 className={classes.site__title}>{title}</h1>
+            <Link to="/writing"><h1 className={classes.site__title}>{title}</h1></Link>
             <nav className={classes.menu}>
               <ul className={classes.menu__list}>
                 {menu.map((v, i) => (
@@ -42,8 +42,9 @@ function Header(props: DispatchProps) {
           </header>
         </Desktop>
         <Mobile>
-          <header>
+          <header className={classes.header__mobile}>
             <div className={classes.headband} />
+            <MobileLoader path={'header/sidebar'}/>
           </header>
         </Mobile>
       </>

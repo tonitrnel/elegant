@@ -86,14 +86,14 @@ exports.createPages = async function createPages({
     })
   )
   // 创建归档
-  const totalNumberOfPages = Math.ceil(posts.length / config.pagination)
+  const totalNumberOfPages = Math.ceil(posts.length / config.pagination.archive)
   Array.from({ length: totalNumberOfPages }).forEach((_, index) =>
     createPage({
       path: `/archive/page=${index + 1}`,
       component: resolveTemplate('archive'),
       context: {
-        limit: config.pagination,
-        skip: index * config.pagination,
+        limit: config.pagination.archive,
+        skip: index * config.pagination.archive,
         totalCount: posts.length,
         pageCount: totalNumberOfPages,
         index
@@ -248,7 +248,7 @@ exports.onCreatePage = function createPage({page, actions}) {
   // Remove trailing slash unless page is /
   page.path = replacePath(page.path)
   if (page.path === '/writing') {
-    page.context = {limit: config.pagination}
+    page.context = {limit: config.pagination.default}
   }
   if (page.path !== oldPage.path) {
     deletePage(oldPage)
@@ -256,3 +256,4 @@ exports.onCreatePage = function createPage({page, actions}) {
     // console.info(`重新创建${page.path}`)
   }
 }
+// todo: 解决BUG，如果首文章不存在特色图片会导致报错

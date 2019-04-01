@@ -86,19 +86,21 @@ export default class Post extends React.Component<PageProps> {
           <article className={classes.post}>
             <div className={classes.post__data}>
               <h1 className={classes.post__title}>{posts.fields.title}</h1>
-              <Link
-                className={classes.post__category}
-                to={`/categories/${posts.fields.category}`}
-              >
-                {posts.fields.category}
-              </Link>
-              <small>•</small>
-              <time
-                className={classes.post__date}
-                dateTime={posts.fields.rawDate}
-              >
-                {posts.fields.date}
-              </time>
+              <div className={classes.post__metadata}>
+                <Link
+                  className={classes.post__category}
+                  to={`/categories/${posts.fields.category}`}
+                >
+                  {posts.fields.category}
+                </Link>
+                <small>•</small>
+                <time
+                  className={classes.post__date}
+                  dateTime={posts.fields.rawDate}
+                >
+                  {posts.fields.date}
+                </time>
+              </div>
             </div>
             <div
               className={classes.post__content}

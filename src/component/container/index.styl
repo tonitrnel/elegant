@@ -1,15 +1,22 @@
 .container{
-  display flex
-  flex-wrap wrap
-  padding-bottom: 200px
+  width 800px
+  padding-left: 200px
+  position relative
+  min-height 100%
 }
 .main{
-  width 800px
   padding 20px
+  padding-bottom: 200px
   box-sizing border-box
 }
 @media (max-width: 800px){
-  .main{
+  .container{
     width 100%
+    padding 0
+  }
+  .main{
+    padding 10px
+    padding-bottom: 240px
+    padding-top: 60px
   }
 }

@@ -81,11 +81,12 @@ export default (props: PageProps) => {
           .sort(sortByDesc)
           .map(year => (
             <section className={classes.archive__collection} key={year}>
-              <span className={classes.archive__year}>{year}年</span>
+              <h2 className={classes.archive__year}>{year}年</h2>
               {Object.keys(articles[year])
                 .sort(sortByDesc)
                 .map(month => (
                   <ul className={classes.archive__list} key={month}>
+                    <h3 className={classes.archive__month}>{month}月</h3>
                     {articles[year][month].map((post, index) => (
                       <li className={classes.archive__item} key={index}>
                         <Link to={post.node.fields.slug}>
@@ -95,7 +96,6 @@ export default (props: PageProps) => {
                         </Link>
                       </li>
                     ))}
-                    <span className={classes.archive__month}>{month}月</span>
                   </ul>
                 ))}
             </section>

@@ -1,20 +1,32 @@
 .post{
   box-sizing border-box
   padding-bottom 2.5rem
-  .post__featured__image{
+  .post__featured__wrapper{
     margin-top 1em
+    margin-left -5%
+    border-radius: 4px
+    width 110%
+    box-sizing border-box
+    display block
+    .post__featured__image{
+      max-width 800px
+      margin 0 auto
+    }
   }
   .post__title{
-    margin-top .45rem
-    font-weight 600
-    font-size 1.125rem
+    font-size 1.25em
+  }
+  @media (max-width 800px){
+    .post__featured__wrapper{
+      padding 0 10px
+    }
   }
   a{
     color #333
     text-decoration none
   }
-  .post__meta{
-    font-size 14px
+  .post__metadata{
+    font-size .875em
     a, time{
       margin-right 10px
       color #888
@@ -30,26 +42,26 @@
   .post__intro{
     color #888
     margin 1em 0 1em
+    padding 10px 0
+    line-height 2em
   }
 }
 .view__more{
-  margin 2em 0
+  padding-top 3em
+  padding-bottom 1em
+  border-top 1px solid #eee
   a{
-    font-size 18px
+    font-size 1em
     text-decoration none
     position relative
+    border 1px solid #eee
+    color #999
+    padding 10px
+    border-radius 3px
+    transition color, border .3s
   }
-  a::after{
-    width 0
-    height 2px
-    content ""
-    position absolute
-    bottom -10px
-    left 0
-    transition width .1s
-    background-color #666
+  a:hover{
+    border 1px solid #404040
+    color #333
   }
-  a:hover::after{
-      width 100%
-    }
 }

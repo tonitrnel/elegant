@@ -1,7 +1,7 @@
 import * as React from 'react'
 import classes from './index.styl'
 import Header from '@/component/header'
-import Sidebar from '@/component/sidebar'
+// import Sidebar from '@/component/sidebar'
 import Footer from '@/component/footer'
 import ToTop from '@/component/to_top'
 
@@ -35,9 +35,8 @@ export default function Container({
   }
   return (
     <>
-      <Header />
       <section className={classes.container}>
-        <Sidebar />
+        <Header />
         <main
           className={`${className || ''} ${classes.main}`.trimLeft()}
           style={style}
@@ -45,8 +44,8 @@ export default function Container({
           {children}
         </main>
         <ToTop hide={hideToTop} />
+        <Footer />
       </section>
-      <Footer />
     </>
   )
 }

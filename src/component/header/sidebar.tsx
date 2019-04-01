@@ -1,5 +1,5 @@
 import * as React from 'react'
-import classes from './index.styl'
+import classes from './sidebar.styl'
 import {
   InjectLayoutContext,
   InjectProps

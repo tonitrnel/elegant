@@ -10,7 +10,8 @@ module.exports = {
   },
   root: true,
   parserOptions: {
-    jsx: true
+    jsx: true,
+    sourceType: "module"
   },
   rules: {
     'no-unused-expressions': 0,

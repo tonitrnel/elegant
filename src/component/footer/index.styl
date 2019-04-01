@@ -1,18 +1,18 @@
 .footer{
   position: absolute
-  left: 0
+  width 100%
   bottom: 0
-  width: 100%
+  box-sizing border-box
   min-height: 50px
+  padding 20px
   margin-top: 80px
   color: #666
   .footer__inner{
-    padding 20px 280px
     border-top 1px solid #eee
     font-size 14px
   }
   .footer__inner_mobile{
-    padding 20px
+    padding 10px 0
     border-top 1px solid #eee
     font-size 14px
   }
@@ -45,5 +45,10 @@
   }
   .site__data{
 
+  }
+}
+@media (max-width: 800px) {
+  .footer{
+    padding 10px
   }
 }

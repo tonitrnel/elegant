@@ -50,7 +50,10 @@ module.exports = {
   // 文章路径
   path: 'D://Writing/',
   // 分页
-  pagination: 10,
+  pagination: {
+    archive: 20,
+    default: 10
+  },
   // 重定向
   redirect: []
 }

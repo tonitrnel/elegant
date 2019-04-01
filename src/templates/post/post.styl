@@ -1,15 +1,27 @@
 :global{
   h1{
-    font-size 1.8rem
+    font-size 1.18em
+    &:before{
+      content "#"
+      color #b9282a
+      padding-right 10px
+      font-size 1.25em
+    }
   }
   h2{
     font-weight: 600
     letter-spacing: 0.5px
-    font-size: 1.5em
+    font-size: 1.125em
     line-height: 1.225em
     margin-bottom: 1.875rem
     padding-top: 10px
     color #555
+    &:before{
+      content "#"
+      color #42b983
+      padding-right 10px
+      font-size 1.2em
+    }
   }
   p{
     line-height 28px
@@ -21,21 +33,24 @@
     text-align left
     tr{
       background-color: #fff
-      border-top: 1px solid #ccc
+      border-top: 1px solid #eee
     }
     tr th{
       border-bottom: 0
     }
     th{
       padding: 6px 18px
-      border: 1px solid #ddd
+      border: 1px solid #eee
     }
     tr:nth-child(2n) {
-      background-color: #f8f8f8
+      background-color: #fafafa
+    }
+    thead > tr{
+      background-color: #fafafa
     }
     td{
       padding: 6px 18px
-      border: 1px solid #ddd
+      border: 1px solid #eee
     }
   }
   .katex-display{
@@ -46,6 +61,7 @@
     &:hover:after{
       content "Katex"
       position absolute
+      font-size .875em
       right 0
       top 0
       text-transform capitalize
@@ -61,12 +77,24 @@
     li{
       margin 1em 0
     }
-    input:after{
-      content '[ ]'
-      letter-spacing .2em
+    input[type=checkbox] {
+      font-size 1em
+      &:after{
+        content '[ ]'
+        letter-spacing .3em
+      }
+      &:checked ~ * {
+        text-decoration: line-through
+      }
+      &:checked:after{
+        content '[x]'
+        letter-spacing .2em
+       }
     }
-    input:checked:after{
-      content '[x]'
+    :global{
+      .task-list-item{
+        list-style: circle
+      }
     }
   }
   a{
@@ -96,7 +124,7 @@
   }
   pre, code{
     background-color #f8f8f8
-    font-family Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    font-family Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'PingFang SC', 'Microsoft YaHei Mono', monospace
     box-sizing: border-box
   }
   code{
@@ -105,10 +133,14 @@
     margin 0 4px
   }
   hr{
-    height: 1px
     margin: 40px auto
     border: none
-    background: #eee
+    text-align center
+    &:after{
+      content "•••"
+      letter-spacing 10px
+      color rgba(0,0,0,.44)
+    }
   }
   pre{
     code{
@@ -130,6 +162,7 @@
       text-transform capitalize
       background-color #e5e5e5
       padding 2px 10px
+      font-size .875em
       color #666
     }
     pre[class*="language-"]{

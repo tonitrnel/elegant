@@ -17,8 +17,9 @@ export default () => <footer className={classes.footer}>
       <span>Theme By <a href='https://mostearly.com' title="前往mostearly.com">mostearly.com</a></span>
     </p>
     <p className={classes.site__data}>
-      <span>本站<a href="/rss.xml">RSS</a></span>
-      <span>本站<a href="/sitemap.xml">SiteMap</a></span>
+      <span><a href="/rss.xml" target="_blank" title="查看RSS">RSS</a></span>
+      <span><a href="/sitemap.xml" target="_blank" title="查看站点地图">SiteMap</a></span>
+      <span><a href="//github.com/mostearly" target="_blank" title="前往Github">Github</a></span>
     </p>
   </Toggle>
 </footer>

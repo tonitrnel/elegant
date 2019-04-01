@@ -22,6 +22,7 @@ export const query = graphql`
                         dateModified(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
                         dateCreated: date(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
                         rawDate: date
+                        existPicture: title
                         picture{
                             childImageSharp{
                                 fluid {
@@ -79,18 +80,17 @@ export default (props: PageProps) => {
                 children={post.node.fields.title}
               />
             </h2>
-            <section className={classes.post__meta}>
+            <section className={classes.post__metadata}>
               <Link to={`/categories/${post.node.fields.category}`} title={`分类为：${post.node.fields.category}`}>{post.node.fields.category}</Link>
               <small>•</small>
               <time dateTime={post.node.fields.rawDate} title={`创建时间：${post.node.fields.dateCreated} - 修改时间${post.node.fields.dateModified}`}>{post.node.fields.date}</time>
             </section>
-            {post.node.fields.picture && <Image className={classes.post__featured__image} sizes={post.node.fields.picture.childImageSharp.fluid}/>}
+            {post.node.fields.picture && <Link to={post.node.fields.slug} className={classes.post__featured__wrapper} children={<Image className={classes.post__featured__image} sizes={post.node.fields.picture.childImageSharp.fluid}/>}/>}
             <p className={classes.post__intro}>{post.node.excerpt}</p>
-            <Link to={post.node.fields.slug} className={classes.load__more}>继续阅读 >></Link>
           </div>
         ))}
         <div className={classes.view__more}>
-          <Link to="/archive/page=1" children="在归档处查看更多文章 >>" />
+          <Link to="/archive/page=1" children="查看更多 >>" />
         </div>
       </Container>
     </Layout>

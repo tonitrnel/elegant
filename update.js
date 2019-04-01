@@ -13,7 +13,12 @@ function main(){
         process.exit()
     }
     const dependencies = _package['dependencies']
+    const devDependencies = _package['devDependencies']
     Object.keys(dependencies).forEach(dependency => {
+        console.log(`Upgrading ${dependency}`)
+        child_process.execSync(`yarn upgrade ${dependency}@latest`)
+    })
+    Object.keys(devDependencies).forEach(dependency => {
         console.log(`Upgrading ${dependency}`)
         child_process.execSync(`yarn upgrade ${dependency}@latest`)
     })

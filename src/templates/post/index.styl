@@ -1,26 +1,33 @@
 .post{
   .post__data{
-    padding 10px 0 20px 0
     .post__title{
-      font-size 1.75em
-      font-weight 400
+      font-size 1.25em
+      color #333
     }
-    .post__category{
-      color #777
-    }
-    small{
-      margin-right: 10px;
-      margin-left: 10px;
-      color: #777;
-    }
-    .post__date{
-      color: #777;
+    .post__metadata{
+      font-size .875em
+      .post__category{
+        color #777
+      }
+      small{
+        margin-right: 10px;
+        margin-left: 10px;
+        color: #777;
+      }
+      .post__date{
+        color: #777;
+      }
     }
   }
   .post__content{
-    padding-bottom 2em
+    padding 0 10px 2em 10px
     @import "post.styl"
     :global{
+      .gatsby-resp-image-link{
+        width 110%
+        margin-left -5%
+        border-radius: 4px
+      }
       .gatsby-resp-image-image{
         cursor zoom-in
       }
@@ -34,6 +41,7 @@
   }
   .post__tags{
     margin 2em 0
+    font-size .875em
     a{
       padding 1px 5px
       margin-right 1em
