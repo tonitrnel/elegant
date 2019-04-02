@@ -256,4 +256,3 @@ exports.onCreatePage = function createPage({page, actions}) {
     // console.info(`重新创建${page.path}`)
   }
 }
-// todo: 解决BUG，如果首文章不存在特色图片会导致报错

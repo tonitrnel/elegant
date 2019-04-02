@@ -68,4 +68,8 @@
    ```powershell
    yarn run build
    ```
+### 注意项
 
+1. 出现GraphQL查询picture报错
+   
+   第一篇文章必需添加特色图片，否则`gatsby-remark-images`会将其解析为字符串

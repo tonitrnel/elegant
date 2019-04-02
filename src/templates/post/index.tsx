@@ -147,5 +147,3 @@ export const query = graphql`
     }
   }
 `
-// todo: Mobile可用
-// todo：无法使用在GraphQL中Date format时使用HH，因为会自动将北京时间转换成格林时间,除非引入Moment或者使用new Date重新格式化
