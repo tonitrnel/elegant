@@ -72,4 +72,4 @@
 
 1. 出现GraphQL查询picture报错
    
-   第一篇文章必需添加特色图片，否则`gatsby-remark-images`会将其解析为字符串
+   第一篇文章必需添加特色图片，否则`gatsby-transformer-sharp`会将其解析为字符串

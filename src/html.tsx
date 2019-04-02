@@ -23,8 +23,6 @@ export default function HTML(props: PageProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
         />
-        <link rel="dns-prefetch" href="//static.wktrf.com"/>
-        <link rel="dns-prefetch" href="//images.unsplash.com"/>
         <title>页面加载中...</title>
         {props.headComponents}
       </head>

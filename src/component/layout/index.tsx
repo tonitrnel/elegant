@@ -8,6 +8,8 @@ interface PageProps {
   children: ReactNode
   title?: string
   description?: string
+  preConnect?: string | string[]
+  dnsPrefetch?: string | string[]
 }
 interface QueryData {
   site: {
@@ -43,17 +45,14 @@ const query = graphql`
 interface WrapperProps {
   (props: PageProps): (siteData: QueryData) => ReactNode
 }
-type MetaType = {
-  name: string,
-  content: string,
-  [key: string]: string
-}[]
+export type MetaProps = JSX.IntrinsicElements['meta'][]
+export type LinkProps = JSX.IntrinsicElements['link'][]
 export type LayoutContextProps = QueryData['site']['siteMetadata']
 export const LayoutContext = createContext<LayoutContextProps | null>(null)
 // 为了接收两个组件的数据
 const Wrapper: WrapperProps = (props) => {
   return ({site: {siteMetadata: data}}: QueryData) => {
-    const meta: MetaType = [
+    const meta: MetaProps = [
       {
         name: 'description',
         content: props.description || data.description
@@ -63,10 +62,23 @@ const Wrapper: WrapperProps = (props) => {
         content: data.keywords
       }
     ]
+    const link: LinkProps = []
+    if (props.dnsPrefetch) {
+      const dnsPrefetch = Array.isArray(props.dnsPrefetch) ? props.dnsPrefetch : [props.dnsPrefetch]
+      dnsPrefetch.forEach(href => {
+        link.push({href, rel: "dns-prefetch"})
+      })
+    }
+    if (props.preConnect) {
+      const preConnect = Array.isArray(props.preConnect) ? props.preConnect : [props.preConnect]
+      preConnect.forEach(href => {
+        link.push({href, rel: "preconnect"})
+      })
+    }
     const title = props.title ? `${props.title} - ${data.title}` : data.title
     return (
       <LayoutContext.Provider value={data}>
-        <Helmet title={title} meta={meta} htmlAttributes={{lang: 'zh-CN'}} />
+        <Helmet title={title} meta={meta} link={link} htmlAttributes={{lang: 'zh-CN'}} />
         {props.children}
       </LayoutContext.Provider>
     )

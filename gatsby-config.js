@@ -25,6 +25,12 @@ module.exports = {
             }
           },
           {
+            resolve: 'gatsby-remark-external-links',
+            options: {
+              rel: "noopener"
+            }
+          },
+          {
             resolve: 'gatsby-remark-prismjs',
             options: {
               showLineNumbers: true

@@ -1,11 +1,10 @@
 import * as React from 'react'
 import classes from './index.styl'
-import {Toggle} from '@/component/media_query'
 
 const now = new Date()
 
 export default () => <footer className={classes.footer}>
-  <Toggle desktopClassName={classes.footer__inner} mobileClassName={classes.footer__inner_mobile}>
+  <div className={classes.footer__inner}>
     <p>🌺这里放点字应该不错</p>
     <p className={classes.copyright}>
       <i>©</i>
@@ -19,7 +18,7 @@ export default () => <footer className={classes.footer}>
     <p className={classes.site__data}>
       <span><a href="/rss.xml" target="_blank" title="查看RSS">RSS</a></span>
       <span><a href="/sitemap.xml" target="_blank" title="查看站点地图">SiteMap</a></span>
-      <span><a href="//github.com/mostearly" target="_blank" title="前往Github">Github</a></span>
+      <span><a href="//github.com/mostearly" target="_blank" rel="noopener" title="前往Github">Github</a></span>
     </p>
-  </Toggle>
+  </div>
 </footer>

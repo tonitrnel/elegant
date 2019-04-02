@@ -40,7 +40,7 @@ const SidebarMobile = (props: DispatchProps) => {
     })
   }
   return (
-    <aside className={classes.sidebar__mobile}>
+    <aside className={classes.sidebar}>
       <button
         className={classes.sidebar__menu}
         onClick={() => setOpenStatus(true)}
