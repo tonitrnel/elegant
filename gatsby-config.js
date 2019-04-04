@@ -109,7 +109,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: 'UA-112470159-2'
+        trackingId: config.googleAnalytics
       }
     },
     'gatsby-plugin-typescript',

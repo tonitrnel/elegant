@@ -14,12 +14,14 @@
  * @property {string} redirect[].fromPath - 匹配地址 (必需是以正斜杠开头的URL)
  * @property {string} redirect[].toPath - 目标地址
  * @property {Boolean} redirect[].isPermanent - 是否为永久重定向地址（默认为false）
+ * @property {String} googleAnalytics 谷歌分析ID
  * @readonly
  */
+
 module.exports = {
   // 站点信息
   site: {
-    title: '初生雪，映夕阳',
+    title: '自然灵魂',
     siteUrl: 'https://mostearly.com',
     description: '无',
     keywords: 'web前端, HTML5, CSS3, html, CSS',
@@ -44,6 +46,14 @@ module.exports = {
       {
         name: '归档',
         path: '/archive/page=1'
+      },
+      {
+        name: '友链',
+        path: '/links'
+      },
+      {
+        name: '关于',
+        path: '/about'
       }
     ],
   },
@@ -55,5 +65,6 @@ module.exports = {
     default: 10
   },
   // 重定向
-  redirect: []
+  redirect: [],
+  googleAnalytics: ''
 }

@@ -19,6 +19,7 @@ export default () => <footer className={classes.footer}>
       <span><a href="/rss.xml" target="_blank" title="查看RSS">RSS</a></span>
       <span><a href="/sitemap.xml" target="_blank" title="查看站点地图">SiteMap</a></span>
       <span><a href="//github.com/mostearly" target="_blank" rel="noopener" title="前往Github">Github</a></span>
+      <span><a href="//analytics.google.com" target="_blank" rel="noopener" title="查看站点分析">Google Analytics</a></span>
     </p>
   </div>
 </footer>

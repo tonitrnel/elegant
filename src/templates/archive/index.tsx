@@ -7,7 +7,7 @@ import classes from './index.styl'
 export const query = graphql`
   query($skip: Int!, $limit: Int!) {
     allMarkdownRemark(
-      filter: { fields: { status: { eq: true } } }
+      filter: { fields: { status: { eq: true }, type: {eq: "post"}} }
       sort: { order: DESC, fields: [fields___date] }
       limit: $limit
       skip: $skip
@@ -74,7 +74,7 @@ export default (props: PageProps) => {
   const articles = newDateToGroup(props.data.allMarkdownRemark.edges)
   return (
     <Layout title="归档">
-      <Container>
+      <Container className={classes.archive}>
         <h1>归档</h1>
         <p className={classes.archive__counter}>共有: {props.pageContext.totalCount}篇文章</p>
         {Object.keys(articles)

@@ -8,7 +8,7 @@ import classes from './index.styl'
 export const query = graphql`
   query($limit: Int) {
     posts: allMarkdownRemark(
-      filter: { fields: { status: { eq: true } } }
+      filter: { fields: { status: { eq: true }, type: { eq: "post" } } }
       sort: { order: DESC, fields: [fields___date] }
       skip: 0
       limit: $limit
@@ -22,7 +22,6 @@ export const query = graphql`
             dateModified(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             dateCreated: date(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             rawDate: date
-            existPicture: title
             picture {
               childImageSharp {
                 fluid {

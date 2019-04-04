@@ -29,9 +29,13 @@ export const Query = graphql`
         allMarkdownRemark(
             limit: 2000
             filter: {
-                fields: { status: { eq: true }, category: {eq: $category } }
+                fields: { 
+                    status: { eq: true  }
+                    category: {eq: $category }
+                    type: {eq: "post"}
+                }
             }
-            sort: { fields: [frontmatter___date], order: DESC }
+            sort: { order: DESC, fields: fields___date }
         ) {
             edges {
                 node {

@@ -20,14 +20,17 @@ export default (props: PageProps) => {
     tag => !!tag.fieldValue
   )
   return (
-    <Layout title='分类'>
-      <Container>
+    <Layout title="分类">
+      <Container className={classes.categories}>
         <h1>分类</h1>
         <p>共设有{categories.length}个分类</p>
-        <ul className={classes.category__list}>
+        <ul className={classes.categories__list}>
           {categories.map((category, i) => (
-            <li className={classes.category__item} key={i}>
-              <Link title={`分类下共有${category.totalCount}篇文章`} to={`/categories/${category.fieldValue}`}>
+            <li className={classes.categories__item} key={i}>
+              <Link
+                title={`分类下共有${category.totalCount}篇文章`}
+                to={`/categories/${category.fieldValue}`}
+              >
                 {category.fieldValue} {`(${category.totalCount})`}
               </Link>
             </li>
@@ -41,7 +44,7 @@ export const Query = graphql`
   query {
     allMarkdownRemark(
       limit: 2000
-      filter: { fields: { status: { eq: true } } }
+      filter: { fields: { status: { eq: true }, type: { eq: "post" } } }
     ) {
       group(field: fields___category) {
         fieldValue

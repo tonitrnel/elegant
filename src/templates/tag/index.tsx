@@ -24,25 +24,29 @@ interface TagPageProps extends PageRendererProps {
 }
 // gql(tagsData)
 export const Query = graphql`
-    query($tag: String) {
-        allMarkdownRemark(
-            limit: 2000
-            filter: {
-                fields: { status: { eq: true }, tags: { in: [$tag] } }
-            }
-            sort: { fields: [frontmatter___date], order: DESC }
-        ) {
-            edges {
-                node {
-                    fields {
-                        slug
-                        title
-                        date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
-                    }
-                }
-            }
+  query($tag: String) {
+    allMarkdownRemark(
+      limit: 2000
+      filter: {
+        fields: {
+          status: { eq: true }
+          type: { eq: "post" }
+          tags: { in: [$tag] }
         }
+      }
+      sort: { order: DESC, fields: fields___date }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+            title
+            date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
+          }
+        }
+      }
     }
+  }
 `
 export default (props: TagPageProps) => {
   const tagData = _.has(props, 'data.allMarkdownRemark.edges')

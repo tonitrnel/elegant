@@ -3,5 +3,5 @@ node_modules
 .cache
 .idea
 public
-yarn-error.log
+remarks.md
 yarn.lock

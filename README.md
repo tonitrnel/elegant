@@ -43,19 +43,23 @@
 
    title：文件名，没有将自动使用文件名作为title
 
-   date | createDate: 创建时间，没有将自动使用文件的atime作为date
+   date: 创建时间，没有将自动使用文件的`atime`作为date
 
    status: 如果值不为`publish`这篇文章将被忽略掉
 
    除了上面的字段还可以拥有以下字段
 
-   modifiedDate | updateDate: 文章更新使用，没有将使用文件的mtime作为值
+   modifiedDate: 文章更新使用，没有将使用文件的`mtime`作为值
    
    picture: 作为特色图片将展示在文章列表出
 
-   tags | tag: 文章标签，应该是一个数组的格式
+   tags: 文章标签，应该是一个数组的格式
 
    category: 文章分类，没有将知道分类到`默认`下面
+   
+   path: 这篇文章的路径，设置后将覆盖默认的路径，如果发生错误将抛出`The post path is repeated, title: ***`
+   
+   type: 文章的类型，用于使用对应模板，默认为`post`，可能的值为: `about`, `links`
 
    运行开发模式：
 
