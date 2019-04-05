@@ -15,6 +15,8 @@
  * @property {string} redirect[].toPath - 目标地址
  * @property {Boolean} redirect[].isPermanent - 是否为永久重定向地址（默认为false）
  * @property {String} googleAnalytics 谷歌分析ID
+ * @property {String} commentID Valine需要的AppID (查看: https://valine.js.org/quickstart.html)
+ * @property {String} commentKey Valine需要的AppKey
  * @readonly
  */
 
@@ -66,5 +68,9 @@ module.exports = {
   },
   // 重定向
   redirect: [],
-  googleAnalytics: ''
+  //　todo: 删除备注
+  // 谷歌分析
+  googleAnalytics: '',
+  commentID: '',
+  commentKey: ''
 }

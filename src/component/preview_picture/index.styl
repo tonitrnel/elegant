@@ -1,13 +1,50 @@
-.view_picture{
+.view__picture{
   position fixed
   width 100vw
   height 100vh
   z-index 999
-  background-color rgba(255,255,255,.89)
+  background-color rgba(255,255,255,.94)
   overflow hidden
   top 0
   left 0
   cursor zoom-out
+  .load__failed, .loading{
+    height: 2em
+    overflow: hidden
+    position: absolute
+    top: 50%
+    left 50%
+    padding .5em 1em
+    transform translate(-50%, -50%)
+  }
+  .load__failed{
+    color red
+  }
+  .loading{
+    color: #AAB2BD
+    &:after{
+      content ""
+      position absolute
+      height 2px
+      left 0
+      background-color #42b983
+      width 100%
+      bottom 0
+      transform translateX(-100%)
+      animation loading .8s -0.1s ease-in-out infinite
+    }
+    @keyframes loading{
+      0%{
+        transform translateX(-100%)
+      }
+      50%{
+        transform translateX(0)
+      }
+      100%{
+        transform translateX(100%)
+      }
+    }
+  }
   img{
     position absolute
     left 50%
@@ -15,6 +52,17 @@
     transform translate(-50%, -50%)
     object-fit cover
     max-width 90%
+    max-height 90%
+    opacity 0
+    animation show .3s ease-in-out forwards
+  }
+  @keyframes show{
+    from{
+      opacity 0
+    }
+    to{
+      opacity 1
+    }
   }
 }
 @media (max-width 800px){

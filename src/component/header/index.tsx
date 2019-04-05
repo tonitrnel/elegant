@@ -22,7 +22,7 @@ function Header(props: DispatchProps) {
         {/*<img className={classes.site__logo} src={logo} alt="site logo"/>*/}
         <Desktop>
           <header className={classes.header}>
-            <Link to="/writing"><h1 className={classes.site__title}>{title}</h1></Link>
+            <Link className={classes.site__title} to="/writing"><h1>{title}</h1></Link>
             <nav className={classes.menu}>
               <ul className={classes.menu__list}>
                 {menu.map((v, i) => (

@@ -15,7 +15,23 @@ const closeViewPicture = () => {
 }
 
 export const PreviewPicture = (props: {src: string}) => {
-  return <div onClick={closeViewPicture} className={classes.view_picture}><img src={props.src} alt="preview picture"/></div>
+  const [loadStatus, changeLoadStatus] = React.useState(false)
+  const [isError, changeIsError] = React.useState(false)
+  const ref = React.createRef<HTMLDivElement>()
+  const image = new Image()
+  image.onload = () => {
+    if (ref.current) {
+      ref.current.appendChild(image)
+      changeLoadStatus(true)
+    }
+  }
+  image.onerror = () => {
+    changeIsError(true)
+  }
+  image.src = props.src
+  return <div onClick={closeViewPicture} className={classes.view__picture} ref={ref} >
+    {isError ? <span className={classes.load__failed}>图片加载失败</span> : <span className={classes.loading} style={{display: loadStatus ? 'none' : 'block'}}>图片加载中...</span>}
+  </div>
 }
 export default (event: React.MouseEvent) => {
   const {classList} = event.target as HTMLElement

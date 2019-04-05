@@ -28,12 +28,15 @@
 
 1. 修改配置
 
-   编辑`config/index.js`文件中的`path`字段，项目使用了`gatsby-transformer-remark`解析Markdown文档，这个字段存放的为你的文章目录地址
+   编辑`config/index.js`文件中的`path`字段，项目使用了`gatsby-transformer-remark`解析Markdown文档，这个字段存放的为你的文章存放文件夹
+   
+   例如：`C://Users/user/Documents/posts`
+   
+   默认屏蔽`.git`, `.draft`, `.mind_mapping`, `.scripts`
 
 2. 安装项目依赖
 
    ```powershell
-   yarn global add gatsby-cli
    yarn install
    ```
 
@@ -49,7 +52,7 @@
 
    除了上面的字段还可以拥有以下字段
 
-   modifiedDate: 文章更新使用，没有将使用文件的`mtime`作为值
+   modified: 文章更新使用，没有将使用文件的`mtime`作为值
    
    picture: 作为特色图片将展示在文章列表出
 
@@ -76,4 +79,4 @@
 
 1. 出现GraphQL查询picture报错
    
-   第一篇文章必需添加特色图片，否则`gatsby-transformer-sharp`会将其解析为字符串
+   文章文件夹下面需存在assets的文件夹，并且里面有一张‘default.png’图片

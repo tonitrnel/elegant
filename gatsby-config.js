@@ -9,7 +9,7 @@ module.exports = {
         name: 'posts',
         path: path.resolve(config.path),
         // 屏蔽git文件夹
-        ignore: ['**/.git']
+        ignore: ['**/.git', '**/.draft', '**/.script', '**/.mind_mapping']
       }
     },
     {

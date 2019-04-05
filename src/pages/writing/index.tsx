@@ -22,7 +22,8 @@ export const query = graphql`
             dateModified(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             dateCreated: date(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             rawDate: date
-            picture {
+            isExistPic
+            pic {
               childImageSharp {
                 fluid {
                   base64
@@ -49,27 +50,48 @@ type ChildImageSharp = {
     fluid: FluidObject
   }
 }
+
+type Fields = {
+  slug: string
+  title: string
+  date: string
+  dateModified: string
+  dateCreated: string
+  rawDate: string
+  category: string
+  pic: ChildImageSharp | null
+  isExistPic: boolean
+}
+
 interface PageProps {
   data: {
     posts: {
       edges: {
         node: {
-          fields: {
-            slug: string
-            title: string
-            date: string
-            dateModified: string
-            dateCreated: string
-            rawDate: string
-            category: string
-            picture: ChildImageSharp | null
-          }
+          fields: Fields
           excerpt: string
         }
       }[]
       totalCount: number
     }
   }
+}
+
+const PostCover = ({ fields }: { fields: Fields }) => {
+  if (!fields.pic) return null
+  if (!fields.isExistPic) return null
+  return (
+    <Link
+      to={fields.slug}
+      className={classes.post__featured__wrapper}
+      children={
+        <Image
+          className={classes.post__featured__image}
+          sizes={fields.pic.childImageSharp.fluid}
+        />
+      }
+    />
+  )
 }
 
 export default (props: PageProps) => {
@@ -102,18 +124,7 @@ export default (props: PageProps) => {
                 {post.node.fields.date}
               </time>
             </section>
-            {post.node.fields.picture && (
-              <Link
-                to={post.node.fields.slug}
-                className={classes.post__featured__wrapper}
-                children={
-                  <Image
-                    className={classes.post__featured__image}
-                    sizes={post.node.fields.picture.childImageSharp.fluid}
-                  />
-                }
-              />
-            )}
+            <PostCover fields={post.node.fields} />
             <p className={classes.post__intro}>{post.node.excerpt}</p>
           </div>
         ))}

@@ -6,6 +6,10 @@ const config = require('./config')
 const fields = 'node.fields'
 const resolveTemplatePath = templateName =>
   path.resolve(`src/templates/${templateName}/index.tsx`)
+const exit = (message = '发生了一点意外') => {
+  console.error(message)
+  process.exit()
+}
 exports.createPages = async function createPages({
   actions: { createPage, createRedirect },
   graphql
@@ -14,7 +18,7 @@ exports.createPages = async function createPages({
     query {
       allMarkdownRemark(
         filter: { fields: { status: { eq: true } } }
-        sort: { order: DESC, fields: [fields___date] }
+        sort: { order: DESC, fields: fields___date }
         limit: 1000
       ) {
         edges {
@@ -42,7 +46,7 @@ exports.createPages = async function createPages({
   const categories = new Set()
   const dates = new Set()
   let tags = []
-  if (!_.isArray(posts)) throw new Error('Posts should be an array')
+  if (!_.isArray(posts)) exit('Posts should be an array')
   const alreadyUsingPath = new Set()
   posts.forEach(post => {
     if (_.has(post, `${fields}.tags`)) {
@@ -108,36 +112,50 @@ exports.createPages = async function createPages({
       // 提前创建其他类型的文章
       const path = _.get(post, `${fields}.slug`)
       if (alreadyUsingPath.has(path))
-        throw new Error(`The post path is repeated, title: ${_.get(post, `${fields}.title`)}`)
+        exit(
+          `The post path is repeated, title: ${_.get(post, `${fields}.title`)}`
+        )
       alreadyUsingPath.add(path)
       createPage({
         path,
         component: resolveTemplatePath(type),
         context: {
-          slug: _.get(post, `${fields}.slug`)
+          slug: _.get(post, `${fields}.slug`),
+          comment: {
+            appId: config.commentID,
+            appKey: config.commentKey
+          }
         }
       })
     })
-    .forEach((post, index) => {
+    .forEach((post, index, array) => {
       // 创建每篇文章的数据
       const path = _.get(post, `${fields}.slug`)
       if (alreadyUsingPath.has(path))
-        throw new Error('The post path is repeated')
+        exit(
+          `The post path is repeated, title: ${_.get(post, `${fields}.title`)}`
+        )
       alreadyUsingPath.add(path)
       createPage({
         path,
         component: resolveTemplatePath('post'),
         context: {
           slug: _.get(post, `${fields}.slug`),
-          next: index === 0 ? null : _.get(posts[index - 1], `${fields}`),
+          comment: {
+            appId: config.commentID,
+            appKey: config.commentKey
+          },
+          next: index === 0 ? null : _.get(array[index - 1], `${fields}`),
           prev:
-            index === posts.length - 1
+            index === array.length - 1
               ? null
-              : _.get(posts[index + 1], `${fields}`)
+              : _.get(array[index + 1], `${fields}`)
         }
       })
     })
-  console.info(`共创建${alreadyUsingPath.size}个相关页面，花费：${Date.now() - now}ms`)
+  console.info(
+    `共创建${alreadyUsingPath.size}个相关页面，花费：${Date.now() - now}ms`
+  )
   if (_.isArray(config.redirect)) config.redirect.forEach(createRedirect)
 }
 
@@ -160,26 +178,17 @@ exports.onCreateNode = function onCreateNode(method) {
   if (node.internal.type === `MarkdownRemark`) {
     // 获取文件信息
     const fileNode = getNode(node.parent)
-    const dateCreated =
-      _.get(node, 'frontmatter.date') ||
-      _.get(node, 'frontmatter.createDate') ||
-      fileNode.atime
-    const dateModified =
-      _.get(node, 'frontmatter.modifiedDate') ||
-      _.get(node, 'frontmatter.updateDate') ||
-      fileNode.mtime
+    const dateCreated = _.get(node, 'frontmatter.date') || fileNode.atime
+    const dateModified = _.get(node, 'frontmatter.modified') || fileNode.mtime
     const title = _.get(node, 'frontmatter.title') || fileNode.name
     const category = _.get(node, 'frontmatter.category') || '默认'
     const picture = _.get(node, 'frontmatter.picture')
-    // _.set(node, 'frontmatter.test', 'this is test')
-    // _.unset(node, 'frontmatter.picture')
-    const tags =
-      _.get(node, 'frontmatter.tag') || _.get(node, 'frontmatter.tags')
+    const tags = _.get(node, 'frontmatter.tags')
     const status = _.get(node, 'frontmatter.status') === 'publish'
     const specifiedPath = _.get(node, 'frontmatter.path')
     const slug = specifiedPath || `/writing/${_.kebabCase(title)}.html`
     const type = _.get(node, 'frontmatter.type') || 'post'
-    const willCreateFieldList = [
+    const fields = [
       {
         name: 'slug',
         value: slug
@@ -202,12 +211,8 @@ exports.onCreateNode = function onCreateNode(method) {
       },
       {
         name: 'tags',
-        value: tags
-          ? tags.map(tag =>
-              synonymDictionary[tag]
-                ? synonymDictionary[tag]
-                : firstLetterUpper(tag)
-            )
+        value: _.isArray(tags)
+          ? tags.map(tag => synonymDictionary[tag] || firstLetterUpper(tag))
           : null
       },
       {
@@ -217,15 +222,18 @@ exports.onCreateNode = function onCreateNode(method) {
       {
         name: 'type',
         value: type
+      },
+      {
+        name: 'isExistPic',
+          value: Boolean(picture)
+      },
+      {
+        name: 'pic',
+        value: picture ? `./${picture.replace(/^\W+/g, '')}` : './assets/default.png'
       }
     ]
-    if (picture) {
-      willCreateFieldList.push({
-        name: 'picture',
-        value: path.isAbsolute(picture) ? './' + picture : picture
-      })
-    }
-    willCreateFieldList.forEach(field => createNodeField({ node, ...field }))
+    console.log(picture ? `./${picture.replace(/^\W+/g, '')}` : './assets/default.png')
+    fields.forEach(field => createNodeField({ node, ...field }))
   }
 }
 /***
