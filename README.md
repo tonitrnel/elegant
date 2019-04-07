@@ -31,8 +31,6 @@
    编辑`config/index.js`文件中的`path`字段，项目使用了`gatsby-transformer-remark`解析Markdown文档，这个字段存放的为你的文章存放文件夹
    
    例如：`C://Users/user/Documents/posts`
-   
-   默认屏蔽`.git`, `.draft`, `.mind_mapping`, `.scripts`
 
 2. 安装项目依赖
 
@@ -54,7 +52,7 @@
 
    modified: 文章更新使用，没有将使用文件的`mtime`作为值
    
-   picture: 作为特色图片将展示在文章列表出
+   thumbnail: 作为特色图片将展示在文章列表出
 
    tags: 文章标签，应该是一个数组的格式
 
@@ -75,8 +73,3 @@
    ```powershell
    yarn run build
    ```
-### 注意项
-
-1. 出现GraphQL查询picture报错
-   
-   文章文件夹下面需存在assets的文件夹，并且里面有一张‘default.png’图片

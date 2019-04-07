@@ -22,8 +22,7 @@ export const query = graphql`
             dateModified(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             dateCreated: date(formatString: "YYYY-MM-DD HH:mm", locale: "zh-CN")
             rawDate: date
-            isExistPic
-            pic {
+            thumbnail {
               childImageSharp {
                 fluid {
                   base64
@@ -59,8 +58,7 @@ type Fields = {
   dateCreated: string
   rawDate: string
   category: string
-  pic: ChildImageSharp | null
-  isExistPic: boolean
+  thumbnail: ChildImageSharp | null
 }
 
 interface PageProps {
@@ -78,8 +76,7 @@ interface PageProps {
 }
 
 const PostCover = ({ fields }: { fields: Fields }) => {
-  if (!fields.pic) return null
-  if (!fields.isExistPic) return null
+  if (!fields.thumbnail) return null
   return (
     <Link
       to={fields.slug}
@@ -87,7 +84,7 @@ const PostCover = ({ fields }: { fields: Fields }) => {
       children={
         <Image
           className={classes.post__featured__image}
-          sizes={fields.pic.childImageSharp.fluid}
+          sizes={fields.thumbnail.childImageSharp.fluid}
         />
       }
     />

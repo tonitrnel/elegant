@@ -182,7 +182,7 @@ exports.onCreateNode = function onCreateNode(method) {
     const dateModified = _.get(node, 'frontmatter.modified') || fileNode.mtime
     const title = _.get(node, 'frontmatter.title') || fileNode.name
     const category = _.get(node, 'frontmatter.category') || '默认'
-    const picture = _.get(node, 'frontmatter.picture')
+    const thumbnail = _.get(node, 'frontmatter.thumbnail')
     const tags = _.get(node, 'frontmatter.tags')
     const status = _.get(node, 'frontmatter.status') === 'publish'
     const specifiedPath = _.get(node, 'frontmatter.path')
@@ -224,15 +224,10 @@ exports.onCreateNode = function onCreateNode(method) {
         value: type
       },
       {
-        name: 'isExistPic',
-          value: Boolean(picture)
-      },
-      {
-        name: 'pic',
-        value: picture ? `./${picture.replace(/^\W+/g, '')}` : './assets/default.png'
+        name: 'thumbnail',
+        value: thumbnail ? `./${thumbnail.replace(/^\W+/g, '')}` : null
       }
     ]
-    console.log(picture ? `./${picture.replace(/^\W+/g, '')}` : './assets/default.png')
     fields.forEach(field => createNodeField({ node, ...field }))
   }
 }

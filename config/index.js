@@ -68,7 +68,6 @@ module.exports = {
   },
   // 重定向
   redirect: [],
-  //　todo: 删除备注
   // 谷歌分析
   googleAnalytics: '',
   commentID: '',
