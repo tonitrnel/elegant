@@ -6,6 +6,7 @@ import preview from '@/component/preview_picture'
 import classes from './index.styl'
 import _ from 'lodash'
 import moment from 'moment'
+import Comments from '@/component/comments'
 
 type Fields = {
   title: string
@@ -18,6 +19,7 @@ type Fields = {
 interface PageProps {
   data: {
     markdownRemark: {
+      id: string
       html: string
       fields: Fields & { rawDate: string; dateModified: string }
       excerpt: string
@@ -27,6 +29,10 @@ interface PageProps {
     slug: string
     prev: Fields | null
     next: Fields | null
+    comment: {
+      appId: string
+      appKey: string
+    }
   }
 }
 type PostTagsComponentProps = {
@@ -78,7 +84,11 @@ export default class Post extends React.Component<PageProps> {
   render() {
     const {
       data: { markdownRemark: posts },
-      pageContext: { prev, next }
+      pageContext: {
+        prev,
+        next,
+        comment: { appKey, appId }
+      }
     } = this.props
     return (
       <Layout title={posts.fields.title} description={posts.excerpt}>
@@ -124,6 +134,12 @@ export default class Post extends React.Component<PageProps> {
               className={classes.post__nav}
             />
           </article>
+          <Comments
+            id={posts.id}
+            title={posts.fields.title}
+            appId={appId}
+            appKey={appKey}
+          />
         </Container>
       </Layout>
     )
@@ -133,6 +149,7 @@ export const query = graphql`
   query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
+      id
       fields {
         title
         tags

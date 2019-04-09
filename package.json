@@ -16,7 +16,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "gatsby": "^2.1.39",
+    "autosize": "^4.0.2",
+    "blueimp-md5": "^2.10.0",
+    "gatsby": "2.1.39",
     "gatsby-image": "^2.0.37",
     "gatsby-plugin-feed": "^2.1.0",
     "gatsby-plugin-google-analytics": "^2.0.18",
@@ -39,6 +41,7 @@
     "katex": "^0.10.1",
     "leancloud-storage": "^3.12.0",
     "lodash": "^4.17.11",
+    "marked": "^0.6.2",
     "moment": "^2.24.0",
     "prismjs": "^1.16.0",
     "react": "^16.8.6",
@@ -46,7 +49,8 @@
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
     "react-responsive": "^6.1.1",
-    "valine": "^1.3.6"
+    "valine": "^1.3.6",
+    "xss": "^1.0.6"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.123",
@@ -66,7 +70,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-typescript": "^0.14.0",
-    "gatsby-cli": "^2.5.5",
+    "gatsby-cli": "^2.2.0",
     "prettier": "^1.16.4",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

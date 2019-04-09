@@ -1,7 +1,6 @@
 import * as React from 'react'
-// import leanCloud from 'leancloud-storage'
-// import Valine from 'valine'
-// import classes from './index.styl'
+import Valine from '@/lib/valine'
+import classes from './index.styl'
 
 
 // View https://valine.js.org
@@ -29,27 +28,25 @@ import * as React from 'react'
 //   if(!window.AV) window.AV = leanCloud
 // }
 //
-interface ComponentProps {
+export interface ComponentProps {
   className?: string
   appId: string
   appKey: string
+  id: string
+  title: string
 }
 
 export default (props: ComponentProps) => {
-  // React.useEffect(() => {
-  //   const result = valine.init({
-  //     el: `.${classes.comment}`,
-  //     appId: props.appId,
-  //     appKey: props.appKey,
-  //     placeholder: '在此输入评论..'
-  //   })
-  //   if (result.locale.error) {
-  //     console.log('Comment Init failed')
-  //     console.log(result.locale)
-  //   } else {
-  //     console.log('Comment Init')
-  //   }
-  // })
-  // return <div className={`${classes.comment} ${props.className || ''}`.trimRight()}>评论不可用</div>
-  return null
+  React.useEffect(() => {
+    new Valine({
+      el: `.${classes.comment}`,
+      appId: props.appId,
+      appKey: props.appKey,
+      postId: props.id,
+      postTitle: props.title,
+      placeholder: '在此输入评论..'
+    })
+  })
+  return <div className={`${classes.comment} ${props.className || ''}`.trimRight()}>评论不可用</div>
+  // return null
 }

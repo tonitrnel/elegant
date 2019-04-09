@@ -36,14 +36,21 @@ export const PreviewPicture = (props: {src: string}) => {
 export default (event: React.MouseEvent) => {
   const {classList} = event.target as HTMLElement
   // 目前没发现a标签链接和img链接的区别
-  if (classList.contains('gatsby-resp-image-image')){
+  event.preventDefault()
+  let target: HTMLLinkElement
+  if (classList.contains('gatsby-resp-image-link')) {
     event.preventDefault()
-    const target = _.get(event.target, 'parentElement.parentElement.parentElement') as HTMLLinkElement | null
-    if (!target || typeof document !== 'object') return
-    const container = document.createElement('section')
-    container.id = previewPictureID
-    ReactDOM.render(<PreviewPicture src={target.href}/>, container)
-    document.body.append(container)
-    document.documentElement.style.setProperty('overflow', 'hidden')
+    target = event.target as HTMLLinkElement
+  } else if (classList.contains('gatsby-resp-image-image')){
+    event.preventDefault()
+    target = _.get(event.target, 'parentElement.parentElement.parentElement') as HTMLLinkElement
+  } else {
+    return
   }
+  if (!target || typeof document !== 'object') return
+  const container = document.createElement('section')
+  container.id = previewPictureID
+  ReactDOM.render(<PreviewPicture src={target.href}/>, container)
+  document.body.append(container)
+  document.documentElement.style.setProperty('overflow', 'hidden')
 }

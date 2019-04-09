@@ -255,7 +255,7 @@ exports.onCreateWebpackConfig = function onCreateWebpackConfig(
             loaders.css({
               modules: true,
               importLoaders: 2,
-              localIdentName: '[local]-[hash:base64:5]'
+              localIdentName: '[local]__[hash:base64:5]'
             }),
             loaders.postcss({
               plugins: postCssPlugins

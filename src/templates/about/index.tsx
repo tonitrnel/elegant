@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import Layout from '@/component/layout'
 import Container from '@/component/container'
 import preview from '@/component/preview_picture'
-import Comment from '@/component/comment'
+import Comments from '@/component/comments'
 import classes from './index.styl'
 
 type Fields = {
@@ -15,6 +15,7 @@ interface PageProps {
   data: {
     markdownRemark: {
       html: string
+      id: string
       fields: Fields
       excerpt: string
     }
@@ -30,7 +31,9 @@ interface PageProps {
 export default (props: PageProps) => {
   const {
     data: { markdownRemark: posts },
-    pageContext: {comment: {appKey, appId}}
+    pageContext: {
+      comment: { appKey, appId }
+    }
   } = props
   return (
     <Layout title={posts.fields.title} description={posts.excerpt}>
@@ -43,7 +46,7 @@ export default (props: PageProps) => {
             dangerouslySetInnerHTML={{ __html: posts.html }}
           />
         </article>
-        <Comment appId={appId} appKey={appKey}/>
+        <Comments id={posts.id} title={posts.fields.title} appId={appId} appKey={appKey} />
       </Container>
     </Layout>
   )
@@ -52,6 +55,7 @@ export const query = graphql`
   query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
+      id
       fields {
         title
         slug
