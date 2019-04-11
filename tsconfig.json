@@ -23,8 +23,7 @@
     "types": ["node"],
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@config": ["./config/"]
+      "@/*": ["./src/*"]
     },
     "typeRoots": ["node_modules/@types"]
   },
