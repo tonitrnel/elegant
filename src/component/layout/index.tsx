@@ -10,6 +10,7 @@ interface PageProps {
   description?: string
   preConnect?: string | string[]
   dnsPrefetch?: string | string[]
+  styles?: string | string[]
 }
 interface QueryData {
   site: {
@@ -19,6 +20,10 @@ interface QueryData {
       keywords: string
       siteUrl: string
       menu: {
+        name: string
+        path: string
+      }[]
+      homeMenu: {
         name: string
         path: string
       }[]
@@ -35,6 +40,10 @@ const query = graphql`
               keywords
               siteUrl
               menu{
+                  name
+                  path
+              }
+              homeMenu{
                   name
                   path
               }
@@ -73,6 +82,12 @@ const Wrapper: WrapperProps = (props) => {
       const preConnect = Array.isArray(props.preConnect) ? props.preConnect : [props.preConnect]
       preConnect.forEach(href => {
         link.push({href, rel: "preconnect"})
+      })
+    }
+    if (props.styles) {
+      const styles = Array.isArray(props.styles) ? props.styles : [props.styles]
+      styles.forEach(styleHref => {
+        link.push({href: styleHref, rel: "stylesheet", type: "text/css"})
       })
     }
     const title = props.title ? `${props.title} - ${data.title}` : data.title

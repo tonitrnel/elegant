@@ -80,6 +80,8 @@ const PostNavComponent = (props: PostNavComponentProps) => {
   )
 }
 
+const stylesHref = ['https://static.wktrf.com/styles/prism-line-numbers.css', 'https://static.wktrf.com/styles/katex.min.css', 'https://static.wktrf.com/styles/prism-solarizedlight.css']
+
 export default class Post extends React.Component<PageProps> {
   render() {
     const {
@@ -91,7 +93,7 @@ export default class Post extends React.Component<PageProps> {
       }
     } = this.props
     return (
-      <Layout title={posts.fields.title} description={posts.excerpt}>
+      <Layout styles={stylesHref} title={posts.fields.title} description={posts.excerpt}>
         <Container>
           <article className={classes.post}>
             <div className={classes.post__data}>
