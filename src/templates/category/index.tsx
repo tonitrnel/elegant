@@ -42,7 +42,7 @@ export const Query = graphql`
                     fields {
                         slug
                         title
-                        date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
+                        date(formatString: "MMM Do, YYYY", locale: "zh-CN")
                     }
                 }
             }

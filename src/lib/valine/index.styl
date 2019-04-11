@@ -5,7 +5,7 @@
     }
     .v-wrap{
       border-radius 4px
-      margin-bottom 10px
+      margin-top 60px
       overflow hidden
       position relative
       padding 10px
@@ -66,6 +66,8 @@
       margin-bottom 10px
       padding 10px
       background transparent
+      font-family 'DejaVu Sans Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+      font-size .875rem
     }
     .v-form-message{
       font-size .875em
@@ -75,10 +77,8 @@
       overflow hidden
       transition height .6s
     }
-    .comments{
-      h2{
-        font-size 1rem
-      }
+    .comments-count{
+      font-size 1rem
     }
     .comment{
       display flex
@@ -112,9 +112,37 @@
         font-size .875em
         margin-left 10px
       }
-      blockquote, pre{
+      h1,h2,h3,h4,h5,h6{
+        font-weight 600
+      }
+      h1{
+        font-size 1.3rem
+        color #b9282a
+      }
+      h2{
+        font-size 1.2rem
+        color #39b9b6
+      }
+      h3{
+        font-size 1.1rem
+        color #3f79ca
+      }
+      h4{
+        font-size 1rem
+        color #ac8766
+      }
+      code, pre{
+        background-color #f8f8f8
+        font-family 'DejaVu Sans Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+        padding 6px 10px
+        font-size .875rem
+      }
+      code{
+        margin 0 4px
+      }
+      blockquote{
         margin 10px 0
-        background-color #f5f5f5
+        background-color #f8f8f8
         padding 6px 10px
         p{
           margin 0

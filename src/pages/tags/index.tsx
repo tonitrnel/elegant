@@ -30,7 +30,7 @@ export default (props: TagsPageProps) => {
         <p>共使用 {tags.length} 个标签</p>
         <ul className={classes.tags__list}>
           {tags.map((tag, i) => (
-            <li style={{ padding: '10px' }} key={i}>
+            <li key={i}>
               <Link title={`${tag.fieldValue}下存在${tag.totalCount}篇文章`} to={`/tags/${_.kebabCase(tag.fieldValue)}`} style={{fontSize: `${12 + Math.ceil(tag.totalCount / total * 16)}px`, color: getColor(tag.totalCount / total)}}>
                 {tag.fieldValue}
               </Link>

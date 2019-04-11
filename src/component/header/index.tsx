@@ -43,7 +43,6 @@ function Header(props: DispatchProps) {
         </Desktop>
         <Mobile>
           <header className={classes.header__mobile}>
-            <div className={classes.headband} />
             <MobileLoader path={'header/sidebar'}/>
           </header>
         </Mobile>

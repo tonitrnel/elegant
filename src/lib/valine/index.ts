@@ -3,7 +3,6 @@ import md5 from 'blueimp-MD5'
 import md from 'marked'
 import xss from 'xss'
 import autosize from 'autosize'
-import './index.styl'
 
 // 基于Valine 1.3.6改写 （https://github.com/xCss/Valine/blob/master/package.json）
 export const version = '1.3.6'
@@ -173,16 +172,18 @@ export default class Valine {
   }
   init() {
     const { placeholder = 'Just go go' } = this.option
-    let cacheCommentsInfo: string[] = []
+    let cacheCommentsInfo: string[]
     try {
       cacheCommentsInfo = JSON.parse(localStorage.getItem(
         '__cacheCommentInfo'
-      ) as string)
-    } catch (e) {}
+      ) as string) || []
+    } catch (e) {
+      cacheCommentsInfo = []
+    }
     const inputEls = ['nick', 'mail', 'link'].map((item, index) => {
       const type = ['text', 'email', 'url'][index]
       const required = [true, true, false][index]
-      const defaultValue = cacheCommentsInfo[index]
+      const defaultValue = cacheCommentsInfo[index] || ''
       return `<input name="${item}"  ${
         required ? 'required' : ''
       } placeholder="${

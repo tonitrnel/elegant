@@ -7,16 +7,38 @@
   }
   .categories__item{
     display inline-block
-    margin 20px 20px 20px 0
     a{
-      padding 6px 10px
-      border 1px solid #eee
-      color #888
-      transition border, color .3s
-      border-radius 2px
-      &:hover{
-        color #444
-        border 1px solid #ccc
+      display: inline-block
+      border-radius: 4px
+      margin 20px 20px 20px 10px
+      text-align center
+      line-height 40px
+      position relative
+      background-image: linear-gradient(to right, #434343 0%, black 100%)
+      color transparent
+      background-clip text
+      &:after, &:before{
+        content: ""
+        position: absolute
+        left: 0
+        bottom: -2px
+        height: 1px
+        width: 13%
+        background-color: #333435
+        transition: opacity 0.25s ease,transform 0.25s ease,width 0.3s cubic-bezier(0.68, 0.05, 0.46, 1.02),left 0.2s 0.2s ease-out
+      }
+      &:after{
+        z-index: 10
+        width: 30%
+        background-color: #fff
+        opacity: 0
+      }
+      &:hover:after {
+        opacity: 1
+        left: 100%
+      }
+      &:hover:before {
+        width: 100%
       }
     }
   }

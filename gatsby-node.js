@@ -239,7 +239,7 @@ exports.onCreateWebpackConfig = function onCreateWebpackConfig(
   _ref
 ) {
   const isDEV = stage === `develop` || stage === `develop-html`
-  const setWebpackConfig = actions.setWebpackConfig
+  const {setWebpackConfig} = actions
   const postCssPlugins = _ref.postCssPlugins
   const isSSR = stage.includes(`html`)
   setWebpackConfig({
@@ -278,8 +278,7 @@ exports.onCreateWebpackConfig = function onCreateWebpackConfig(
     //  解决ts设置的paths无效
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'),
-        '@config': path.resolve(__dirname, 'config')
+        '@': path.resolve(__dirname, 'src')
       }
     }
   })

@@ -21,7 +21,7 @@ interface ToggleProps {
 }
 
 export const Desktop = (props: any) => <Responsive {...props} minWidth={992} />
-export const Mobile = (props: any) => <Responsive {...props} maxWidth={767} />
+export const Mobile = (props: any) => <Responsive {...props} maxWidth={800} />
 
 export const DesktopLoader = (props: ComponentProps) => {
   const AsyncComponent = getComponent(props.path)

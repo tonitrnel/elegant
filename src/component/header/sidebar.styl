@@ -4,12 +4,13 @@
     height 3em
     padding .5em
     border none
+    margin-top 10px
     outline none
     background-color transparent
     &:active{
       svg{
         path{
-          fill #111
+          fill #000
         }
       }
     }
@@ -23,7 +24,6 @@
   }
   .sidebar__container{
     position fixed
-    width 70%
     height 100%
     background-color #fff
     top 0
@@ -32,14 +32,22 @@
     z-index 999
     box-sizing border-box
     padding 20px
+    overflow hidden
     box-shadow 2px 0 20px 0 #6666669e
     transition transform .3s ease-in
+    @media screen and (max-width 800px){
+      width 40%
+    }
+    @media screen and (max-width 750px){
+      width 70%
+    }
   }
   .sidebar__container__open{
     transform translateX(0)
   }
   .site__title{
     font-size 1.28rem
+    margin-top 40px
   }
   .menu{
     .menu__list{
@@ -70,7 +78,9 @@
     width 100%
     height 200px
     margin 0 auto
-    background-image url("https://static.wktrf.com/blog/images/banner.png")
+    padding 20px
+    margin -20px
+    background-image url("https://source.unsplash.com/random/375x200?nature,water,mountain,flowers,fruits")
     background-position center
     background-repeat no-repeat
     background-size cover

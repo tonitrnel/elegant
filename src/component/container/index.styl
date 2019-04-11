@@ -1,20 +1,24 @@
 .container{
   width 800px
-  padding-left: 200px
+  left: 200px
   position relative
   min-height 100%
+  @media screen and (max-width: 800px){
+    width 88%
+    margin 0 auto
+    left: 0
+  }
+  @media screen and (max-width: 750px){
+    width 100%
+    margin 0 auto
+    left: 0
+  }
 }
 .main{
   padding 20px
   padding-bottom: 200px
   box-sizing border-box
-}
-@media (max-width: 800px){
-  .container{
-    width 100%
-    padding 0
-  }
-  .main{
+  @media (max-width: 800px){
     padding 10px
     padding-bottom: 240px
     padding-top: 60px

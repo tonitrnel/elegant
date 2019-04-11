@@ -1,5 +1,6 @@
 import Loadable from 'react-loadable'
 import * as React from 'react'
+import "@/lib/valine/index.styl"
 
 export default Loadable({
   loader: () => import(`./comments`),

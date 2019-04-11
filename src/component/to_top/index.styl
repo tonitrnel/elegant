@@ -1,16 +1,19 @@
 .to__top{
   width 70px
   height 80px
-  border 0
+  border none
   position fixed
-  color transparent
   cursor pointer
   right 2em
   background-color transparent
   background-image  url("../../assets/images/totop.png")
-  background-size 100% 100%
+  background-size 100%
   z-index 666
+  outline none
   bottom 2em
+  &:focus{
+    opacity .9
+  }
 }
 @media (max-width: 800px){
   .to__top{

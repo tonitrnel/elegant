@@ -8,4 +8,4 @@ const onClick = () => {
   })
 }
 
-export default (props: {hide: boolean}) => <button title="移动到顶部" className={`${classes.to__top} ${props.hide ? classes.to__top__hide : ''}`.trimRight()} onClick={onClick}>Top</button>
+export default (props: {hide: boolean}) => <button title="移动到顶部" className={`${classes.to__top} ${props.hide ? classes.to__top__hide : ''}`.trimRight()} onClick={onClick}/>

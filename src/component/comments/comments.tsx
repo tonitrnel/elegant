@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Valine from '@/lib/valine'
-import classes from './index.styl'
 
 
 // View https://valine.js.org
@@ -37,16 +36,19 @@ export interface ComponentProps {
 }
 
 export default (props: ComponentProps) => {
+  const ref = React.createRef<HTMLDivElement>()
   React.useEffect(() => {
-    new Valine({
-      el: `.${classes.comment}`,
-      appId: props.appId,
-      appKey: props.appKey,
-      postId: props.id,
-      postTitle: props.title,
-      placeholder: '在此输入评论..'
-    })
+    if (ref.current) {
+      new Valine({
+        el: ref.current,
+        appId: props.appId,
+        appKey: props.appKey,
+        postId: props.id,
+        postTitle: props.title,
+        placeholder: '在此输入评论..'
+      })
+    }
   })
-  return <div className={`${classes.comment} ${props.className || ''}`.trimRight()}>评论不可用</div>
+  return <div ref={ref}>评论不可用</div>
   // return null
 }

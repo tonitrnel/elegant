@@ -4,33 +4,33 @@ import {
   InjectLayoutContext,
   InjectProps
 } from '@/component/inject_layout_context'
-import { Toggle } from '@/component/media_query'
-import { Link } from 'gatsby'
 import classes from './index.styl'
 
 interface DispatchProps {
-  menu: InjectProps['menu']
+  homeMenu: InjectProps['homeMenu']
 }
 
-const Home = ({ menu }: DispatchProps) => (
-  <Toggle
-    desktopClassName={classes.main}
-    mobileClassName={classes.main__mobile}
-  >
+const Home = ({ homeMenu }: DispatchProps) => (
+  <div className={classes.container}>
     <nav className={classes.menu}>
       <ul>
-        {menu.map((v, i) => (
+        {homeMenu.map((v, i) => (
           <li key={i}>
-            <Link to={v.path} children={v.name} />
+            <a href={v.path} rel="noopener" children={v.name} />
           </li>
         ))}
       </ul>
     </nav>
-  </Toggle>
+    <footer className={classes.footer}>
+      <div className={classes.link}>
+        图片来源：<a href="//unsplash.com" rel="noopener" target="_blank">unsplash.com</a>
+      </div>
+    </footer>
+  </div>
 )
 export default () => {
-  const Component = InjectLayoutContext<DispatchProps>(Home, ({ menu }) => ({
-    menu
+  const Component = InjectLayoutContext<DispatchProps>(Home, ({ homeMenu }) => ({
+    homeMenu
   }))
   return (
     <Layout title="自然灵魂 - Natural soul" preConnect="//images.unsplash.com"  dnsPrefetch="//images.unsplash.com">
