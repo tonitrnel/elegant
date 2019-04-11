@@ -153,18 +153,13 @@ exports.createPages = async function createPages({
         }
       })
     })
-  console.info(
-    `共创建${alreadyUsingPath.size}个相关页面，花费：${Date.now() - now}ms`
-  )
   if (_.isArray(config.redirect)) config.redirect.forEach(createRedirect)
+  console.log(
+    `create: ${alreadyUsingPath.size}page，spend：${Date.now() - now}ms`
+  )
 }
 
 const firstLetterUpper = str => str.charAt(0).toUpperCase() + str.slice(1)
-
-const synonymDictionary = {
-  js: 'JavaScript',
-  javascript: 'JavaScript'
-}
 
 /**
  * 生成文章相关信息
@@ -176,7 +171,6 @@ exports.onCreateNode = function onCreateNode(method) {
     actions: { createNodeField }
   } = method
   if (node.internal.type === `MarkdownRemark`) {
-    // 获取文件信息
     const fileNode = getNode(node.parent)
     const dateCreated = _.get(node, 'frontmatter.date') || fileNode.atime
     const dateModified = _.get(node, 'frontmatter.modified') || fileNode.mtime
@@ -211,9 +205,7 @@ exports.onCreateNode = function onCreateNode(method) {
       },
       {
         name: 'tags',
-        value: _.isArray(tags)
-          ? tags.map(tag => synonymDictionary[tag] || firstLetterUpper(tag))
-          : null
+        value: _.isArray(tags) ? firstLetterUpper(tag) : null
       },
       {
         name: 'status',
@@ -234,47 +226,9 @@ exports.onCreateNode = function onCreateNode(method) {
 /***
  * 定义WebPack配置
  */
-exports.onCreateWebpackConfig = function onCreateWebpackConfig(
-  { stage, rules, loaders, plugins, actions },
-  _ref
-) {
-  const isDEV = stage === `develop` || stage === `develop-html`
-  const {setWebpackConfig} = actions
-  const postCssPlugins = _ref.postCssPlugins
-  const isSSR = stage.includes(`html`)
+exports.onCreateWebpackConfig = function onCreateWebpackConfig({ actions }) {
+  const { setWebpackConfig } = actions
   setWebpackConfig({
-    module: {
-      rules: [
-        {
-          test: /\.styl/,
-          use: [
-            !isSSR &&
-              loaders.miniCssExtract({
-                hmr: false
-              }),
-            loaders.css({
-              modules: true,
-              importLoaders: 2,
-              localIdentName: '[local]__[hash:base64:5]'
-            }),
-            loaders.postcss({
-              plugins: postCssPlugins
-            }),
-            {
-              loader: 'stylus-loader',
-              options: {
-                sourceMap: isDEV
-              }
-            }
-          ].filter(Boolean)
-        }
-      ]
-    },
-    plugins: [
-      plugins.define({
-        __DEVELOPMENT__: isDEV
-      })
-    ],
     //  解决ts设置的paths无效
     resolve: {
       alias: {
