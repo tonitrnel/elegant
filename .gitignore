@@ -5,3 +5,4 @@ node_modules
 public
 remarks.md
 yarn.lock
+schema.graphql
