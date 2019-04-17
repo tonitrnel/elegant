@@ -205,7 +205,7 @@ exports.onCreateNode = function onCreateNode(method) {
       },
       {
         name: 'tags',
-        value: _.isArray(tags) ? firstLetterUpper(tag) : null
+        value: _.isArray(tags) ? tags.map(firstLetterUpper) : null
       },
       {
         name: 'status',
