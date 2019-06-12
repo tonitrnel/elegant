@@ -33,7 +33,7 @@ export default () => {
     homeMenu
   }))
   return (
-    <Layout title="自然灵魂 - Natural soul" preConnect="//images.unsplash.com"  dnsPrefetch="//images.unsplash.com">
+    <Layout title="首页" preConnect="//images.unsplash.com"  dnsPrefetch="//images.unsplash.com">
       <Component />
     </Layout>
   )

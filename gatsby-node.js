@@ -180,7 +180,7 @@ exports.onCreateNode = function onCreateNode(method) {
     const tags = _.get(node, 'frontmatter.tags')
     const status = _.get(node, 'frontmatter.status') === 'publish'
     const specifiedPath = _.get(node, 'frontmatter.path')
-    const slug = specifiedPath || `/writing/${_.kebabCase(title)}.html`
+    const slug = specifiedPath || `/writing/${title.replace(/[^\w\u4e00-\u9fa5]/g,'').toLowerCase()}`
     const type = _.get(node, 'frontmatter.type') || 'post'
     const fields = [
       {

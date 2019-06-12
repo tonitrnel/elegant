@@ -76,7 +76,7 @@ interface PageProps {
 }
 
 const PostCover = ({ fields }: { fields: Fields }) => {
-  if (!fields.thumbnail) return null
+  if (!fields.thumbnail || typeof fields.thumbnail !== 'object') return null
   return (
     <Link
       to={fields.slug}
@@ -94,7 +94,7 @@ const PostCover = ({ fields }: { fields: Fields }) => {
 export default (props: PageProps) => {
   const posts = props.data.posts.edges
   return (
-    <Layout title="日记">
+    <Layout title="文章">
       <Container className={classes.container}>
         {posts.map((post, index) => (
           <div className={classes.post} key={index}>

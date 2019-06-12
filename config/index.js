@@ -23,10 +23,10 @@
 module.exports = {
   // 站点信息
   site: {
-    title: '自然灵魂',
+    title: '枯鱼过河',
     siteUrl: 'https://mostearly.com',
-    description: '无',
-    keywords: 'web前端, HTML5, CSS3, html, CSS',
+    description: '枯鱼过河的博客，记录一些所想的',
+    keywords: 'JavaScript, ES6， ESNext，Canvas，WEB前端, HTML5, CSS3, HTML, CSS',
     // 页面菜单
     menu: [
       {
@@ -34,7 +34,7 @@ module.exports = {
         path: '/'
       },
       {
-        name: '日记',
+        name: '博客',
         path: '/writing'
       },
       {
@@ -58,6 +58,16 @@ module.exports = {
         path: '/about'
       }
     ],
+    homeMenu: [
+      {
+        name: '博客',
+        path: '/writing'
+      },
+      {
+        name: '关于',
+        path: '/about'
+      }
+    ]
   },
   // 文章路径
   path: 'D://Writing/',
@@ -69,7 +79,7 @@ module.exports = {
   // 重定向
   redirect: [],
   // 谷歌分析
-  googleAnalytics: '',
-  commentID: '',
-  commentKey: ''
+  googleAnalytics: 'UA-112470159-2',
+  commentID: 'UVH09W8v5vNT1PFKMjvjlTNd-gzGzoHsz',
+  commentKey: 'L0vVtcf0KLE1xSMFGIEOC6LP'
 }

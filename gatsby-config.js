@@ -112,6 +112,12 @@ module.exports = {
         trackingId: config.googleAnalytics
       }
     },
+    {
+      resolve: 'gatsby-plugin-nprogress',
+      options: {
+        color: '#85bb93'
+      }
+    },
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',

@@ -1,12 +1,10 @@
+// 作为A标签的颜色和H2和H4的符号颜色
+$green = #85bb93
+$blue = #3f79ca
+
 :global{
   h1{
     font-size 1.34em
-    &:before{
-      content "#"
-      color #b9282a
-      padding-right 10px
-      font-size 1.25em
-    }
   }
   h2{
     font-weight: 600
@@ -16,12 +14,6 @@
     margin-bottom: 1.875rem
     padding-top: 10px
     color #555
-    &:before{
-      content "¶"
-      color #42b983
-      padding-right 10px
-      font-size 1.2em
-    }
   }
   h3{
     font-weight: 600
@@ -33,12 +25,6 @@
     padding-bottom: 10px
     color #555
     border-bottom 1px dashed #eee
-    &:before{
-      content "#"
-      color #3f79ca
-      padding-right 10px
-      font-size 1.2em
-    }
   }
 
   h4{
@@ -51,12 +37,6 @@
     padding-bottom: 10px
     color #555
     border-bottom 1px dashed #eee
-    &:before{
-      content "#"
-      color #42b983
-      padding-right 10px
-      font-size 1.2em
-    }
   }
   p{
     line-height 28px
@@ -133,7 +113,7 @@
     }
   }
   a{
-    color #42b983
+    color $green
     &:hover{
       text-decoration underline
     }
@@ -155,6 +135,13 @@
     max-width 100%
     object-fit cover
     position relative
+  }
+  figcaption{
+    margin: 0 auto
+    border-bottom: 1px solid #d9d9d9
+    padding: 10px
+    color: #969696
+    width fit-content
   }
   iframe{
     width 100%

@@ -5,11 +5,11 @@ const now = new Date()
 
 export default () => <footer className={classes.footer}>
   <div className={classes.footer__inner}>
-    <p>🌺这里放点字应该不错</p>
+    <p>🍀 努力成为想成为的那个人</p>
     <p className={classes.copyright}>
       <i>©</i>
       <span>{now.getFullYear()}</span>
-      <span>Natural soul</span>
+      <span>natural spirit</span>
     </p>
     <p className={classes.powered__by}>
       <span>Powered By <a href='https://gatsbyjs.org' title="前往Gatsby官方网站">Gatsby</a></span>
