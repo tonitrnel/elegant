@@ -10,14 +10,17 @@
   "scripts": {
     "build": "node node_modules/gatsby/dist/bin/gatsby build",
     "develop": "node node_modules/gatsby/dist/bin/gatsby develop",
+    "serve": "node node_modules/gatsby/dist/bin/gatsby serve",
     "develop-inspect": "node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@svgr/webpack": "^4.3.0",
     "autosize": "^4.0.2",
-    "blueimp-md5": "^2.10.0",
+    "crypto-js": "^3.1.9-1",
+    "firebase": "^6.2.4",
     "gatsby": "^2.9.1",
     "gatsby-image": "^2.1.3",
     "gatsby-plugin-feed": "^2.2.3",
@@ -28,6 +31,7 @@
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sharp": "^2.0.35",
     "gatsby-plugin-sitemap": "^2.0.12",
+    "gatsby-plugin-svgr": "^2.0.2",
     "gatsby-plugin-typescript": "^2.0.12",
     "gatsby-remark-copy-linked-files": "^2.0.11",
     "gatsby-remark-external-links": "^0.0.4",
@@ -38,9 +42,8 @@
     "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.18",
     "katex": "^0.10.1",
-    "leancloud-storage": "^3.13.0",
+    "leancloud-storage": "^3.14.0",
     "lodash": "^4.17.11",
-    "marked": "^0.6.2",
     "moment": "^2.24.0",
     "prismjs": "^1.16.0",
     "react": "^16.8.6",
@@ -48,9 +51,11 @@
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
     "react-responsive": "^6.1.1",
-    "xss": "^1.0.6"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/crypto-js": "^3.1.43",
+    "@types/js-yaml": "^3.12.1",
     "@types/lodash": "^4.14.123",
     "@types/moment": "^2.13.0",
     "@types/react": "^16.8.13",

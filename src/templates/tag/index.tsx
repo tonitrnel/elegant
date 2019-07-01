@@ -1,7 +1,6 @@
 import * as React from 'react'
 import _ from 'lodash'
 import { Link, graphql, PageRendererProps } from 'gatsby'
-import Layout from '@/component/layout'
 import Container from '@/component/container'
 import classes from './index.styl'
 interface TagPageProps extends PageRendererProps {
@@ -19,19 +18,18 @@ interface TagPageProps extends PageRendererProps {
     }
   }
   pageContext: {
-    tag: string
+    id: string
   }
 }
 // gql(tagsData)
-export const Query = graphql`
-  query($tag: String) {
+export const query = graphql`
+  query($id: String) {
     allMarkdownRemark(
-      limit: 2000
       filter: {
         fields: {
           status: { eq: true }
           type: { eq: "post" }
-          tags: { in: [$tag] }
+          tags: { in: [$id] }
         }
       }
       sort: { order: DESC, fields: fields___date }
@@ -49,27 +47,28 @@ export const Query = graphql`
   }
 `
 export default (props: TagPageProps) => {
-  const tagData = _.has(props, 'data.allMarkdownRemark.edges')
+  const data = _.has(props, 'data.allMarkdownRemark.edges')
     ? props.data.allMarkdownRemark.edges
     : []
-  const tagName = props.pageContext.tag
+  const name = props.pageContext.id
   return (
-    <Layout title={`标签: ${props.pageContext.tag}`}>
-      <Container>
-        <h1 className={classes.tag__title}>标签：{tagName}</h1>
-        <p className={classes.tag__counter}>共有: {tagData.length}篇文章</p>
-        <ul className={classes.tag__list}>
-          {tagData.map(({ node }, index) => (
-            <li className={classes.tag__item} key={index}>
-              <Link to={node.fields.slug}>
-                <time>{node.fields.date}</time>
-                <small>-</small>
-                <span>{node.fields.title}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </Layout>
+    <Container path="/archives" className={classes.tags} title={`标签: ${name}`}>
+      <h1>标签：{name}</h1>
+      <p className={classes.counter}>共有: {data.length}篇文章</p>
+      <p className={classes.link}>
+        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
+      </p>
+      <ul className={classes.list}>
+        {data.map(({ node }, index) => (
+          <li className={classes.item} key={index}>
+            <Link to={node.fields.slug}>
+              <time>{node.fields.date}</time>
+              <small>-</small>
+              <span>{node.fields.title}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Container>
   )
 }

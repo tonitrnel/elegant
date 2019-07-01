@@ -1,0 +1,26 @@
+# 参考
+# 站点信息
+site:
+ title: site title
+ url: https://example.com
+ description: site description
+ keywords: site keywords
+# 作者
+author:
+ name: author name
+ note: any content
+# 导航
+navigate:
+ -
+  name: index
+  path: /
+ -
+  name: about
+  path: /about
+# 首页分页
+pagination: 10
+# 谷歌分析
+analytics: Your Google analytics id
+# 屏蔽
+ignore:
+  - .git

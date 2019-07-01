@@ -1,5 +1,7 @@
 import * as React from 'react'
 import classes from './index.styl'
+import { ReactComponent as IconUpArrow } from '@/assets/images/up_arrow.svg'
+import classname from '@/utils/classname'
 
 const onClick = () => {
   scrollTo({
@@ -8,4 +10,14 @@ const onClick = () => {
   })
 }
 
-export default (props: {hide: boolean}) => <button title="移动到顶部" className={`${classes.to__top} ${props.hide ? classes.to__top__hide : ''}`.trimRight()} onClick={onClick}/>
+export default (props: { hide: boolean }) => (
+  <button
+    title="移动到顶部"
+    className={classname(classes.toTop, {
+      [classes.toTop__hide]: props.hide
+    })}
+    onClick={onClick}
+  >
+    <IconUpArrow className="icon" />
+  </button>
+)

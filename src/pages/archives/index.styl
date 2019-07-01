@@ -1,0 +1,79 @@
+@import "~@/assets/styles/variable.styl"
+.archive {
+  @import "./common.styl"
+
+  .collection {
+    padding 0 20px
+    position relative
+    display block
+    border-left 2px solid $color_4
+  }
+
+  .year {
+    font-size 1.25rem
+    margin 0
+    position relative
+    font-weight normal
+    padding 1em 0
+
+    .counter {
+      margin 0 8px
+    }
+
+    &:before {
+      content ""
+      width 6px
+      height 6px
+      background-color $color_5
+      position absolute
+      z-index 2
+      top 1.5em
+      border-radius 100%
+      left -24px
+    }
+  }
+
+  .month {
+    font-size 1rem
+    position relative
+    display block
+    font-weight normal
+    margin 10px 0
+  }
+
+  .list {
+    overflow auto
+  }
+
+  .item {
+    font-size 14px
+    margin 20px 0
+
+    small {
+      margin 0 10px
+    }
+
+    a {
+      color $color_3
+
+      span {
+        text-transform capitalize
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+        display inline-block
+        width 62%
+        vertical-align top
+      }
+    }
+
+    a:hover {
+      color $color_1
+
+      span {
+        color $color_1
+        text-decoration underline
+      }
+    }
+  }
+}

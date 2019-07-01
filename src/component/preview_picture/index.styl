@@ -1,4 +1,5 @@
-.view__picture{
+@import "~@/assets/styles/variable.styl"
+.preview{
   position fixed
   width 100vw
   height 100vh
@@ -8,68 +9,79 @@
   top 0
   left 0
   cursor zoom-out
-  .load__failed, .loading{
-    height: 2em
+  animation fade .3s linear forwards
+  @media (max-width 800px){
+    background-color #000
+    img{
+      max-width 100%
+    }
+  }
+  .load-error, .loading{
     overflow: hidden
+    font-size .875rem
     position: absolute
     top: 50%
     left 50%
-    padding .5em 1em
+    padding .5em
     transform translate(-50%, -50%)
   }
-  .load__failed{
-    color red
+  .load-error{
+    color #fc6470
+    z-index 10
   }
   .loading{
-    color: #AAB2BD
+    color: $color_3
+    letter-spacing 2px
+    opacity 0
+    transition opacity .3s linear
+    z-index 8
     &:after{
       content ""
       position absolute
       height 2px
       left 0
-      background-color #42b983
+      background-color $color_1
       width 100%
       bottom 0
       transform translateX(-100%)
-      animation loading .8s -0.1s ease-in-out infinite
-    }
-    @keyframes loading{
-      0%{
-        transform translateX(-100%)
-      }
-      50%{
-        transform translateX(0)
-      }
-      100%{
-        transform translateX(100%)
-      }
+      animation slide .8s -0.1s ease-in-out infinite
     }
   }
-  img{
+  .img{
     position absolute
-    left 50%
-    top 50%
-    transform translate(-50%, -50%)
-    object-fit cover
-    max-width 90%
-    max-height 90%
+    center()
+    max-width 89%
+    max-height 89%
     opacity 0
-    animation show .3s ease-in-out forwards
+    transition opacity .3s linear
+    z-index 9
   }
-  @keyframes show{
-    from{
-      opacity 0
-    }
-    to{
-      opacity 1
-    }
+  .hide{
+    opacity 0
+  }
+  .show{
+    opacity 1
   }
 }
-@media (max-width 800px){
-  .view_picture{
-    background-color #000
-    img{
-      max-width 100%
-    }
+
+@keyframes fade{
+  from{
+    background transparent
+    opacity 0
+  }
+  to{
+    background-color rgba(255,255,255,.94)
+    opacity 1
+  }
+}
+@keyframes slide{
+  0%{
+    transform translateX(-100%)
+  }
+  50%{
+    transform translateX(0)
+  }
+  100%{
+    transform translateX(100%)
   }
 }

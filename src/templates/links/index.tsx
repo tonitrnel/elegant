@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import Layout from '@/component/layout'
 import Container from '@/component/container'
 import classes from './index.styl'
 
@@ -24,17 +23,15 @@ export default class Post extends React.Component<PageProps> {
       data: { markdownRemark: posts }
     } = this.props
     return (
-      <Layout title={posts.fields.title}>
-        <Container>
-          <article className={classes.links}>
-            <h1 className={classes.title}>{posts.fields.title}</h1>
-            <div
-              className={classes.content}
-              dangerouslySetInnerHTML={{ __html: posts.html }}
-            />
-          </article>
-        </Container>
-      </Layout>
+      <Container path="/links" className={classes.links} title={posts.fields.title}>
+        <article>
+          <h1 className={classes.title}>{posts.fields.title}</h1>
+          <div
+            className={classes.content}
+            dangerouslySetInnerHTML={{ __html: posts.html }}
+          />
+        </article>
+      </Container>
     )
   }
 }

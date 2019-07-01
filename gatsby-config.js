@@ -1,15 +1,20 @@
-const path = require('path')
 const config = require('./config')
+
 module.exports = {
-  siteMetadata: config.site,
+  siteMetadata: {
+    ...config.site,
+    siteUrl: config.site.url,
+    navigate: config.navigate,
+    author: config.author
+  },
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: 'posts',
-        path: path.resolve(config.path),
+        path: config.dir,
         // 屏蔽git文件夹
-        ignore: ['**/.git', '**/.draft', '**/.script', '**/.mind_mapping']
+        ignore: config.ignore.map(item => '**/' + item)
       }
     },
     {
@@ -19,7 +24,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 800,
+              maxWidth: 890 + 890 / 100 * 4,
               showCaptions: true,
               withWebp: true
             }
@@ -27,7 +32,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-external-links',
             options: {
-              rel: "noopener"
+              rel: 'noopener'
             }
           },
           {
@@ -59,11 +64,10 @@ module.exports = {
         query: `
         {
           site {
-            siteMetadata {
+            metadata: siteMetadata {
               title
               description
-              siteUrl
-              site_url: siteUrl
+              url
             }
           }
         }
@@ -71,12 +75,13 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMarkdownRemark } }) => {
+              const { metadata } = site
               return allMarkdownRemark.edges.map(edge => ({
                 title: edge.node.fields.title,
                 description: edge.node.excerpt,
                 date: edge.node.fields.date,
-                url: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                url: metadata.url + edge.node.fields.slug,
+                guid: metadata.url + edge.node.fields.slug,
                 custom_elements: [{ 'content:encoded': edge.node.html }]
               }))
             },
@@ -101,7 +106,7 @@ module.exports = {
               }
             `,
             output: '/rss.xml',
-            title: 'Natural Soul Blog RSS Feed'
+            title: `${config.author.name} blog rss feed`
           }
         ]
       }
@@ -109,21 +114,22 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: config.googleAnalytics
+        trackingId: config.analytics
       }
     },
     {
       resolve: 'gatsby-plugin-nprogress',
       options: {
-        color: '#85bb93'
+        color: '#e5b161'
       }
     },
     'gatsby-plugin-typescript',
-    'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
+    'gatsby-plugin-react-helmet',
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-offline',
+    'gatsby-plugin-svgr',
     'gatsby-plugin-stylus'
   ]
 }

@@ -2,55 +2,85 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import classes from './index.styl'
+import classname from '@/utils/classname'
 
-const previewPictureID = 'previewPicture'
-
-const closeViewPicture = () => {
-  const container = document.querySelector(`#${previewPictureID}`)
-  if (container) {
-    ReactDOM.unmountComponentAtNode(container)
-    document.body.removeChild(container)
-  }
+const unmount = (node: HTMLDivElement) => {
+  ReactDOM.unmountComponentAtNode(node)
+  document.body.removeChild(node)
   document.documentElement.style.removeProperty('overflow')
 }
-
-export const PreviewPicture = (props: {src: string}) => {
-  const [loadStatus, changeLoadStatus] = React.useState(false)
-  const [isError, changeIsError] = React.useState(false)
-  const ref = React.createRef<HTMLDivElement>()
-  const image = new Image()
-  image.onload = () => {
-    if (ref.current) {
-      ref.current.appendChild(image)
-      changeLoadStatus(true)
-    }
-  }
-  image.onerror = () => {
-    changeIsError(true)
-  }
-  image.src = props.src
-  return <div onClick={closeViewPicture} className={classes.view__picture} ref={ref} >
-    {isError ? <span className={classes.load__failed}>图片加载失败</span> : <span className={classes.loading} style={{display: loadStatus ? 'none' : 'block'}}>图片加载中...</span>}
-  </div>
+const uninstall = () => {
+  const target = document.querySelector<HTMLDivElement>(`.${classes.preview}`)
+  if (!target) return void 0
+  const container = target.parentElement as HTMLDivElement
+  if (!container) return void 0
+  unmount(container)
 }
-export default (event: React.MouseEvent) => {
-  const {classList} = event.target as HTMLElement
+
+interface PreviewProps {
+  src: string
+}
+
+export function Preview(props: PreviewProps) {
+  const [status, changeStatus] = React.useState(true)
+  const [isError, changeIsError] = React.useState(false)
+  const onload = () => {
+    changeStatus(false)
+  }
+  const onerror = () => {
+    changeIsError(true)
+    changeStatus(false)
+  }
+  return (
+    <div onClick={uninstall} className={classes.preview}>
+      {isError ? (
+        <section className={classes.loadError}>
+          <p>图片加载失败</p>
+          <a href={props.src} target="_blank" rel="noopener noreferrer">
+            单击访问
+          </a>
+        </section>
+      ) : (
+        <section
+          className={classname(classes.loading, {
+            [classes.show]: status
+          })}
+        >
+          图片加载中
+        </section>
+      )}
+      <img
+        src={props.src}
+        onLoad={onload}
+        onError={onerror}
+        className={classname(classes.img, {
+          [classes.show]: !status && !isError
+        })}
+        alt="preview image"
+      />
+    </div>
+  )
+}
+export default function install(event: React.MouseEvent) {
+  const { classList } = event.target as HTMLElement
   // 目前没发现a标签链接和img链接的区别
   event.preventDefault()
   let target: HTMLLinkElement
   if (classList.contains('gatsby-resp-image-link')) {
     event.preventDefault()
     target = event.target as HTMLLinkElement
-  } else if (classList.contains('gatsby-resp-image-image')){
+  } else if (classList.contains('gatsby-resp-image-image')) {
     event.preventDefault()
-    target = _.get(event.target, 'parentElement.parentElement.parentElement') as HTMLLinkElement
+    target = _.get(
+      event.target,
+      'parentElement.parentElement.parentElement'
+    ) as HTMLLinkElement
   } else {
     return
   }
   if (!target || typeof document !== 'object') return
-  const container = document.createElement('section')
-  container.id = previewPictureID
-  ReactDOM.render(<PreviewPicture src={target.href}/>, container)
-  document.body.append(container)
+  const node = document.createElement('section')
+  ReactDOM.render(<Preview src={target.href} />, node)
+  document.body.append(node)
   document.documentElement.style.setProperty('overflow', 'hidden')
 }

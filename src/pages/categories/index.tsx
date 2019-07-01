@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import Layout from '@/component/layout'
 import Container from '@/component/container'
 import classes from './index.styl'
 
@@ -20,24 +19,25 @@ export default (props: PageProps) => {
     tag => !!tag.fieldValue
   )
   return (
-    <Layout title="分类">
-      <Container className={classes.categories}>
-        <h1>分类</h1>
-        <p>共设有{categories.length}个分类</p>
-        <ul className={classes.categories__list}>
-          {categories.map((category, i) => (
-            <li className={classes.categories__item} key={i}>
-              <Link
-                title={`分类下共有${category.totalCount}篇文章`}
-                to={`/categories/${category.fieldValue}`}
-              >
-                {category.fieldValue} {`(${category.totalCount})`}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </Layout>
+    <Container path="/archives" className={classes.categories} title="分类">
+      <h1>分类</h1>
+      <p className={classes.counter}>{categories.length}个分类</p>
+      <p className={classes.link}>
+        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
+      </p>
+      <ul className={classes.list}>
+        {categories.map((category, i) => (
+          <li className={classes.item} key={i}>
+            <Link
+              title={`分类下共有${category.totalCount}篇文章`}
+              to={`/categories/${category.fieldValue}`}
+            >
+              {category.fieldValue} {`(${category.totalCount})`}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Container>
   )
 }
 export const Query = graphql`

@@ -1,9 +1,14 @@
 ## 博客
 
+[English Version](README_EN.md)
+
+参考：[https://mostearly.com](https://mostearly.com)
+
 一个使用TypeScript搭建的Gatsby项目
 
 ### 功能
 
+- 评论
 - 分页
 - 生成RSS
 - 生成SiteMap
@@ -56,11 +61,13 @@
 
    tags: 文章标签，应该是一个数组的格式
 
-   category: 文章分类，没有将知道分类到`默认`下面
+   category: 文章分类，没有将自动分类到`默认`下面
    
    path: 这篇文章的路径，设置后将覆盖默认的路径，如果发生错误将抛出`The post path is repeated, title: ***`
    
    type: 文章的类型，用于使用对应模板，默认为`post`，可能的值为: `about`, `links`
+    
+   comment: 是否启用评论，默认启用, 评论使用Firebase, 需要修改src/components/comment/firebase文件的firebase配置
 
    运行开发模式：
 

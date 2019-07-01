@@ -1,207 +1,241 @@
-// 作为A标签的颜色和H2和H4的符号颜色
-$green = #85bb93
-$blue = #3f79ca
+@import "~@/assets/styles/variable.styl"
+@import "prism_theme.styl"
 
-:global{
-  h1{
-    font-size 1.34em
-  }
-  h2{
-    font-weight: 600
-    letter-spacing: 0.5px
-    font-size: 1.21em
-    line-height: 1.225em
-    margin-bottom: 1.875rem
-    padding-top: 10px
-    color #555
-  }
-  h3{
-    font-weight: 600
-    letter-spacing: 0.5px
-    font-size: 1.13em
-    line-height: 1.225em
-    margin-bottom: 1.875rem
-    padding-top: 10px
-    padding-bottom: 10px
-    color #555
-    border-bottom 1px dashed #eee
+h1 {
+  font-size 1.34em
+  font-weight normal
+}
+
+h2 {
+  font-weight normal
+  letter-spacing 0.5px
+  font-size 1.21em
+  line-height 1.225em
+  margin-bottom 1.875rem
+  padding-top 10px
+  color $color_2
+}
+
+h3 {
+  font-weight normal
+  letter-spacing 0.5px
+  font-size 1.13em
+  line-height 1.225em
+  margin-bottom 1.875rem
+  padding-top 10px
+  padding-bottom 10px
+  color $color_2
+}
+
+h4 {
+  font-weight normal
+  letter-spacing 0.5px
+  font-size 1.08em
+  line-height 1.225em
+  margin-bottom 1.875rem
+  padding-top 10px
+  padding-bottom 10px
+  color $color_2
+}
+
+p {
+  line-height 28px
+}
+
+table {
+  width 100%
+  border-collapse collapse
+  border-spacing 0
+  text-align left
+
+  tr {
+    background-color #fff
+    border-top 1px solid $color_2
   }
 
-  h4{
-    font-weight: 600
-    letter-spacing: 0.5px
-    font-size: 1.08em
-    line-height: 1.225em
-    margin-bottom: 1.875rem
-    padding-top: 10px
-    padding-bottom: 10px
-    color #555
-    border-bottom 1px dashed #eee
+  tr th {
+    border-bottom 0
   }
-  p{
-    line-height 28px
+
+  th {
+    padding 6px 18px
+    border 1px solid $color_4
   }
-  table{
-    width 100%
-    border-collapse: collapse
-    border-spacing: 0
-    text-align left
-    tr{
-      background-color: #fff
-      border-top: 1px solid #eee
-    }
-    tr th{
-      border-bottom: 0
-    }
-    th{
-      padding: 6px 18px
-      border: 1px solid #eee
-    }
-    tr:nth-child(2n) {
-      background-color: #fafafa
-    }
-    thead > tr{
-      background-color: #fafafa
-    }
-    td{
-      padding: 6px 18px
-      border: 1px solid #eee
-    }
+
+  tr:nth-child(2n) {
+    background-color $color_4
   }
-  .katex-display{
-    background-color #f8f8f8
-    padding 16px 0 10px
-    color #888
-    position relative
-    &:hover:after{
-      content "Katex"
-      position absolute
-      font-size .875em
-      right 0
-      top 0
-      text-transform capitalize
-      background-color #e5e5e5
-      padding 2px 10px
-      color #666
-    }
+
+  thead > tr {
+    background-color $color_4
   }
-  ul{
-    list-style disc
-    padding-left 2em
+
+  td {
+    padding 6px 18px
+    border 1px solid $color_4
+  }
+}
+
+.katex-display {
+  background-color $color_4
+  padding 16px 0 10px
+  color $color_3
+  position relative
+
+  &:hover:after {
+    content "Katex"
+    position absolute
+    font-size .875em
+    right 0
+    top 0
+    text-transform capitalize
+    background-color $color_4
+    padding 2px 10px
+    color $color_2
+  }
+}
+
+ul {
+  list-style disc
+  padding-left 2em
+  margin 1em 0
+
+  li {
     margin 1em 0
-    li{
-      margin 1em 0
+  }
+
+  input[type=checkbox] {
+    font-size 1em
+
+    &:after {
+      content '[ ]'
+      letter-spacing .3em
     }
-    input[type=checkbox] {
-      font-size 1em
-      &:after{
-        content '[ ]'
-        letter-spacing .3em
-      }
-      &:checked ~ * {
-        text-decoration: line-through
-      }
-      &:checked:after{
-        content '[x]'
-        letter-spacing .2em
-       }
+
+    &:checked ~ * {
+      text-decoration line-through
     }
-    :global{
-      .task-list-item{
-        list-style: circle
-      }
+
+    &:checked:after {
+      content '[x]'
+      letter-spacing .2em
     }
   }
-  a{
-    color $green
-    &:hover{
-      text-decoration underline
+
+  :global {
+    .task-list-item {
+      list-style circle
     }
   }
-  ol{
-    list-style decimal
-    padding-left 2em
+}
+
+a {
+  &:hover {
+    text-decoration underline
+  }
+}
+
+ol {
+  list-style decimal
+  padding-left 2em
+  margin 1em 0
+
+  li {
     margin 1em 0
-    li{
-      margin 1em 0
+  }
+}
+
+blockquote {
+  padding 0 0 0 25px
+  margin 1.4em 0
+  border-left 4px solid $color_4
+}
+
+img {
+  max-width 100%
+  object-fit cover
+  position relative
+}
+
+figure {
+  margin 0
+}
+
+figcaption {
+  margin-left auto
+  padding 10px 10px 6px
+  color $color_3
+  font-size .8rem
+  width fit-content
+}
+
+iframe {
+  width 104%
+  margin-left -2%
+}
+
+pre, code {
+  background-color $color_4
+  font-family 'DejaVu Sans Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+  font-size .875rem
+  box-sizing border-box
+}
+
+code {
+  padding 2px 6px
+  border 1px solid $color_4
+  margin 0 4px
+}
+
+hr {
+  margin 40px auto
+  border none
+  text-align center
+
+  &:after {
+    content "•••"
+    letter-spacing 10px
+    color $color_4
+  }
+}
+
+pre {
+  code {
+    padding 0
+    border 0
+    margin 0
+    background-color transparent
+  }
+}
+
+.gatsby-highlight {
+  background-color $color_4
+  border-radius 0.3em
+  margin 1.4em 0
+  position relative
+
+  &:hover:after {
+    content attr(data-language)
+    position absolute
+    right 0
+    top 0
+    text-transform lowercase
+    background-color $color_4
+    padding 2px 10px
+    font-size .875em
+    color $color_3
+  }
+
+  pre[class*="language-"] {
+    padding .8em 1em .8em 2.8em
+
+    code[class*="language-"] {
+      //border 1px dashed red
     }
-  }
-  blockquote{
-    padding 0 0 0 25px
-    margin 1.4em 0
-    border-left 4px solid #eee
-  }
-  img{
-    max-width 100%
-    object-fit cover
-    position relative
-  }
-  figcaption{
-    margin: 0 auto
-    border-bottom: 1px solid #d9d9d9
-    padding: 10px
-    color: #969696
-    width fit-content
-  }
-  iframe{
-    width 100%
-  }
-  pre, code{
-    background-color #f8f8f8
-    font-family 'DejaVu Sans Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
-    font-size .875rem
-    box-sizing: border-box
-  }
-  code{
-    padding 2px 6px
-    border: 1px solid #eaeaea
-    margin 0 4px
-  }
-  hr{
-    margin: 40px auto
-    border: none
-    text-align center
-    &:after{
-      content "•••"
-      letter-spacing 10px
-      color rgba(0,0,0,.44)
-    }
-  }
-  pre{
-    code{
-      padding 0
-      border: 0
-      margin 0
-    }
-  }
-  .gatsby-highlight {
-    background-color #f8f8f8
-    border-radius: 0.3em
-    margin: 1.4em 0
-    position relative
-    &:hover:after{
-      content attr(data-language)
-      position absolute
-      right 0
-      top 0
-      text-transform capitalize
-      background-color #e5e5e5
-      padding 2px 10px
-      font-size .875em
-      color #666
-    }
-    pre[class*="language-"]{
-      padding .8em 1em .8em 2.8em
-      code[class*="language-"]{
-        //border 1px dashed red
-      }
-      .line-numbers-rows{
-        border 0
-        padding .8em
-        span:before{
-          color #cecece
-        }
-      }
+
+    .line-numbers-rows {
+      border 0
+      padding .8em
     }
   }
 }

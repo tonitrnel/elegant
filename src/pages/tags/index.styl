@@ -1,29 +1,33 @@
-.tags{
-  h1{
-    font-size: 1.25em
-  }
-  .tags__list{
+@import "~@/assets/styles/variable.styl"
+.tags {
+  @import "../archives/common.styl"
+
+  .list {
     display block
-    li{
+
+    li {
       display inline-block
       margin 10px 10px 10px 0
       padding 10px
     }
-    a{
+
+    a {
       padding 6px 0
       position relative
-      &:after{
+
+      &:after {
         content ""
         width 100%
         height 1px
-        background-color #ccc
+        background-color $color_5
         position absolute
         left 0
         transition background-color .3s
         bottom 0
       }
-      &:hover:after{
-        background-color #666
+
+      &:hover:after {
+        background-color $color_3
       }
     }
   }

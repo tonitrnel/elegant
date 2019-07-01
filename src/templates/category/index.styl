@@ -1,33 +1,42 @@
-.category__title{
+@import "~@/assets/styles/variable.styl"
+.category {
+  @import "~@/pages/archives/common.styl"
 
-}
-.category__counter{
-  color #666
-  font-size 1em
-  margin 20px 0
-}
-.category__list{
-  padding 0 20px
-  position relative
-  display block
-  border-left  4px solid #eee
-  .category__item{
-    font-size .875em
-    margin 40px 0
-    small{
-      margin 0 10px
-    }
-    a{
-      color #aaa
-      span{
-        color #666
+  .list {
+    position relative
+    display block
+
+    .item {
+      font-size .875em
+      margin 40px 0
+
+      small {
+        margin 0 10px
       }
-    }
-    a:hover{
-      color #333
-      span{
-        color #333
-        text-decoration underline
+
+      a {
+        color $color_3
+
+        span {
+          color $color_2
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
+          display inline-block
+          width 62%
+          vertical-align top
+        }
+      }
+
+      a:hover {
+        span {
+          color $color_1
+          text-decoration underline
+          display inline-block
+        }
+        time {
+          color $color_1
+        }
       }
     }
   }

@@ -1,26 +1,136 @@
-.container{
-  width 800px
-  left: 200px
-  position relative
-  min-height 100%
-  @media screen and (max-width: 800px){
-    width 88%
-    margin 0 auto
-    left: 0
+@import "~@/assets/styles/variable.styl"
+
+wt(alpha) {
+  rgba(255, 255, 255, alpha)
+}
+.header {
+  position fixed
+  display flex
+  width 100%
+  z-index 99
+  padding 0
+  top 0
+  left 0
+  @media screen and (max-width: 890px){
+    display block
+    background linear-gradient(wt(1) 63%, wt(.69) 69%, wt(0) 100%)
   }
-  @media screen and (max-width: 750px){
-    width 100%
+  .title {
+    position absolute
+    margin 2em
+    font-weight normal
+    font-family "webfont" !important
+    a {
+      color #e5b161
+      writing-mode vertical-rl
+      user-select none
+    }
+    @media screen and (max-width: 890px){
+      position initial
+      margin 1em .5em 0
+      a {
+        writing-mode initial
+      }
+    }
+  }
+
+  .nav-bar {
+    padding 2em
+    flex 1
+    text-align right
+    background linear-gradient(wt(1) 63%, wt(.69) 69%, wt(0) 100%)
+    height 60px
+    @media screen and (max-width: 890px){
+      padding 0
+      text-align left
+    }
+    .item {
+      display inline-block
+      margin 1em
+      position relative
+      letter-spacing 4px
+      text-indent 4px
+      transition color .3s linear
+
+      a {
+        color inherit
+      }
+
+      &:hover {
+        color $color_1
+      }
+    }
+    .item__active {
+      pointer-events none
+      color $color_1
+      &::after {
+        content ""
+        position absolute
+        bottom -6px
+        height 2px
+        background-color $color_1
+        width 20%
+        left 0
+      }
+    }
+  }
+}
+
+.main {
+  display block
+  width 890px
+  padding 5em 2em 15em
+  left 10em
+  position relative
+  z-index 2
+  @media screen and (max-width: 890px){
+    width 88%
+    left 0
+    padding 9em 1em 15em
     margin 0 auto
     left: 0
   }
 }
-.main{
-  padding 20px
-  padding-bottom: 200px
-  box-sizing border-box
-  @media (max-width: 800px){
-    padding 10px
-    padding-bottom: 240px
-    padding-top: 60px
+
+.footer {
+  display block
+  width 100%
+  padding 20px 0
+  border-top 1px solid $color_4
+  position absolute
+  bottom 0
+
+  .footer-inner {
+    display block
+    margin 0 12em
+    font-size .875rem
+    color: $color_3
+    @media screen and (max-width: 890px){
+      margin 0 2em
+    }
+    a {
+      border-bottom: 1px solid transparent
+      text-decoration: none
+      color inherit
+      margin-right 10px
+      word-wrap: break-word
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color_1
+      color: $color_1
+    }
+  }
+
+  .copyright {
+    span {
+      margin-right 4px
+    }
+  }
+
+  .powered-by {
+    span {
+      margin-right 4px
+    }
   }
 }

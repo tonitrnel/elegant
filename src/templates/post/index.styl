@@ -1,65 +1,68 @@
-.post{
-  .post__data{
-    .post__title{
-      font-size 1.25em
-      color #333
-    }
-    .post__metadata{
-      font-size .875em
-      .post__category{
-        color #777
-      }
-      small{
-        margin-right: 10px;
-        margin-left: 10px;
-        color: #777;
-      }
-      .post__date{
-        color: #777;
-      }
-    }
-  }
-  .post__content{
-    padding 0 10px 2em 10px
-    :global{
-      .gatsby-resp-image-link{
-        width 110%
-        margin-left -5%
-        border-radius: 4px
-      }
-      figure{
-        margin 0
-      }
-      .gatsby-resp-image-image{
-        cursor zoom-in
-      }
-    }
-    @import "post.styl"
-  }
-  .post__modified{
-    color #999
+@import "~@/assets/styles/variable.styl"
+.post-title {
+  font-size 1.5rem
+  color $color_2
+  font-weight normal
+  text-transform capitalize
+}
+
+.post-metadata {
+  .post-category {
+    color $color_3
     font-size .875rem
-    display block
-    margin 2em 0 1em
   }
-  .post__tags{
-    margin 2em 0
-    font-size .875em
-    a{
-      padding 1px 5px
-      margin-right 1em
-      background #f5f5f5
-      display: inline-block;
-      line-height 26px
+
+  .create-date {
+    color $color_3
+    font-size .875rem
+  }
+
+  .modify-date {
+    color $color_3
+    font-size .875rem
+  }
+
+  small {
+    margin-right 10px
+    margin-left 10px
+    color $color_3
+    user-select none
+  }
+}
+
+.post-main {
+  margin 4em 0
+
+  :global {
+    @import "post.styl"
+
+    .gatsby-resp-image-link {
+      border-radius: 4px
+      width 104%
+      margin-left -2%
+      overflow hidden
     }
-    a:hover{
-      background #eee
+
+    .gatsby-resp-image-wrapper {
+      width 100%
+    }
+
+    .gatsby-resp-image-image {
+      cursor zoom-in
     }
   }
-  .post__nav{
-    border-top 1px solid #eee
-    padding 1em 0
-    display flex
-    justify-content space-between
+}
+
+.post-footer {
+  //display none
+
+  .tags, .nav {
+    margin 20px 0
+    font-size .875rem
+
+    a {
+      margin 0 8px
+      text-transform capitalize
+    }
   }
 }

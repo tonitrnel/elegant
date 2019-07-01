@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import Layout from '@/component/layout'
 import Container from '@/component/container'
 import classes from './index.styl'
 import _ from 'lodash'
@@ -24,33 +23,38 @@ export default (props: TagsPageProps) => {
   )
   const total = tags.map(value => value.totalCount).reduce((v, c) => v + c)
   return (
-    <Layout title='标签'>
-      <Container className={classes.tags}>
-        <h1>标签</h1>
-        <p>共使用 {tags.length} 个标签</p>
-        <ul className={classes.tags__list}>
-          {tags.map((tag, i) => (
-            <li key={i}>
-              <Link title={`${tag.fieldValue}下存在${tag.totalCount}篇文章`} to={`/tags/${_.kebabCase(tag.fieldValue)}`} style={{fontSize: `${12 + Math.ceil(tag.totalCount / total * 16)}px`, color: getColor(tag.totalCount / total)}}>
-                {tag.fieldValue}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </Layout>
+    <Container path="/archives" className={classes.tags} title='标签'>
+      <h1>标签</h1>
+      <p className={classes.counter}>{tags.length}个标签</p>
+      <p className={classes.link}>
+        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
+      </p>
+      <ul className={classes.list}>
+        {tags.map((tag, i) => (
+          <li key={i}>
+            <Link title={`${tag.fieldValue}下存在${tag.totalCount}篇文章`} to={`/tags/${_.kebabCase(tag.fieldValue)}`}
+                  style={{
+                    fontSize: `${12 + Math.ceil(tag.totalCount / total * 16)}px`,
+                    color: getColor(tag.totalCount / total)
+                  }}>
+              {tag.fieldValue}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Container>
   )
 }
-export const Query = graphql`
-  query {
-    allMarkdownRemark(
-      limit: 2000
-      filter: { fields: { status: { eq: true } } }
-    ) {
-      group(field: fields___tags) {
-        fieldValue
-        totalCount
-      }
+export const query = graphql`
+    query {
+        allMarkdownRemark(
+            limit: 2000
+            filter: { fields: { status: { eq: true } } }
+        ) {
+            group(field: fields___tags) {
+                fieldValue
+                totalCount
+            }
+        }
     }
-  }
 `

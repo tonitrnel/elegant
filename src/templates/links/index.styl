@@ -1,21 +1,26 @@
-.links{
+@import "~@/assets/styles/variable.styl"
+.links {
   .title {
     font-size: 1.25em
-    color: #333
+    color: $color_2
   }
-  .content{
+
+  .content {
     padding: 0 10px 2em 10px
-    a{
+
+    a {
       display: inline-block
       border-radius: 4px
       margin 10px 10px 10px 0
       text-align center
       line-height 40px
+      font-size .875rem
       position relative
       background-image: linear-gradient(to right, #434343 0%, black 100%)
       color transparent
       background-clip text
-      &:after, &:before{
+
+      &:after, &:before {
         content: ""
         position: absolute
         left: 0
@@ -23,18 +28,21 @@
         height: 1px
         width: 13%
         background-color: #333435
-        transition: opacity 0.25s ease,transform 0.25s ease,width 0.3s cubic-bezier(0.68, 0.05, 0.46, 1.02),left 0.2s 0.2s ease-out
+        transition: opacity 0.25s ease, transform 0.25s ease, width 0.3s cubic-bezier(0.68, 0.05, 0.46, 1.02), left 0.2s 0.2s ease-out
       }
-      &:after{
+
+      &:after {
         z-index: 10
         width: 30%
         background-color: #fff
         opacity: 0
       }
+
       &:hover:after {
         opacity: 1
         left: 100%
       }
+
       &:hover:before {
         width: 100%
       }

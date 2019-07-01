@@ -1,12 +1,16 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import Layout from '@/component/layout'
 import Container from '@/component/container'
 import preview from '@/component/preview_picture'
 import classes from './index.styl'
 import _ from 'lodash'
+import { ReactComponent as ModifyIcon } from '@/assets/images/modify.svg'
+import { ReactComponent as DateIcon } from '@/assets/images/date.svg'
+import { ReactComponent as CategoryIcon } from '@/assets/images/category.svg'
+import { ReactComponent as TagIcon } from '@/assets/images/tag.svg'
+import { ReactComponent as NavIcon } from '@/assets/images/nav.svg'
 import moment from 'moment'
-import Comments from '@/component/comments'
+import Comment from '@/component/comment'
 
 type Fields = {
   title: string
@@ -14,6 +18,7 @@ type Fields = {
   category: string
   date: string
   slug: string
+  comment: boolean
   status: boolean
 }
 interface PageProps {
@@ -29,10 +34,6 @@ interface PageProps {
     slug: string
     prev: Fields | null
     next: Fields | null
-    comment: {
-      appId: string
-      appKey: string
-    }
   }
 }
 type PostTagsComponentProps = {
@@ -46,7 +47,13 @@ const PostTagsComponent = (props: PostTagsComponentProps) => {
     .map((tag, i) => (
       <Link to={`/tags/${_.kebabCase(tag)}`} key={i} children={`# ${tag}`} />
     ))
-  return <div className={props.className}>{tags}</div>
+  if (tags.length === 0) return null
+  return (
+    <div className={props.className}>
+      <TagIcon className="icon" />
+      {tags}
+    </div>
+  )
 }
 type PostNavComponentProps = {
   next: PageProps['pageContext']['next']
@@ -54,33 +61,32 @@ type PostNavComponentProps = {
   className: string
 }
 const PostNavComponent = (props: PostNavComponentProps) => {
-  const next = props.next ? (
+  const next = props.next && (
     <Link
       title={`前往下一篇`}
       to={props.next.slug}
-      children={`${props.next.title} »`}
+      children={`${props.next.title}`}
     />
-  ) : (
-    ''
   )
-  const prev = props.prev ? (
+  const prev = props.prev && (
     <Link
       title={`前往上一篇`}
       to={props.prev.slug}
-      children={`« ${props.prev.title}`}
+      children={`${props.prev.title}`}
     />
-  ) : (
-    ''
   )
   return (
     <div className={props.className}>
-      {prev}
-      {next}
+      <NavIcon className="icon" />
+      {prev}{next}
     </div>
   )
 }
 
-const stylesHref = ['https://static.wktrf.com/styles/prism-line-numbers.css', 'https://static.wktrf.com/styles/katex.min.css', 'https://static.wktrf.com/styles/prism-solarizedlight.css']
+const stylesHref = [
+  'https://static.wktrf.com/styles/prism-line-numbers.css',
+  'https://static.wktrf.com/styles/katex.min.css'
+]
 
 export default class Post extends React.Component<PageProps> {
   render() {
@@ -88,62 +94,67 @@ export default class Post extends React.Component<PageProps> {
       data: { markdownRemark: posts },
       pageContext: {
         prev,
-        next,
-        comment: { appKey, appId }
+        next
       }
     } = this.props
     return (
-      <Layout styles={stylesHref} title={posts.fields.title} description={posts.excerpt}>
-        <Container>
-          <article className={classes.post}>
-            <div className={classes.post__data}>
-              <h1 className={classes.post__title}>{posts.fields.title}</h1>
-              <div className={classes.post__metadata}>
-                <Link
-                  className={classes.post__category}
-                  to={`/categories/${posts.fields.category}`}
-                >
-                  {posts.fields.category}
-                </Link>
-                <small>•</small>
-                <time
-                  className={classes.post__date}
-                  dateTime={posts.fields.rawDate}
-                >
-                  {posts.fields.date}
-                </time>
-              </div>
-            </div>
-            <div
-              className={classes.post__content}
-              onClick={preview}
-              dangerouslySetInnerHTML={{ __html: posts.html }}
-            />
-            <time
-              className={classes.post__modified}
-              dateTime={posts.fields.dateModified}
-            >
-              本文最后编辑于
-              {moment(posts.fields.dateModified).format('YYYY-MM-DD HH:mm')}分
-            </time>
+      <Container
+        styles={stylesHref}
+        title={posts.fields.title}
+        description={posts.excerpt}
+        path="/"
+      >
+        <article>
+          <header>
+            <h1 className={classes.postTitle}>{posts.fields.title}</h1>
+            <section className={classes.postMetadata}>
+              <Link
+                className={classes.postCategory}
+                to={`/categories/${posts.fields.category}`}
+                title="文章分类"
+              >
+                <CategoryIcon className="icon" />
+                <span>{posts.fields.category}</span>
+              </Link>
+              <small>/</small>
+              <time
+                className={classes.createDate}
+                dateTime={posts.fields.rawDate}
+                title="发布时间"
+              >
+                <DateIcon className="icon" />
+                <span>{posts.fields.date}</span>
+              </time>
+              <small>/</small>
+              <time
+                className={classes.modifyDate}
+                dateTime={posts.fields.dateModified}
+                title="更新时间"
+              >
+                <ModifyIcon className="icon" />
+                <span>{moment(posts.fields.dateModified).fromNow()}</span>
+              </time>
+            </section>
+          </header>
+          <main
+            className={classes.postMain}
+            onClick={preview}
+            dangerouslySetInnerHTML={{ __html: posts.html }}
+          />
+          <footer className={classes.postFooter}>
             <PostTagsComponent
               tags={posts.fields.tags}
-              className={classes.post__tags}
+              className={classes.tags}
             />
             <PostNavComponent
               next={next}
               prev={prev}
-              className={classes.post__nav}
+              className={classes.nav}
             />
-          </article>
-          <Comments
-            id={posts.id}
-            title={posts.fields.title}
-            appId={appId}
-            appKey={appKey}
-          />
-        </Container>
-      </Layout>
+          </footer>
+        </article>
+        <Comment enable={posts.fields.comment} />
+      </Container>
     )
   }
 }
@@ -161,6 +172,7 @@ export const query = graphql`
         dateModified
         slug
         status
+        comment
       }
       excerpt(pruneLength: 50)
     }

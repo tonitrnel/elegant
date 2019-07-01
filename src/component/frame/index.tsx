@@ -1,49 +1,52 @@
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import {StaticQuery, graphql} from 'gatsby'
-import { ReactNode, createContext } from 'react'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 import './index.styl'
-
-interface PageProps {
-  children: ReactNode
+export { default as inject } from './inject'
+export interface FrameProps {
+  children: React.ReactNode
   title?: string
   description?: string
   preConnect?: string | string[]
   dnsPrefetch?: string | string[]
   styles?: string | string[]
+  getGlobalData?: (globalData: GlobalDataProps) => void
 }
 interface QueryData {
   site: {
-    siteMetadata: {
+    metadata: {
       title: string
       description: string
       keywords: string
-      siteUrl: string
-      menu: {
+      url: string
+      navigate: {
         name: string
         path: string
       }[]
-      homeMenu: {
+      author: {
         name: string
-        path: string
-      }[]
+        note: string
+      }
     }
   }
 }
+moment.locale('zh-cn')
 
 const query = graphql`
   query {
       site {
-          siteMetadata {
+          metadata: siteMetadata {
               title
               description
               keywords
-              siteUrl
-              menu{
+              url
+              author{
                   name
-                  path
+                  note
               }
-              homeMenu{
+              navigate{
                   name
                   path
               }
@@ -52,23 +55,25 @@ const query = graphql`
   }
 `
 interface WrapperProps {
-  (props: PageProps): (siteData: QueryData) => ReactNode
+  (props: FrameProps): (siteData: QueryData) => React.ReactNode
 }
 export type MetaProps = JSX.IntrinsicElements['meta'][]
 export type LinkProps = JSX.IntrinsicElements['link'][]
-export type LayoutContextProps = QueryData['site']['siteMetadata']
-export const LayoutContext = createContext<LayoutContextProps | null>(null)
+export interface GlobalDataProps {
+  metadata?: QueryData['site']['metadata']
+}
+export const Global = React.createContext<GlobalDataProps | null>(null)
 // 为了接收两个组件的数据
 const Wrapper: WrapperProps = (props) => {
-  return ({site: {siteMetadata: data}}: QueryData) => {
+  return ({site: {metadata: metadata}}: QueryData) => {
     const meta: MetaProps = [
       {
         name: 'description',
-        content: props.description || data.description
+        content: props.description || metadata.description
       },
       {
         name: 'keywords',
-        content: data.keywords
+        content: metadata.keywords
       }
     ]
     const link: LinkProps = []
@@ -90,13 +95,20 @@ const Wrapper: WrapperProps = (props) => {
         link.push({href: styleHref, rel: "stylesheet", type: "text/css"})
       })
     }
-    const title = props.title ? `${props.title} - ${data.title}` : data.title
+    const title = props.title ? `${props.title} - ${metadata.title}` : metadata.title
+    const data: GlobalDataProps = {
+      metadata
+    }
+    if (props.getGlobalData) props.getGlobalData(data)
     return (
-      <LayoutContext.Provider value={data}>
+      <Global.Provider value={data}>
         <Helmet title={title} meta={meta} link={link} htmlAttributes={{lang: 'zh-CN'}} />
         {props.children}
-      </LayoutContext.Provider>
+      </Global.Provider>
     )
   }
 }
-export default (props: PageProps) => <StaticQuery query={query} render={Wrapper(props)}/>
+export function Frame(props: FrameProps) {
+  return <StaticQuery query={query} render={Wrapper(props)}/>
+}
+export default Frame
