@@ -1,22 +1,23 @@
 @import "~@/assets/styles/variable.styl"
-.preview{
+.preview {
   position fixed
   width 100vw
   height 100vh
   z-index 999
-  background-color rgba(255,255,255,.94)
+  background-color rgba(255, 255, 255, .94)
   overflow hidden
   top 0
   left 0
   cursor zoom-out
   animation fade .3s linear forwards
-  @media (max-width 800px){
+  $mediaMobile(@block {
     background-color #000
     img{
       max-width 100%
     }
-  }
-  .load-error, .loading{
+  })
+
+  .load-error, .loading {
     overflow: hidden
     font-size .875rem
     position: absolute
@@ -25,17 +26,20 @@
     padding .5em
     transform translate(-50%, -50%)
   }
-  .load-error{
+
+  .load-error {
     color #fc6470
     z-index 10
   }
-  .loading{
+
+  .loading {
     color: $color_3
     letter-spacing 2px
     opacity 0
     transition opacity .3s linear
     z-index 8
-    &:after{
+
+    &:after {
       content ""
       position absolute
       height 2px
@@ -47,41 +51,45 @@
       animation slide .8s -0.1s ease-in-out infinite
     }
   }
-  .img{
+
+  .img {
     position absolute
-    center()
+    $center()
     max-width 89%
     max-height 89%
     opacity 0
     transition opacity .3s linear
     z-index 9
   }
-  .hide{
+
+  .hide {
     opacity 0
   }
-  .show{
+
+  .show {
     opacity 1
   }
 }
 
-@keyframes fade{
-  from{
+@keyframes fade {
+  from {
     background transparent
     opacity 0
   }
-  to{
-    background-color rgba(255,255,255,.94)
+  to {
+    background-color rgba(255, 255, 255, .94)
     opacity 1
   }
 }
-@keyframes slide{
-  0%{
+
+@keyframes slide {
+  0% {
     transform translateX(-100%)
   }
-  50%{
+  50% {
     transform translateX(0)
   }
-  100%{
+  100% {
     transform translateX(100%)
   }
 }

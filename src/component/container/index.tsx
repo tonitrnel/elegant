@@ -59,7 +59,6 @@ export default function Container(props: ContainerProps) {
       </header>
       <main className={classname(classes.main, className)}>
         {children}
-        <ToTop hide={hideToTop}/>
       </main>
       <footer className={classes.footer}>
         <section className={classes.footerInner}>
@@ -79,7 +78,7 @@ export default function Container(props: ContainerProps) {
             </span>
             <span>
               Theme By{' '}
-              <a href="https://mostearly.com" title="前往mostearly.com">
+              <a href="https://github.com/mostearly/baijx" title="前往mostearly.com">
                 BaiJX
               </a>
             </span>
@@ -117,6 +116,7 @@ export default function Container(props: ContainerProps) {
             </span>
           </p>
         </section>
+        <ToTop hide={hideToTop}/>
       </footer>
     </Frame>
   )

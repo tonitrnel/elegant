@@ -1,10 +1,10 @@
 {
   "name": "mostearly",
-  "version": "1.0.0",
-  "description": "natural-soul's blog",
-  "main": "lib/index.ts",
+  "version": "1.0.2",
+  "description": "natural-spirit's blog",
+  "main": "src/html.tsx",
   "repository": "https://github.com/mostearly/blog.git",
-  "author": "natural_soul",
+  "author": "natural spirit",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -42,7 +42,6 @@
     "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.18",
     "katex": "^0.10.1",
-    "leancloud-storage": "^3.14.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "prismjs": "^1.16.0",
@@ -50,8 +49,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
-    "react-responsive": "^6.1.1",
-    "uuid": "^3.3.2"
+    "react-responsive": "^6.1.1"
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43",

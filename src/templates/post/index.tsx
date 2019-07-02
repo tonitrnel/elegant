@@ -129,7 +129,7 @@ export default class Post extends React.Component<PageProps> {
               <time
                 className={classes.modifyDate}
                 dateTime={posts.fields.dateModified}
-                title="更新时间"
+                title="最近修改"
               >
                 <ModifyIcon className="icon" />
                 <span>{moment(posts.fields.dateModified).fromNow()}</span>

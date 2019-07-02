@@ -3,6 +3,7 @@
 wt(alpha) {
   rgba(255, 255, 255, alpha)
 }
+
 .header {
   position fixed
   display flex
@@ -11,27 +12,29 @@ wt(alpha) {
   padding 0
   top 0
   left 0
-  @media screen and (max-width: 890px){
+
+  $mediaMobile(@block {
     display block
     background linear-gradient(wt(1) 63%, wt(.69) 69%, wt(0) 100%)
-  }
+  })
   .title {
     position absolute
     margin 2em
     font-weight normal
     font-family "webfont" !important
+
     a {
       color #e5b161
       writing-mode vertical-rl
       user-select none
     }
-    @media screen and (max-width: 890px){
+    $mediaMobile(@block {
       position initial
       margin 1em .5em 0
       a {
         writing-mode initial
       }
-    }
+    })
   }
 
   .nav-bar {
@@ -40,10 +43,11 @@ wt(alpha) {
     text-align right
     background linear-gradient(wt(1) 63%, wt(.69) 69%, wt(0) 100%)
     height 60px
-    @media screen and (max-width: 890px){
+    $mediaMobile(@block {
       padding 0
       text-align left
-    }
+    })
+
     .item {
       display inline-block
       margin 1em
@@ -60,9 +64,11 @@ wt(alpha) {
         color $color_1
       }
     }
+
     .item__active {
       pointer-events none
       color $color_1
+
       &::after {
         content ""
         position absolute
@@ -83,13 +89,18 @@ wt(alpha) {
   left 10em
   position relative
   z-index 2
-  @media screen and (max-width: 890px){
+  $mediaMobile(@block{
     width 88%
     left 0
     padding 9em 1em 15em
     margin 0 auto
-    left: 0
-  }
+  })
+  $mediaPad(@block{
+    width 69%
+    padding 9em 0 15em
+    margin 0 auto
+    left 0
+  })
 }
 
 .footer {
@@ -100,14 +111,20 @@ wt(alpha) {
   position absolute
   bottom 0
   z-index 3
+
   .footer-inner {
     display block
     margin 0 12em
     font-size .875rem
     color: $color_3
-    @media screen and (max-width: 890px){
+    $mediaMobile(@block {
       margin 0 2em
-    }
+    })
+
+    $mediaPad(@block {
+      margin 0 6em
+    })
+
     a {
       border-bottom: 1px solid transparent
       text-decoration: none
