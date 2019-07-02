@@ -30,6 +30,7 @@ type Rule = {
   pattern?: RegExp
   required?: boolean
   message?: string
+  validate?: (value: any) => Promise<boolean | string>
 }
 type Rules = {
   [filed: string]: Rule[]
@@ -41,6 +42,7 @@ interface CommentFormProps {
   mode: 'reply' | 'comment'
   onCancel?(): void
   emoji?: Emoji[]
+  onValidate?: Rule['validate']
 }
 interface Emoji {
   name: string
@@ -65,6 +67,17 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
   componentDidMount(): void {
     if (this.editor) {
       autosize(this.editor)
+    }
+    const userData = localStorage.getItem('__comment')
+    if (userData) {
+      const [nickname, email] = decodeURI(atob(userData)).split('::')
+      this.setState({
+        form: {
+          nickname,
+          email,
+          content: ''
+        }
+      })
     }
   }
 
@@ -171,6 +184,11 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
         if (rule.max && value.length > rule.max) throw new Error(rule.message)
         if (rule.pattern && !rule.pattern.test(value))
           throw new Error(rule.message)
+        if (rule.validate) {
+          const result = await rule.validate(form[filed])
+          if (result === false) throw new Error(rule.message)
+          if (typeof result === 'string') throw new Error(result)
+        }
       }
     }
     return form
@@ -184,6 +202,10 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
       const data = await this.validateFields()
       await this.props.onSubmit(data)
       this.setInfo('评论成功', 'success')
+      localStorage.setItem(
+        '__comment',
+        btoa(encodeURI(`${data.nickname}::${data.email}`))
+      )
       this.setField('content')('')
     } catch (e) {
       this.setInfo(e.message, 'error')
@@ -207,15 +229,25 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
       //   console.log('替换', selectionStart, selectionEnd)
       // }
       this.setField('content')(`${start} :${emojiName}: ${end}`)
+      const v = start.length + emojiName.length + 4
+      setTimeout(editor => {
+        editor.focus()
+        editor.setSelectionRange(v, v)
+      }, 0, this.editor)
     } else {
       // console.log('追加')
       this.setField('content')(`${content} :${emojiName}:`)
+      setTimeout(editor => editor.focus(), 0, this.editor)
     }
-    setTimeout(editor => editor.focus(), 0, this.editor)
     // console.log(emojiName, )
   }
+
+  componentWillUnmount(): void {
+    // 都卸载了，直接覆盖setState了
+    this.setState = () => void 0
+  }
   render() {
-    const { id, mode, onCancel, emoji } = this.props
+    const { id, mode, onCancel, emoji, onValidate } = this.props
     return (
       <form
         id={id}
@@ -268,7 +300,8 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
           label: '评论',
           rules: [
             { required: true, message: '请输入评论内容' },
-            { max: 300, message: '评论内容过长（最多300字）' }
+            { max: 300, message: '评论内容过长（最多300字）' },
+            { validate: onValidate, message: '验证不通过' }
           ]
         })(<textarea ref={ref => (this.editor = ref)} />)}
         {emoji && (
@@ -302,6 +335,7 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
 interface CommentProps {
   className?: string
   enable?: boolean
+  realtime?: boolean
 }
 
 type CommentItem = {
@@ -315,9 +349,9 @@ type CommentItem = {
 }
 const avatar = {
   cdn: 'https://gravatar.loli.net/avatar/',
-  ds: ['mp', 'identicon', 'monsterid', 'wavatar', 'robohash', 'retro', ''],
-  params: 'mp',
-  hide: false
+  ds: ['mp', 'identicon', 'monsterid', 'wavatar', 'robohash', 'retro', 'hide'],
+  params: 'retro',
+  version: 1.0
 }
 
 interface CommentList extends Omit<CommentItem, 'date'> {
@@ -344,6 +378,7 @@ export default class Comment extends React.Component<
   }
   id: string | null = null
   ip: string | null = null
+  unsubscribe: null | Function = null
   async loadEmoji() {
     const emoji: Emoji[] = await fetch(
       'https://static.wktrf.com/emoji/index.json'
@@ -392,7 +427,7 @@ export default class Comment extends React.Component<
   getId = async () => {
     const { pathname } = window.location
     if (this.id) return this.id
-    this.id = md5(pathname).toString()
+    this.id = md5(pathname.replace(/\/$/, '')).toString()
     return this.id
   }
   getIp = async () => {
@@ -404,13 +439,25 @@ export default class Comment extends React.Component<
     return ip
   }
   getCommentList = async () => {
-    const data = (await firebase.get(await this.getId())) as CommentItem[]
-    this.setState({
-      data: data.map(item => ({
-        ...item,
-        content: this.transitionText(item.content)
-      }))
-    })
+    const { realtime } = this.props
+    if (realtime) {
+      this.unsubscribe = firebase.on(await this.getId(), data => {
+        this.setState({
+          data: data.map(item => ({
+            ...item,
+            content: this.transitionText(item.content)
+          }))
+        })
+      })
+    } else {
+      const data = (await firebase.get(await this.getId())) as CommentItem[]
+      this.setState({
+        data: data.map(item => ({
+          ...item,
+          content: this.transitionText(item.content)
+        }))
+      })
+    }
   }
   generateItem = (data: CommentList[], parent?: CommentList) => {
     if (data.length === 0) return null
@@ -426,7 +473,7 @@ export default class Comment extends React.Component<
           <li key={index} id={`comment-${item.id}`} className={classes.item}>
             <div className={classes.avatar}>
               <img
-                src={`${avatar.cdn}${item.avatar}?d=${avatar.params}`}
+                src={`${avatar.cdn}${item.avatar}?d=${avatar.params}&v=${avatar.version}`}
                 alt={`${item.nickname}的头像`}
               />
             </div>
@@ -466,6 +513,7 @@ export default class Comment extends React.Component<
                 id={`reply-${item.id}`}
                 onSubmit={this.onComment}
                 onCancel={this.onCancelReply}
+                onValidate={this.onCheckContent}
                 emoji={emoji}
               />
             )}
@@ -475,6 +523,12 @@ export default class Comment extends React.Component<
       </ol>
     )
   }
+  componentWillUnmount(): void {
+    // 都卸载了，直接覆盖setState了
+    this.setState = () => void 0
+    if (this.unsubscribe) this.unsubscribe()
+  }
+
   componentDidUpdate(
     prevProps: Readonly<CommentProps>,
     prevState: Readonly<CommentState>,
@@ -543,7 +597,11 @@ export default class Comment extends React.Component<
       date,
       ua,
       parent: reply,
-      ip: await this.getIp()
+      ip: await this.getIp(),
+      la: navigator.language,
+      pt: decodeURI(location.pathname),
+      pu: decodeURI(location.href),
+      pl: navigator.platform
     }
     const result = await firebase.set(await this.getId(), comment)
     data.push({
@@ -551,11 +609,28 @@ export default class Comment extends React.Component<
       id: result.id,
       content: this.transitionText(content)
     })
-    this.setState({ data })
+    this.setState({
+      data: data.sort((p, n) =>
+        p.date > n.date ? -1 : p.date < n.date ? 1 : 0
+      )
+    })
   }
   onCancelReply = () => {
     this.setState({ reply: null })
     history.pushState(null, document.title, location.pathname)
+  }
+  onCheckContent = async (value: string) => {
+    const { data } = this.state
+    let content = value.replace(/:[\w\u4e00-\u9fa5]+:/g, '')
+    if (content.trim().length === 0) return '亲，不能光是表情哦!'
+    const regx = /[^\w\u4e00-\u9fa5]/g
+    content = content.replace(regx, '')
+    const checkRepeat = data.findIndex(item => {
+      regx.lastIndex = 0
+      return item.content.replace(regx, '') === content
+    })
+    if (checkRepeat >= 0) return '重复评论'
+    return true
   }
   render() {
     const { data, reply, emoji } = this.state
@@ -577,8 +652,14 @@ export default class Comment extends React.Component<
           <div className={classes.commentTips}>还没有评论，快来评论吧</div>
         )}
         {!reply && (
-          <CommentForm mode="comment" emoji={emoji} onSubmit={this.onComment} />
+          <CommentForm
+            mode="comment"
+            emoji={emoji}
+            onValidate={this.onCheckContent}
+            onSubmit={this.onComment}
+          />
         )}
+        <span className={classes.version}>Beta版</span>
       </section>
     )
   }

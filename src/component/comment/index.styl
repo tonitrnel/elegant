@@ -35,19 +35,14 @@
 }
 .comment-list {
   width 100%
-  margin-top 2em
+  margin-top 1em
   font-size .875rem
   .item {
     display flex
     flex-wrap wrap
-    border-bottom 1px solid $color_4
-    padding 2em 0
-    margin 1em 0
-
-    &:target {
-      border-bottom 1px solid $color_4
-    }
-
+    border-bottom 1px dashed $color_4
+    margin-top 1em
+    padding-top 1em
     &:last-of-type {
       border-bottom none
     }
@@ -55,8 +50,8 @@
 
   .avatar {
     display inline-block
-    width 2.8rem
-    height 2.8rem
+    width 2.8em
+    height 2.8em
     padding .2rem
     border 1px solid $color_4
     border-radius 50%
@@ -95,7 +90,7 @@
     }
 
     time {
-      font-size .875rem
+      font-size .875em
       color $color_3
     }
   }
@@ -122,7 +117,7 @@
 
   .content {
     color $color_3
-    font-size 1rem
+    font-size .875rem
     width 100%
     margin 1em 8px
     .emoji{
@@ -144,9 +139,15 @@
 
 .list-children {
   display block
-  margin-left 2rem
-
+  padding-left 2em
+  border-left 1px solid $color_4
+  .avatar{
+    width 2.2em
+    height 2.2em
+  }
   .list-children {
+    padding-left 0
+    border-left none
     margin 0
   }
 }
@@ -303,4 +304,10 @@
       color $color_2
     }
   }
+}
+.version{
+  font-size .75rem
+  float right
+  user-select none
+  color $color_3
 }
