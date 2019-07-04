@@ -64,20 +64,9 @@ export function Preview(props: PreviewProps) {
 export default function install(event: React.MouseEvent) {
   const { classList } = event.target as HTMLElement
   // 目前没发现a标签链接和img链接的区别
+  if (!classList.contains('gatsby-resp-image-link')) return void 0
   event.preventDefault()
-  let target: HTMLLinkElement
-  if (classList.contains('gatsby-resp-image-link')) {
-    event.preventDefault()
-    target = event.target as HTMLLinkElement
-  } else if (classList.contains('gatsby-resp-image-image')) {
-    event.preventDefault()
-    target = _.get(
-      event.target,
-      'parentElement.parentElement.parentElement'
-    ) as HTMLLinkElement
-  } else {
-    return
-  }
+  const target = event.target as HTMLLinkElement
   if (!target || typeof document !== 'object') return
   const node = document.createElement('section')
   ReactDOM.render(<Preview src={target.href} />, node)

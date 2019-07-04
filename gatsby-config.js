@@ -49,11 +49,11 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: "NaturalSoul's Blog",
-        short_name: 'NaturalSoul',
+        name: `${config.site.title}'s Blog`,
+        short_name: config.site.title,
         start_url: '/',
         background_color: '#ffffff',
-        theme_color: '#ffffff',
+        theme_color: '#e5b161',
         display: 'minimal-ui',
         icon: 'src/assets/images/favicon.png'
       }
