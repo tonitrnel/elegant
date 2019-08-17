@@ -432,8 +432,8 @@ export default class Comment extends React.Component<
   }
   getIp = async () => {
     if (this.ip) return this.id
-    const { ip } = await fetch('https://mostearly.com/api/ip').then(res =>
-      res.json()
+    const ip = await fetch('https://api.ip.sb/ip').then(res =>
+      res.text()
     )
     this.ip = ip
     return ip
@@ -638,7 +638,7 @@ export default class Comment extends React.Component<
     if (!enable)
       return (
         <section className={classes.comments}>
-          <h2 className={classes.closedTips}>Comments are closed</h2>
+          <h2 className={classes.closedTips}>评论已关闭</h2>
         </section>
       )
     return (
@@ -659,7 +659,7 @@ export default class Comment extends React.Component<
             onSubmit={this.onComment}
           />
         )}
-        <span className={classes.version}>Beta版</span>
+        <span className={classes.version}>Beta版 By firebase</span>
       </section>
     )
   }

@@ -49,11 +49,11 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `${config.site.title}'s Blog`,
+        name: `${config.site.title}`,
         short_name: config.site.title,
         start_url: '/',
         background_color: '#ffffff',
-        theme_color: '#e5b161',
+        theme_color: '#97d6f9',
         display: 'minimal-ui',
         icon: 'src/assets/images/favicon.png'
       }
@@ -120,7 +120,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-nprogress',
       options: {
-        color: '#e5b161'
+        color: '#97d6f9'
       }
     },
     'gatsby-plugin-typescript',

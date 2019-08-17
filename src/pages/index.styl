@@ -39,17 +39,6 @@
   }
 }
 
-@keyframes slide {
-  from {
-    opacity 0
-    transform translateY(20px)
-  }
-  to {
-    opacity 1
-    transform translateY(0px)
-  }
-}
-
 .post-header {
   margin-bottom 26px
 }
@@ -135,13 +124,26 @@
 
 .load-more {
   margin-top 2rem
-  font-size .875rem
+  font-size 1rem
   cursor pointer
   outline 0
-  padding 4px 4px 4px 8px
-  letter-spacing 4px
+  letter-spacing 2px
   font-family inherit
-  background-color $color_1
-  color #fff
-  border 4px solid $color_1
+  color $color_1
+  background-color transparent
+  border 0
+  padding-left .5em
+  border-left 2px solid $color_1
+}
+
+
+@keyframes slide {
+  from {
+    opacity 0
+    transform translateY(20px)
+  }
+  to {
+    opacity 1
+    transform translateY(0px)
+  }
 }

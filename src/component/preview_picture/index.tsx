@@ -9,7 +9,7 @@ const unmount = (node: HTMLDivElement) => {
   document.body.removeChild(node)
   document.documentElement.style.removeProperty('overflow')
 }
-const uninstall = () => {
+export function uninstall() {
   const target = document.querySelector<HTMLDivElement>(`.${classes.preview}`)
   if (!target) return void 0
   const container = target.parentElement as HTMLDivElement
@@ -20,7 +20,20 @@ const uninstall = () => {
 interface PreviewProps {
   src: string
 }
-
+function getDelegateTarget<T extends HTMLElement>(
+  target: any,
+  currentTarget: any,
+  classname: string
+): T | null {
+  if (!target || !currentTarget) return null
+  while (target !== currentTarget) {
+    if (target.matches(classname)) {
+      return target as T
+    }
+    target = target.parentNode as HTMLElement
+  }
+  return null
+}
 export function Preview(props: PreviewProps) {
   const [status, changeStatus] = React.useState(true)
   const [isError, changeIsError] = React.useState(false)
@@ -62,12 +75,14 @@ export function Preview(props: PreviewProps) {
   )
 }
 export default function install(event: React.MouseEvent) {
-  const { classList } = event.target as HTMLElement
   // 目前没发现a标签链接和img链接的区别
-  if (!classList.contains('gatsby-resp-image-link')) return void 0
-  event.preventDefault()
-  const target = event.target as HTMLLinkElement
+  const target = getDelegateTarget<HTMLLinkElement>(
+    event.target,
+    event.currentTarget,
+    'a.gatsby-resp-image-link'
+  )
   if (!target || typeof document !== 'object') return
+  event.preventDefault()
   const node = document.createElement('section')
   ReactDOM.render(<Preview src={target.href} />, node)
   document.body.append(node)

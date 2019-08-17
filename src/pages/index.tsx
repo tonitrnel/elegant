@@ -196,7 +196,7 @@ export default class Index extends React.Component<PageProps, PageState> {
           ))}
         </ol>
         <button
-          style={{ display: hasNextPage ? 'inline-black' : 'none' }}
+          style={{ display: hasNextPage ? 'inline-black' : 'none'  }}
           onClick={this.loadNextPage()}
           className={classes.loadMore}
         >

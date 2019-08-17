@@ -24,7 +24,7 @@ wt(alpha) {
     font-family "webfont" !important
 
     a {
-      color #e5b161
+      color $color_1
       writing-mode vertical-rl
       user-select none
     }
@@ -86,7 +86,7 @@ wt(alpha) {
   display block
   width 890px
   padding 5em 2em 15em
-  left 10em
+  margin 0 auto
   position relative
   z-index 2
   $mediaMobile(@block{
@@ -111,10 +111,10 @@ wt(alpha) {
   position absolute
   bottom 0
   z-index 3
-
   .footer-inner {
     display block
-    margin 0 12em
+    width 890px
+    margin 0 auto
     font-size .875rem
     color: $color_3
     $mediaMobile(@block {

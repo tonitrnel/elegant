@@ -1,5 +1,4 @@
 @import "~@/assets/styles/variable.styl"
-@import "prism_theme.styl"
 
 h1 {
   font-size 1.34em
@@ -130,8 +129,9 @@ ul {
 }
 
 a {
+  text-decoration underline
   &:hover {
-    text-decoration underline
+    color $color_2
   }
 }
 
@@ -154,7 +154,6 @@ blockquote {
 img {
   max-width 100%
   object-fit cover
-  position relative
 }
 
 figure {
@@ -176,15 +175,21 @@ iframe {
 
 pre, code {
   background-color $color_4
-  font-family 'DejaVu Sans Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+  font-family 'PT Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+  line-height 1.6
   font-size .875rem
+  border-radius 4px
   box-sizing border-box
+  @import "prism_theme.styl"
 }
 
-code {
+:not(pre) > code {
   padding 2px 6px
   border 1px solid $color_4
   margin 0 4px
+  border-radius: 2px
+  color $color_2
+  background-color $color_4
 }
 
 hr {
@@ -200,6 +205,7 @@ hr {
 }
 
 pre {
+  overflow auto
   code {
     padding 0
     border 0
@@ -219,8 +225,8 @@ pre {
     position absolute
     right 0
     top 0
-    text-transform lowercase
-    background-color $color_4
+    text-transform capitalize
+    background-color $color_5
     padding 2px 10px
     font-size .875em
     color $color_3

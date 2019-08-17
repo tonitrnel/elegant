@@ -1,4 +1,6 @@
 const { resolve } = require('path')
+const pinyin = require('pinyin')
+const segment = require('nodejieba')
 const $ = require('lodash')
 const moment = require('moment')
 const config = require('./config')
@@ -125,7 +127,21 @@ async function createPages({ actions, graphql }) {
     })
   }
 }
-
+function toPinyin(str) {
+  // 使用分词器和转换拼音工具将中文汉字转换为拼音
+  return str
+    .replace(/([\u4e00-\u9fa5]+)/g, char => {
+      return `-${segment
+        .cut(char)
+        .map(char =>
+          pinyin(char, {
+            style: pinyin.STYLE_NORMAL
+          }).join('')
+        )
+        .join('-')}-`
+    })
+    .replace(/^-|-$/g, '')
+}
 function onCreateNode(method) {
   const { node, getNode, actions } = method
   const { createNodeField } = actions
@@ -144,7 +160,8 @@ function onCreateNode(method) {
   const type = $.get(node, 'frontmatter.type') || 'post'
   const comment = $.get(node, 'frontmatter.comment')
   const slug =
-    path || `/post/${title.replace(/[^\w\u4e00-\u9fa5]/g, '').toLowerCase()}`
+    path ||
+    `/post/${toPinyin(title.replace(/[^\w\u4e00-\u9fa5]/g, '').toLowerCase())}`
   const map = {
     slug,
     date: moment(dateCreated).format(),

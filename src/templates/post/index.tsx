@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Container from '@/component/container'
-import preview from '@/component/preview_picture'
+import preview, { uninstall } from '@/component/preview_picture'
 import classes from './index.styl'
 import _ from 'lodash'
 import { ReactComponent as ModifyIcon } from '@/assets/images/modify.svg'
@@ -19,6 +19,7 @@ type Fields = {
   date: string
   slug: string
   comment: boolean
+  dateModified: string
   status: boolean
 }
 interface PageProps {
@@ -26,7 +27,7 @@ interface PageProps {
     markdownRemark: {
       id: string
       html: string
-      fields: Fields & { rawDate: string; dateModified: string }
+      fields: Fields
       excerpt: string
     }
   }
@@ -78,7 +79,8 @@ const PostNavComponent = (props: PostNavComponentProps) => {
   return (
     <div className={props.className}>
       <NavIcon className="icon" />
-      {prev}{next}
+      {prev}
+      {next}
     </div>
   )
 }
@@ -88,75 +90,75 @@ const stylesHref = [
   'https://static.wktrf.com/styles/katex.min.css'
 ]
 
-export default class Post extends React.Component<PageProps> {
-  render() {
-    const {
-      data: { markdownRemark: posts },
-      pageContext: {
-        prev,
-        next
-      }
-    } = this.props
-    return (
-      <Container
-        styles={stylesHref}
-        title={posts.fields.title}
-        description={posts.excerpt}
-        path="/"
-      >
-        <article>
-          <header>
-            <h1 className={classes.postTitle}>{posts.fields.title}</h1>
-            <section className={classes.postMetadata}>
-              <Link
-                className={classes.postCategory}
-                to={`/categories/${posts.fields.category}`}
-                title="文章分类"
-              >
-                <CategoryIcon className="icon" />
-                <span>{posts.fields.category}</span>
-              </Link>
-              <small>/</small>
-              <time
-                className={classes.createDate}
-                dateTime={posts.fields.rawDate}
-                title="发布时间"
-              >
-                <DateIcon className="icon" />
-                <span>{posts.fields.date}</span>
-              </time>
-              <small>/</small>
-              <time
-                className={classes.modifyDate}
-                dateTime={posts.fields.dateModified}
-                title="最近修改"
-              >
-                <ModifyIcon className="icon" />
-                <span>{moment(posts.fields.dateModified).fromNow()}</span>
-              </time>
-            </section>
-          </header>
-          <main
-            className={classes.postMain}
-            onClick={preview}
-            dangerouslySetInnerHTML={{ __html: posts.html }}
+export default function Post(props: PageProps) {
+  const {
+    data: { markdownRemark: posts },
+    pageContext: { prev, next }
+  } = props
+  React.useEffect(() => {
+    return () => uninstall()
+  })
+  const createDate = moment(posts.fields.date)
+  const modifyDate = moment(posts.fields.dateModified)
+  return (
+    <Container
+      styles={stylesHref}
+      title={posts.fields.title}
+      description={posts.excerpt}
+      path="/"
+    >
+      <article>
+        <header>
+          <h1 className={classes.postTitle}>{posts.fields.title}</h1>
+          <section className={classes.postMetadata}>
+            <Link
+              className={classes.postCategory}
+              to={`/categories/${posts.fields.category}`}
+              title={`分类在${posts.fields.category}下`}
+            >
+              <CategoryIcon className="icon" />
+              <span>{posts.fields.category}</span>
+            </Link>
+            <small>/</small>
+            <time
+              className={classes.createDate}
+              dateTime={posts.fields.date}
+              title={`发布于${createDate.format('MMMDo dddd aLT')}`}
+            >
+              <DateIcon className="icon" />
+              <span>{createDate.fromNow()}</span>
+            </time>
+            {modifyDate.isAfter(createDate) && (
+              <>
+                <small>/</small>
+                <time
+                  className={classes.modifyDate}
+                  dateTime={posts.fields.dateModified}
+                  title={`修改于${modifyDate.format('MMMDo dddd aLT')}`}
+                >
+                  <ModifyIcon className="icon" />
+                  <span>{modifyDate.fromNow()}</span>
+                </time>
+              </>
+            )}
+          </section>
+        </header>
+        <main
+          className={classes.postMain}
+          onClick={preview}
+          dangerouslySetInnerHTML={{ __html: posts.html }}
+        />
+        <footer className={classes.postFooter}>
+          <PostTagsComponent
+            tags={posts.fields.tags}
+            className={classes.tags}
           />
-          <footer className={classes.postFooter}>
-            <PostTagsComponent
-              tags={posts.fields.tags}
-              className={classes.tags}
-            />
-            <PostNavComponent
-              next={next}
-              prev={prev}
-              className={classes.nav}
-            />
-          </footer>
-        </article>
-        <Comment enable={posts.fields.comment} />
-      </Container>
-    )
-  }
+          <PostNavComponent next={next} prev={prev} className={classes.nav} />
+        </footer>
+      </article>
+      <Comment enable={posts.fields.comment} />
+    </Container>
+  )
 }
 export const query = graphql`
   query($slug: String!) {
@@ -167,8 +169,7 @@ export const query = graphql`
         title
         tags
         category
-        date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
-        rawDate: date
+        date
         dateModified
         slug
         status

@@ -1,9 +1,9 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Container from '@/component/container'
-import preview from '@/component/preview_picture'
 import Comment from '@/component/comment'
 import classes from './index.styl'
+import preview from '@/component/preview_picture'
 
 type Fields = {
   title: string
