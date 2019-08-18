@@ -66,7 +66,7 @@ export default function Container(props: ContainerProps) {
           <p>
             <span className={classes.copyright}>
               <span>{now.getFullYear()}</span>
-              <span>{author.name}. requiem.</span>
+              <span>{author.name}. </span>
             </span>
           </p>
           <p className={classes.poweredBy}>
