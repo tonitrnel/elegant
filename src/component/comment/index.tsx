@@ -432,8 +432,8 @@ export default class Comment extends React.Component<
   }
   getIp = async () => {
     if (this.ip) return this.id
-    const ip = await fetch('https://api.ip.sb/ip').then(res =>
-      res.text()
+    const {ip} = await fetch('https://api.ip.sb/geoip').then(res =>
+      res.json()
     )
     this.ip = ip
     return ip
