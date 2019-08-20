@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 const yaml = require('js-yaml')
 const fs = require('fs')
-const DIR = 'D://Writing'
+const DIR = 'D://blog'
 
 function load() {
   try {

@@ -142,16 +142,22 @@ function toPinyin(str) {
     })
     .replace(/^-|-$/g, '')
 }
+// remove slash
+function rs(str) {
+  return str.replace(/[\\/]/g, '')
+}
 function onCreateNode(method) {
   const { node, getNode, actions } = method
   const { createNodeField } = actions
   if (node.internal.type !== `MarkdownRemark`) return
   const file = getNode(node.parent)
+  const { dir } = file
+  const directory = rs(dir).replace(rs(config.dir), '')
   const dateCreated = $.get(node, 'frontmatter.date') || file.ctime
   const dateModified = $.get(node, 'frontmatter.modified') || file.mtime
   const title = $.get(node, 'frontmatter.title') || file.name
 
-  const category = $.get(node, 'frontmatter.category') || '默认'
+  const category = $.get(node, 'frontmatter.category') || directory || '默认'
   const thumbnail = $.get(node, 'frontmatter.thumbnail')
   const tags = $.get(node, 'frontmatter.tags')
 
@@ -171,7 +177,7 @@ function onCreateNode(method) {
     tags: $.isArray(tags) ? tags : [],
     status,
     type,
-    thumbnail: thumbnail ? `./${thumbnail.replace(/^\W+/g, '')}` : null,
+    thumbnail,
     comment: comment === undefined ? true : comment
   }
   for (let [name, value] of Object.entries(map)) {

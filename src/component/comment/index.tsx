@@ -646,7 +646,6 @@ export default class Comment extends React.Component<
         <h2 className={classes.commentTitle}>
           留言<i>|</i>评论
         </h2>
-        <p>Comments: {data.length}</p>
         {this.generateItem(this.transition(data))}
         {data.length === 0 && (
           <div className={classes.commentTips}>还没有评论，快来评论吧</div>
@@ -659,7 +658,7 @@ export default class Comment extends React.Component<
             onSubmit={this.onComment}
           />
         )}
-        <span className={classes.version}>Beta版 By firebase</span>
+        <span className={classes.version}>Beta版温馨提示：本评论使用Firebase存储，如果你不能访问Firebase则无法评论</span>
       </section>
     )
   }

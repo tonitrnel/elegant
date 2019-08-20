@@ -2,11 +2,13 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import Container from '@/component/container'
 import classes from './index.styl'
+import Comment from '@/component/comment'
 
 type Fields = {
   title: string
   slug: string
   status: boolean
+  comment: boolean
 }
 interface PageProps {
   data: {
@@ -31,6 +33,7 @@ export default class Post extends React.Component<PageProps> {
             dangerouslySetInnerHTML={{ __html: posts.html }}
           />
         </article>
+        <Comment enable={posts.fields.comment} />
       </Container>
     )
   }
@@ -43,6 +46,7 @@ export const query = graphql`
         title
         slug
         status
+        comment
       }
       excerpt(pruneLength: 50)
     }

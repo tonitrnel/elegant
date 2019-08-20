@@ -4,6 +4,8 @@
 
 一个使用TypeScript搭建的Gatsby项目
 
+命令行工具：[bmt](https://github.com/mostearly/bmt)
+
 ### 功能
 
 - 评论(基于Firebase)

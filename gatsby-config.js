@@ -21,6 +21,7 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
+          'gatsby-remark-copy-linked-files',
           {
             resolve: 'gatsby-remark-images',
             options: {
@@ -41,8 +42,7 @@ module.exports = {
               showLineNumbers: true
             }
           },
-          'gatsby-remark-katex',
-          'gatsby-remark-copy-linked-files'
+          'gatsby-remark-katex'
         ]
       }
     },
@@ -53,7 +53,7 @@ module.exports = {
         short_name: config.site.title,
         start_url: '/',
         background_color: '#ffffff',
-        theme_color: '#97d6f9',
+        theme_color: '#4c7b97',
         display: 'minimal-ui',
         icon: 'src/assets/images/favicon.png'
       }
@@ -120,7 +120,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-nprogress',
       options: {
-        color: '#97d6f9'
+        color: '#4c7b97'
       }
     },
     'gatsby-plugin-typescript',

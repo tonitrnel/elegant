@@ -36,7 +36,7 @@
     "gatsby-remark-copy-linked-files": "^2.1.6",
     "gatsby-remark-external-links": "^0.0.4",
     "gatsby-remark-images": "^3.1.12",
-    "gatsby-remark-katex": "^3.0.4",
+    "gatsby-remark-katex": "3.1.2",
     "gatsby-remark-prismjs": "^3.2.8",
     "gatsby-source-filesystem": "^2.0.29",
     "gatsby-transformer-remark": "^2.3.8",
@@ -51,7 +51,8 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
-    "react-responsive": "^6.1.1"
+    "react-responsive": "^6.1.1",
+    "js-yaml": "latest"
   },
   "devDependencies": {
     "@types/crypto-js": "^3.1.43",

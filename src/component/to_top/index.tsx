@@ -1,6 +1,5 @@
 import * as React from 'react'
 import classes from './index.styl'
-import { ReactComponent as IconUpArrow } from '@/assets/images/up_arrow.svg'
 import classname from '@/utils/classname'
 
 const onClick = () => {
@@ -9,6 +8,8 @@ const onClick = () => {
     behavior: 'smooth'
   })
 }
+const emoji = ['🍃','🍂','🍁','🍀','🕸','🌿','🌾','🐟','🦢','🌵','🌴','🌳','🌱','🌷','☘','🥦','🔥','☄','❄','💮','⚡','💦','🌬','🦀','🍄','🥀','🌰','🐧']
+const random = emoji[Math.floor(Math.random() * emoji.length)]
 
 export default (props: { hide: boolean }) => (
   <button
@@ -18,6 +19,6 @@ export default (props: { hide: boolean }) => (
     })}
     onClick={onClick}
   >
-    <IconUpArrow className="icon" />
+    {random}
   </button>
 )
