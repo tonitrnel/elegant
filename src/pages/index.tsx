@@ -189,7 +189,7 @@ export default class Index extends React.Component<PageProps, PageState> {
                     {post.node.fields.title}
                   </Link>
                 </h2>
-                <span style={{color: '#7f7f7f', fontSize: '14px'}}>{moment(post.node.fields.modify).fromNow()}</span>
+                <span>{moment(post.node.fields.rawDate).fromNow()}</span>
                 <p>{post.node.excerpt}</p>
               </main>
             </li>

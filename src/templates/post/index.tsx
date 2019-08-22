@@ -66,20 +66,21 @@ const PostNavComponent = (props: PostNavComponentProps) => {
     <Link
       title={`前往下一篇`}
       to={props.next.slug}
-      children={`${props.next.title}`}
+      children={`${props.next.title} >`}
     />
   )
   const prev = props.prev && (
     <Link
       title={`前往上一篇`}
       to={props.prev.slug}
-      children={`${props.prev.title}`}
+      children={`< ${props.prev.title}`}
     />
   )
   return (
     <div className={props.className}>
       <NavIcon className="icon" />
       {prev}
+      <small>-</small>
       {next}
     </div>
   )

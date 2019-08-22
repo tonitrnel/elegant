@@ -10,6 +10,7 @@ interface PageProps {
   body: string
   postBodyComponents: []
 }
+
 export default function HTML(props: PageProps) {
   return (
     <html {...props.htmlAttributes}>
@@ -23,9 +24,14 @@ export default function HTML(props: PageProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
         />
+        <link rel="stylesheet" href="/global.css"/>
         {props.headComponents}
       </head>
-      <body {...props.bodyAttributes}>
+      <body {...props.bodyAttributes}>  
+        <div className="loading">
+          <div className="loading-figure"></div>
+          <div className="loading-text">少女祈祷中.</div>
+        </div>
         {props.preBodyComponents}
         <div
           key={`body`}

@@ -11,6 +11,16 @@ interface ContainerProps extends Omit<FrameProps, 'getGlobalData'> {
   path?: string
 }
 
+
+export function destroy() {
+  const loading = document.querySelector<HTMLDivElement>('.loading')
+  if (loading && document) {
+    loading.style.setProperty('opacity', '0')
+    setTimeout(() => {
+      loading.parentNode && loading.parentNode.removeChild(loading)
+    }, 300)
+  }
+}
 export default function Container(props: ContainerProps) {
   const { className, children, path, ...frameProps } = props
   const now = new Date()
@@ -18,6 +28,7 @@ export default function Container(props: ContainerProps) {
   const [metadata, setMetadata] = React.useState<
     GlobalDataProps['metadata'] | any
   >({})
+  destroy()
   const toTopCheck = () => {
     window.requestAnimationFrame(() => {
       if (scrollY < 300) {

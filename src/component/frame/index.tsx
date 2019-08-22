@@ -63,6 +63,9 @@ export interface GlobalDataProps {
   metadata?: QueryData['site']['metadata']
 }
 export const Global = React.createContext<GlobalDataProps | null>(null)
+
+
+
 // 为了接收两个组件的数据
 const Wrapper: WrapperProps = (props) => {
   return ({site: {metadata: metadata}}: QueryData) => {

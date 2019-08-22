@@ -57,9 +57,15 @@
   .tags, .nav {
     margin 20px 0
     font-size .875rem
-
+    small {
+      color $color_5;
+      margin-right: 8px;
+    }
+    small:last-child{
+      display: none;
+    }
     a {
-      margin 0 8px
+      margin-right 8px
       text-transform capitalize
     }
   }

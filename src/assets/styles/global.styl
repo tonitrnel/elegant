@@ -1,87 +1,93 @@
-@import "variable.styl"
+@import 'variable.styl';
+
 @font-face {
   font-family: 'webfont';
   font-display: swap;
-  src: url('https://at.alicdn.com/t/webfont_vx3uw0u33js.eot'); /* IE9*/
-  src: url('https://at.alicdn.com/t/webfont_vx3uw0u33js.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-          url('https://at.alicdn.com/t/webfont_vx3uw0u33js.woff2') format('woff2'),
-          url('https://at.alicdn.com/t/webfont_vx3uw0u33js.woff') format('woff'), /* chrome、firefox */
-          url('https://at.alicdn.com/t/webfont_vx3uw0u33js.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-          url('https://at.alicdn.com/t/webfont_vx3uw0u33js.svg#站酷小薇体') format('svg'); /* iOS 4.1- */
+  src: url('https://at.alicdn.com/t/webfont_vx3uw0u33js.eot'); /* IE9 */
+  src: url('https://at.alicdn.com/t/webfont_vx3uw0u33js.eot?#iefix') format('embedded-opentype'), url('https://at.alicdn.com/t/webfont_vx3uw0u33js.woff2') format('woff2'), url('https://at.alicdn.com/t/webfont_vx3uw0u33js.woff') format('woff'), url('https://at.alicdn.com/t/webfont_vx3uw0u33js.ttf') format('truetype'), url('https://at.alicdn.com/t/webfont_vx3uw0u33js.svg#站酷小薇体') format('svg');
+  /* iOS 4.1- */
 }
-:global{
-  html, body{
-    padding 0
-    margin 0
-    -webkit-overflow-scrolling: touch
-    overflow-scrolling: touch
-    font-family: "PT Mono", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", "Source Han Serif SC", "PingFang SC", "Microsoft YaHei Mono", monospace
-    height 100%
-  }
-  html{
-    font-size: 16px
-    -webkit-font-smoothing antialiased
-    @media (max-width 890px){
-      font-size: 14px
+
+:global {
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+
+    @media (max-width: 890px) {
+      font-size: 14px;
     }
   }
-  body{
-    font-size 1rem
-    color: $color_3
+
+  body {
+    font-size: 1rem;
+    color: $color_3;
   }
-  ::selection{
-    background-color $color_1
-    color #fff
+
+  ::selection {
+    background-color: $color_1;
+    color: #fff;
   }
-  article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{
-    display: block
+
+  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
   }
+
   h2, h3, h4, h5, h6 {
-    margin: 20px 0 15px
+    margin: 20px 0 15px;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    position: relative
-    margin-top: 1em
-    margin-bottom: 1em
-    font-weight: bold
-    line-height: 1.4em
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-weight: bold;
+    line-height: 1.4em;
   }
-  input,textarea,button{
-    outline: none
-    -webkit-appearance: none
+
+  input, textarea, button {
+    outline: none;
+    -webkit-appearance: none;
   }
-  input[type=search]::-webkit-search-cancel-button{
-    -webkit-appearance: none
+
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
   }
-  ol,ul{
-    list-style: none
-    margin 0
-    padding 0
+
+  ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
+
   a {
-    text-decoration: none
-    position: relative
-    color: $color_3
-    &:hover{
-      color $color_1
+    text-decoration: none;
+    position: relative;
+    color: $color_3;
+
+    &:hover {
+      color: $color_1;
     }
   }
-  .wrapper{
-    background-color #fff
-    position relative
+
+  .wrapper {
+    background-color: #fff;
+    position: relative;
   }
-  .wrapper, div[tabindex][role="group"]{
-    outline 0
-    min-height 100%
+
+  .wrapper, div[tabindex][role='group'] {
+    outline: 0;
+    min-height: 100%;
   }
-  .icon{
-    width 1em
-    height 1em
-    padding 2px 8px 0
-    vertical-align -2px
-    fill $color_3
-    path{
-      fill inherit
+
+  .icon {
+    width: 1em;
+    height: 1em;
+    padding: 2px 8px 0;
+    vertical-align: -2px;
+    fill: $color_3;
+
+    path {
+      fill: inherit;
     }
   }
 }
