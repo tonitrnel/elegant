@@ -13,8 +13,9 @@ interface ContainerProps extends Omit<FrameProps, 'getGlobalData'> {
 
 
 export function destroy() {
+  if (typeof document !== 'object') return void 0
   const loading = document.querySelector<HTMLDivElement>('.loading')
-  if (loading && document) {
+  if (loading) {
     loading.style.setProperty('opacity', '0')
     setTimeout(() => {
       loading.parentNode && loading.parentNode.removeChild(loading)
