@@ -3,7 +3,8 @@ import Helmet from 'react-helmet'
 import {StaticQuery, graphql} from 'gatsby'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import './index.styl'
+import "./index.styl"
+
 export { default as inject } from './inject'
 export interface FrameProps {
   children: React.ReactNode

@@ -1,50 +1,61 @@
+html, body{
+  padding: 0;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  font-family: 'PT Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'Microsoft YaHei Mono', monospace;
+  height: 100%;
+}
+.loading{
+  position: fixed;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  text-align: center;
+  transition: opacity .3s linear;
+  animation: show 1s ease-in-out infinite;
+  animation-delay: 1s;
+  opacity: 0;
+}
 
-  html, body {
-    padding: 0;
-    margin: 0;
-    -webkit-overflow-scrolling: touch;
-    overflow-scrolling: touch;
-    font-family: 'PT Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei Mono', monospace;
-    height: 100%;
+.hide {
+  opacity: 0;
+}
+
+.hide div {
+  opacity: 0;
+}
+
+@keyframes show {
+  from {
+    opacity: 0.4;
   }
-  .loading {
-    position: fixed;
-    pointer-events: none;
-    width: 100vw;
-    height: 100vh;
-    background-color: #fff;
-    left: 0;
-    top: 0;
-    z-index: 9999;
-    text-align: center;
-    transition: opacity .3s linear;
-    animation: show 1s ease-in-out infinite;
+  to {
+    opacity: 1;
   }
-  @keyframes show{
-    from {
-      opacity: 0.4;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  .loading-figure {
-    width: 0;
-    height: 0;
-    border-top: 12px solid #bbb;
-    border-left: 12px solid #aaa;
-    border-right: 12px solid #eee;
-    border-bottom: 12px solid #ccc;
-    margin: 40vh auto 0;
-    border-radius: 12px 0 12px 0;
-    transform: skewX(-14deg);
-    box-shadow: 2px 3px 5px -4px #666;
-  }
-  
-  .loading-text {
-    color: #999;
-    font-size: 0.75em;
-    margin-top: 10px;
-    letter-spacing: 2px;
-    text-indent: 2px;
-  }
+}
+
+.loading-figure {
+  width: 0;
+  height: 0;
+  border-top: 12px solid #bbb;
+  border-left: 12px solid #aaa;
+  border-right: 12px solid #eee;
+  border-bottom: 12px solid #ccc;
+  margin: 40vh auto 0;
+  border-radius: 12px 0 12px 0;
+  transform: skewX(-14deg);
+  box-shadow: 2px 3px 5px -4px #666;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 0.75em;
+  margin-top: 10px;
+  letter-spacing: 2px;
+  text-indent: 2px;
+}

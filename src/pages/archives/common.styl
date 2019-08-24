@@ -4,7 +4,6 @@ h1 {
 }
 
 .link {
-  font-size .875rem
   margin 1em 0 2em
   color $color_5
 
@@ -13,13 +12,14 @@ h1 {
   }
 
   a {
-    margin 8px
     letter-spacing 2px
+  }
+  a[aria-current]{
+    text-decoration $color_5 underline wavy
   }
 }
 
 .counter {
   color $color_3
-  font-size .875rem
   margin 1em 0 2em
 }

@@ -230,10 +230,14 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
       // }
       this.setField('content')(`${start} :${emojiName}: ${end}`)
       const v = start.length + emojiName.length + 4
-      setTimeout(editor => {
-        editor.focus()
-        editor.setSelectionRange(v, v)
-      }, 0, this.editor)
+      setTimeout(
+        editor => {
+          editor.focus()
+          editor.setSelectionRange(v, v)
+        },
+        0,
+        this.editor
+      )
     } else {
       // console.log('追加')
       this.setField('content')(`${content} :${emojiName}:`)
@@ -241,7 +245,38 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
     }
     // console.log(emojiName, )
   }
-
+  componentDidUpdate(prevProps: CommentFormProps) {
+    const { emoji } = this.props
+    if (emoji && emoji !== prevProps.emoji && emoji.length > 0) {
+      const all_emoji = document.querySelectorAll<HTMLImageElement>(
+        `.${classes.emojiItem} img`
+      )
+      if ('loading' in HTMLImageElement.prototype) {
+        all_emoji.forEach(item => {
+          if (item.dataset.origin) {
+            item.src = item.dataset.origin
+            item.removeAttribute('data-origin')
+          }
+        })
+        return void 0
+      }
+      const ob = new IntersectionObserver(items => {
+        items.forEach(item => {
+          if (item.isIntersecting || item.intersectionRatio > 0) {
+            const target = item.target as HTMLImageElement
+            if (target.dataset.origin) {
+              target.src = target.dataset.origin
+              target.removeAttribute('data-origin')
+            }
+            ob.unobserve(target)
+          }
+        })
+      })
+      Array.from(all_emoji).forEach(item => {
+        ob.observe(item)
+      })
+    }
+  }
   componentWillUnmount(): void {
     // 都卸载了，直接覆盖setState了
     this.setState = () => void 0
@@ -314,8 +349,8 @@ class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
                 key={index}
               >
                 <img
-                  src={item.src}
                   draggable={false}
+                  {...{ 'data-origin': item.src, loading: 'lazy' }}
                   alt={`表情${item.name}`}
                 />
               </li>
@@ -432,7 +467,7 @@ export default class Comment extends React.Component<
   }
   getIp = async () => {
     if (this.ip) return this.id
-    const {ip} = await fetch('https://api.ip.sb/geoip').then(res =>
+    const { ip } = await fetch('https://api.ip.sb/geoip').then(res =>
       res.json()
     )
     this.ip = ip
@@ -658,7 +693,7 @@ export default class Comment extends React.Component<
             onSubmit={this.onComment}
           />
         )}
-        <span className={classes.version}>Beta版温馨提示：本评论使用Firebase存储，如果你不能访问Firebase则无法评论</span>
+        <span className={classes.version}>Beta版使用Firebase存储</span>
       </section>
     )
   }

@@ -16,7 +16,7 @@ export function destroy() {
   if (typeof document !== 'object') return void 0
   const loading = document.querySelector<HTMLDivElement>('.loading')
   if (loading) {
-    loading.style.setProperty('opacity', '0')
+    loading.classList.add('hide')
     setTimeout(() => {
       loading.parentNode && loading.parentNode.removeChild(loading)
     }, 300)
@@ -77,8 +77,9 @@ export default function Container(props: ContainerProps) {
           <p>{author.note}</p>
           <p>
             <span className={classes.copyright}>
-              <span>{now.getFullYear()}</span>
-              <span>{author.name}. </span>
+              <span>&copy;</span>
+              <span>2017 - {now.getFullYear()}</span>
+              <span>{author.name}.</span>
             </span>
           </p>
           <p className={classes.poweredBy}>
