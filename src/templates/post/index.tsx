@@ -11,6 +11,7 @@ import { ReactComponent as TagIcon } from '@/assets/images/tag.svg'
 import { ReactComponent as NavIcon } from '@/assets/images/nav.svg'
 import moment from 'moment'
 import Comment from '@/component/comment'
+import installAudioPlayer from '@/component/audio-player'
 
 type Fields = {
   title: string
@@ -97,6 +98,10 @@ export default function Post(props: PageProps) {
     pageContext: { prev, next }
   } = props
   React.useEffect(() => {
+    const audios = document.querySelectorAll<HTMLAudioElement>(
+      `.${classes.postMain} audio`
+    )
+    installAudioPlayer(audios)
     return () => uninstall()
   })
   const createDate = moment(posts.fields.date)
