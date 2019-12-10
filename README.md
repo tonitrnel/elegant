@@ -1,19 +1,17 @@
-## 博客
+## Elegant 素雅
 
 参考：[https://mostearly.com](https://mostearly.com)
 
-一个使用TypeScript搭建的Gatsby项目
+一个使用TypeScript搭建的Gatsby主题项目
 
-命令行工具：[bmtgi](https://github.com/mostearly/bmt)
+可搭配命令行工具：[BlogCommander](https://github.com/Piecego/BlogCommander)
 
 ### 功能
 
-- 评论(基于Firebase)
+- 评论(基于Firebase/LeanCloud)
 - 分页
 - 生成RSS
 - 生成SiteMap
-
-其他功能将逐步添加
 
 ### 结构
 
@@ -34,7 +32,7 @@
 
    编辑`config/index.js`文件中的`path`字段，项目使用了`gatsby-transformer-remark`解析Markdown文档，这个字段存放的为你的文章存放文件夹
    
-   例如：`C://Users/user/Documents/posts`
+   例如：`C://Users/[user]/Documents/posts`
 
 2. 安装项目依赖
 
@@ -66,12 +64,14 @@
    
    - type: 文章的类型，用于使用对应模板，默认为`post`，可能的值为: `about`, `links`
    
-   - comment: 是否启用评论，默认启用, 评论使用Firebase, 需要修改src/components/comment/firebase文件的firebase配置
+   - comment: 是否启用评论，默认启用
+   
+   - excerpt: 摘抄
 
    运行开发模式：
 
    ```powershell
-   yarn run develop
+   yarn run dev
    ```
 
    运行构建模式：
@@ -84,13 +84,17 @@
 
 - 修改通用颜色
 
-  gatsby-config.js、src/assets/styles/variable.styl文件
+  gatsby-config.js、src/assets/styles/common.styl文件
 
-- 修改首页标题字体
+### 常见问题
 
-  src/assets/styles/global.styl文件
+- `gatsby-plugin-sharp`
 
-  阿里在线字体
+  无法安装
 
-  修改后需重新运行命令
+  下载[https://github.com/lovell/sharp-libvips/releases](https://github.com/lovell/sharp-libvips/releases)对应版本包放在`C://Users/[USER]/AppData/Roaming\npm-cache\_libvips`
+
+  安装`sharp`
+
+  再安装`gatsby-plugin-sharp`
 

@@ -1,0 +1,11 @@
+{
+  "extends": ["plugin:prettier/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true
+  }
+}

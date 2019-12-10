@@ -6,44 +6,44 @@ import classes from './index.styl'
 import moment from 'moment'
 
 export const query = graphql`
-  query($limit: Int) {
-    posts: allMarkdownRemark(
-      filter: { fields: { status: { eq: true }, type: { eq: "post" } } }
-      sort: { order: DESC, fields: [fields___date] }
-      skip: 0
-      limit: $limit
-    ) {
-      edges {
-        node {
-          fields {
-            slug
-            title
-            date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
-            rawDate: date
-            modify: dateModified
-            day: date(formatString: "DD", locale: "zh-CN")
-            month: date(formatString: "MMMM", locale: "zh-CN")
-            thumbnail {
-              childImageSharp {
-                fluid {
-                  base64
-                  aspectRatio
-                  src
-                  srcSet
-                  srcWebp
-                  srcSetWebp
-                  sizes
+    query($limit: Int) {
+        posts: allMarkdownRemark(
+            filter: { fields: { status: { eq: true }, type: { eq: "post" } } }
+            sort: { order: DESC, fields: [fields___date] }
+            skip: 0
+            limit: $limit
+        ) {
+            edges {
+                node {
+                    fields {
+                        slug
+                        title
+                        date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
+                        rawDate: date
+                        modify: dateModified
+                        excerpt
+                        day: date(formatString: "DD", locale: "zh-CN")
+                        month: date(formatString: "MMMM", locale: "zh-CN")
+                        thumbnail {
+                            childImageSharp {
+                                fluid {
+                                    base64
+                                    aspectRatio
+                                    src
+                                    srcSet
+                                    srcWebp
+                                    srcSetWebp
+                                    sizes
+                                }
+                            }
+                        }
+                        category
+                    }
                 }
-              }
             }
-            category
-          }
-          excerpt
+            totalCount
         }
-      }
-      totalCount
     }
-  }
 `
 type ChildImageSharp = {
   childImageSharp: {
@@ -60,6 +60,7 @@ type Fields = {
   day: string
   month: string
   category: string
+  excerpt?: string
   thumbnail: ChildImageSharp | null
 }
 
@@ -69,7 +70,6 @@ interface PageProps {
       edges: {
         node: {
           fields: Fields
-          excerpt: string
         }
       }[]
       totalCount: number
@@ -89,11 +89,11 @@ const FeaturedImage = ({ fields }: { fields: Fields }) => {
     />
   )
 }
+
 interface PageState {
   posts: {
     node: {
       fields: Fields
-      excerpt: string
     }
     rate: number
   }[]
@@ -102,6 +102,7 @@ interface PageState {
   totalCount: number
   hasNextPage: boolean
 }
+
 export default class Index extends React.Component<PageProps, PageState> {
   state: PageState = {
     posts: [],
@@ -124,6 +125,20 @@ export default class Index extends React.Component<PageProps, PageState> {
       hasNextPage: Math.ceil(posts.totalCount / limit) > 1
     }
   }
+
+  reorder = (arr: any[], columns: number) => {
+    const cols = columns
+    const out: any[] = []
+    let col = 0
+    while (col < cols) {
+      for (let i = 0; i < arr.length; i += cols) {
+        let _val = arr[i + col]
+        if (_val !== undefined) out.push(_val)
+      }
+      col++
+    }
+    return out
+  }
   loadNextPage = () => {
     let loading = false
     return async () => {
@@ -139,7 +154,7 @@ export default class Index extends React.Component<PageProps, PageState> {
         this.setState({
           index: currentIndex,
           posts: posts.concat(
-            data.edges.map((item, index) => ({ ...item, rate: index }))
+            data.edges.map((d, i) => ({ ...d, rate: i }))
           ),
           hasNextPage: Math.ceil(data.totalCount / limit) > currentIndex + 1
         })
@@ -150,6 +165,7 @@ export default class Index extends React.Component<PageProps, PageState> {
       loading = false
     }
   }
+
   render() {
     const { posts, hasNextPage } = this.state
     return (
@@ -182,7 +198,7 @@ export default class Index extends React.Component<PageProps, PageState> {
                   {post.node.fields.category}
                 </Link>
               </header>
-              <FeaturedImage fields={post.node.fields} />
+              <FeaturedImage fields={post.node.fields}/>
               <main className={classes.postMain}>
                 <h2>
                   <Link to={post.node.fields.slug}>
@@ -190,13 +206,13 @@ export default class Index extends React.Component<PageProps, PageState> {
                   </Link>
                 </h2>
                 <span>{moment(post.node.fields.rawDate).fromNow()}</span>
-                <p>{post.node.excerpt}</p>
+                <p>{post.node.fields.excerpt}</p>
               </main>
             </li>
           ))}
         </ol>
         <button
-          style={{ display: hasNextPage ? 'inline-black' : 'none'  }}
+          style={{ display: hasNextPage ? 'inline-black' : 'none' }}
           onClick={this.loadNextPage()}
           className={classes.loadMore}
         >

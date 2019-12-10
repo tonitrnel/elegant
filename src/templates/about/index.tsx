@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import Container from '@/component/container'
 import Comment from '@/component/comment'
 import classes from './index.styl'
-import preview from '@/component/preview_picture'
+import installLightBox from '@/component/light-box'
 
 type Fields = {
   title: string
@@ -39,11 +39,11 @@ export default (props: PageProps) => {
         <h1 className={classes.title}>{posts.fields.title}</h1>
         <div
           className={classes.content}
-          onClick={preview}
+          onClick={installLightBox}
           dangerouslySetInnerHTML={{ __html: posts.html }}
         />
       </article>
-      <Comment enable={posts.fields.comment} />
+      <Comment id={posts.id} enable={posts.fields.comment} />
     </Container>
   )
 }

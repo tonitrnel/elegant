@@ -1,7 +1,5 @@
-@import "~@/assets/styles/variable.styl"
+@import "~@/assets/styles/common.styl"
 .tags {
-  @import "../archives/common.styl"
-
   .list {
     display block
 
@@ -13,8 +11,6 @@
       padding 6px 0
       position relative
       margin 20px 20px 20px 0
-      background-image: linear-gradient(to right, $color_3 0%, $color_2 100%)
-      color transparent
       background-clip text
 
       &:after, &:before {
@@ -24,7 +20,7 @@
         bottom: -2px
         height: 1px
         width: 13%
-        background-color: $color_3
+        background-color $cr_text_2nd
         transition: opacity 0.25s ease, transform 0.25s ease, width 0.3s cubic-bezier(0.68, 0.05, 0.46, 1.02), left 0.2s 0.2s ease-out
       }
 

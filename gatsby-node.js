@@ -17,6 +17,7 @@ function exit(message, stack) {
   stack && console.log(stack)
   process.exit()
 }
+
 function warn(message, stack) {
   console.warn(
     `☞=> ${message} in gatsby-node.js` ||
@@ -24,6 +25,7 @@ function warn(message, stack) {
   )
   stack && console.log(stack)
 }
+
 async function createPages({ actions, graphql }) {
   const { createPage } = actions
   // query all post
@@ -127,6 +129,7 @@ async function createPages({ actions, graphql }) {
     })
   }
 }
+
 function toPinyin(str) {
   // 使用分词器和转换拼音工具将中文汉字转换为拼音
   return str
@@ -142,10 +145,12 @@ function toPinyin(str) {
     })
     .replace(/^-|-$/g, '')
 }
+
 // remove slash
 function rs(str) {
   return str.replace(/[\\/]/g, '')
 }
+
 function onCreateNode(method) {
   const { node, getNode, actions } = method
   const { createNodeField } = actions
@@ -165,6 +170,7 @@ function onCreateNode(method) {
   const path = $.get(node, 'frontmatter.path')
   const type = $.get(node, 'frontmatter.type') || 'post'
   const comment = $.get(node, 'frontmatter.comment')
+  const excerpt = $.get(node, 'frontmatter.excerpt')
   const slug =
     path ||
     `/post/${toPinyin(title.replace(/[^\w\u4e00-\u9fa5]/g, '').toLowerCase())}`
@@ -178,17 +184,31 @@ function onCreateNode(method) {
     status,
     type,
     thumbnail,
+    excerpt,
     comment: comment === undefined ? true : comment
   }
   for (let [name, value] of Object.entries(map)) {
     createNodeField({ node, name, value })
   }
 }
+
 /***
  * 定义WebPack配置
  */
-function onCreateWebpackConfig({ actions }) {
+function onCreateWebpackConfig({ stage, loaders, actions }) {
   const { setWebpackConfig } = actions
+  if (stage === 'build-html') {
+    setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /leancloud-storage/,
+            use: loaders.null()
+          }
+        ]
+      }
+    })
+  }
   setWebpackConfig({
     //  解决ts设置的paths无效
     resolve: {

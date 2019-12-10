@@ -1,12 +1,12 @@
-@import "~@/assets/styles/variable.styl"
+@import "~@/assets/styles/common.styl"
 
 h1 {
   font-size 1.34rem
-  color $color_2
+  color $cr_text
 }
 h1, h2, h3, h4, h5, h6{
   font-weight normal
-  color $color_2
+  color $cr_text
   letter-spacing 0.5px
   line-height 1.225em
   margin-bottom 2.275rem
@@ -15,17 +15,17 @@ h1, h2, h3, h4, h5, h6{
 }
 h2 {
   font-size 1.21rem
-  color $color_2
+  color $cr_text
 }
 
 h3 {
   font-size 1.13rem
-  color $color_2
+  color $cr_text
 }
 
 h4 {
   font-size 1.08rem
-  color $color_2
+  color $cr_text
 }
 
 p {
@@ -40,7 +40,7 @@ table {
 
   tr {
     background-color #fff
-    border-top 1px solid $color_2
+    border-top 1px solid $cr_text
   }
 
   tr th {
@@ -49,27 +49,27 @@ table {
 
   th {
     padding 6px 18px
-    border 1px solid $color_4
+    border 1px solid $cr_line
   }
 
   tr:nth-child(2n) {
-    background-color $color_4
+    background-color $cr_line
   }
 
   thead > tr {
-    background-color $color_4
+    background-color $cr_line
   }
 
   td {
     padding 6px 18px
-    border 1px solid $color_4
+    border 1px solid $cr_line
   }
 }
 
 .katex-display {
-  background-color $color_4
+  background-color $cr_line
   padding 16px 0 10px
-  color $color_3
+  color $cr_text
   position relative
 
   &:hover:after {
@@ -79,9 +79,9 @@ table {
     right 0
     top 0
     text-transform capitalize
-    background-color $color_4
+    background-color $cr_line
     padding 2px 10px
-    color $color_2
+    color $cr_text
   }
 }
 audio{
@@ -123,9 +123,10 @@ ul {
 }
 
 a {
+  color $cr_text
   text-decoration underline
   &:hover {
-    color $color_2
+    color $cr_main
   }
 }
 em{
@@ -145,7 +146,7 @@ ol {
 blockquote {
   padding 0 0 0 25px
   margin 1.4em 0
-  border-left 4px solid $color_4
+  border-left 4px solid $cr_line
 }
 
 img {
@@ -160,7 +161,7 @@ figure {
 figcaption {
   margin-left auto
   padding 10px 10px 6px
-  color $color_3
+  color $cr_text
   font-size .8rem
   width fit-content
 }
@@ -171,21 +172,21 @@ iframe {
 }
 
 pre, code {
-  background-color $color_4
+  background-color #263238
   font-family Consolas, Monaco, 'Ubuntu Mono', 'PingFang SC', 'Microsoft YaHei Mono', monospace
+  font-size 14px;
   line-height 1.6
-  border-radius 4px
   box-sizing border-box
-  @import "prism_theme.styl"
+  @import "code.styl"
 }
 
 :not(pre) > code {
   padding 2px 6px
-  border 1px solid $color_4
+  border 1px solid $cr_line
   margin 0 4px
   border-radius: 2px
-  color $color_2
-  background-color $color_4
+  color $cr_text_2nd
+  background-color $cr_bg
 }
 
 hr {
@@ -196,7 +197,7 @@ hr {
   &:after {
     content "•••"
     letter-spacing 10px
-    color $color_4
+    color $cr_text_2nd
   }
 }
 
@@ -211,7 +212,7 @@ pre {
 }
 
 .gatsby-highlight {
-  background-color $color_4
+  background-color #263238
   border-radius 0.3em
   margin 1.4em 0
   position relative
@@ -219,12 +220,12 @@ pre {
   &:hover:after {
     content attr(data-language)
     position absolute
-    right 0
-    top 0
-    background-color $color_5
-    padding 2px 10px
+    right 1px
+    top 1px
+    background-color $cr_bg_2nd
+    padding 4px 10px
     font-size .875rem
-    color $color_3
+    color $cr_bg
   }
 
   pre[class*="language-"] {

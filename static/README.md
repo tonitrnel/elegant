@@ -1,3 +1,3 @@
 ## 我的博客
 
-[https://mostearly.com](https://mostearly.com)
+[https://piecego.com](https://piecego.com)

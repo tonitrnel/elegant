@@ -1,29 +1,24 @@
-@import "~@/assets/styles/variable.styl"
+@import "~@/assets/styles/common.styl"
+
 .to-top{
   position fixed
   cursor pointer
-  right 2em
+  right 60px
+  bottom 60px
   border none
   z-index 666
   outline none
-  bottom 2em
   font-size 1.25rem
-  background-color transparent
+  background: inherit;
+  filter: invert(1);
   visibility visible
   opacity 1
+  width: 40px;
+  height: 40px;
   transition opacity .3s linear, visibility 0s
   transition-delay 0, .3s
   @media screen and (max-width: 890px){
     right 1em
-  }
-  svg{
-    fill $color_3
-    transition fill .3s linear
-  }
-  &:hover{
-    svg{
-      fill $color_2
-    }
   }
 }
 .to-top__hide{

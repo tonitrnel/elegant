@@ -1,38 +1,29 @@
-@import "~@/assets/styles/variable.styl"
+@import "~@/assets/styles/common.styl"
 .post-list {
   display block
-
-  &::after {
-    content ""
-    display block
-    clear both
-  }
 }
 
 .post-item {
-  display inline-block
-  width 360px
-  margin-top 60px
-  margin-right 50px
-  vertical-align top
+  width 100%
+  height auto
   animation slide .3s linear forwards
   transform translateY(20px)
-  transition margin .3s linear
   opacity 0
+  margin-bottom: 80px;
   $mediaMobile(@block {
-    margin-right 0
+    margin-bottom: 40px
     width 100%
   })
 
-  &:nth-of-type(2n) {
-    margin-bottom 0
-    margin-right 0
+  // &:nth-of-type(2n) {
+  //   margin-bottom 0
+  //   margin-right 0
 
-    $mediaPc(@block {
-      margin-top 120px
-      margin-left 50px
-    })
-  }
+  //   // $mediaPc(@block {
+  //   //   margin-top 120px
+  //   //   margin-left 50px
+  //   // })
+  // }
 
   a {
     color inherit
@@ -41,6 +32,7 @@
 
 .post-header {
   margin-bottom 26px
+  padding-top 10px
 }
 
 .post-time {
@@ -63,16 +55,14 @@
 .post-category {
   font-size 0.875rem
   margin-left 18px
-  color $color_2
+  color $cr_text_2nd
 
   &:hover {
-    color $color_1
+    color $cr_text
   }
 }
 
 .featured-image {
-  height 160px
-  border-radius 4px
   overflow hidden
 }
 
@@ -83,29 +73,29 @@
     margin 16px 0
     padding 0
     font-size 1.125rem
-    color $color_2
+    color $cr_text_2nd
     font-weight normal
     position relative
     width fit-content
     transition color .3s linear
-    text-transform capitalize
 
     &::after {
       content ""
       width 100%
       height 2px
       position absolute
-      background-color $color_1
+      background-color: $cr_main;
       bottom -6px
+      opacity .5
       left 0
       transform scaleX(0)
       transform-origin right
-      transition transform .3s ease
+      transition transform .3s ease-in-out
       transition-delay 0.1s
     }
 
     &:hover {
-      color $color_1
+      color $cr_main
     }
 
     &:hover::after {
@@ -115,10 +105,12 @@
       transform scaleX(1)
     }
   }
-  span{
-    color: $color_3
+
+  span {
+    color: $cr_text_2nd
     font-size: .875em
   }
+
   p {
     line-height 24px
   }
@@ -131,11 +123,11 @@
   outline 0
   letter-spacing 2px
   font-family inherit
-  color $color_1
+  color $cr_main
   background-color transparent
   border 0
   padding-left .5em
-  border-left 2px solid $color_1
+  border-left 2px solid $cr_main
 }
 
 

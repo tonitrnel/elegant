@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link, graphql } from 'gatsby'
 import Container from '@/component/container'
+import Header from '@/component/header'
 import classes from './index.styl'
 
 export const query = graphql`
@@ -17,7 +18,6 @@ export const query = graphql`
             date(formatString: "MMM Do", locale: "zh-cn")
             key: date(formatString: "YYYY.MMM", locale: "zh-cn")
           }
-          excerpt
         }
       }
     }
@@ -71,11 +71,7 @@ export default (props: PageProps) => {
   const articles = newDateToGroup(edges)
   return (
     <Container path="/archives" className={classes.archive} title="归档">
-      <h1>归档</h1>
-      <p className={classes.counter}>{edges.length}篇文章</p>
-      <p className={classes.link}>
-        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
-      </p>
+      <Header title="归档" desc={`${edges.length}篇文章`} />
       {Object.keys(articles)
         .sort(sortByDesc)
         .map(year => (
@@ -87,7 +83,6 @@ export default (props: PageProps) => {
               </span>
             </h2>
             {Object.keys(articles[year])
-              .sort(sortByDesc)
               .map(month => (
                 <ul className={classes.list} key={month}>
                   <h3 className={classes.month}>{month}</h3>

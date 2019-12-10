@@ -8,8 +8,6 @@ const onClick = () => {
     behavior: 'smooth'
   })
 }
-const emoji = ['🍃','🍂','🍁','🍀','🕸','🌿','🌾','🐟','🦢','🌵','🌴','🌳','🌱','🌷','☘','🥦','🔥','☄','❄','💮','⚡','💦','🌬','🦀','🍄','🥀','🌰','🐧']
-const random = emoji[Math.floor(Math.random() * emoji.length)]
 
 export default (props: { hide: boolean }) => (
   <button
@@ -18,7 +16,5 @@ export default (props: { hide: boolean }) => (
       [classes.toTop__hide]: props.hide
     })}
     onClick={onClick}
-  >
-    {random}
-  </button>
+    />
 )

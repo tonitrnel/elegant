@@ -1,0 +1,43 @@
+@import "~@/assets/styles/common.styl"
+
+.paging-box{
+  font-size 14px
+  margin 20px 0
+  user-select none
+}
+.number{
+  cursor pointer
+  margin 0 4px
+  line-height 26px
+  padding 0 5px
+  border-radius 4px
+  display inline-block
+  font-weight bold
+  &:hover{
+    background-color #e5e9ef
+    color $cr_main
+  }
+}
+.current{
+  margin 0 4px
+  line-height 26px
+  padding 0 8px
+  border-radius 4px
+  display inline-block
+  background-color #e5e9ef
+  color $cr_main
+}
+.next, .prev{
+  @extend .number
+  opacity 1
+  transition color .1s linear
+  &:hover{
+    background-color initial
+    color $cr_main
+  }
+  font-weight normal
+}
+.hide{
+  color $cr_line
+  pointer-events none
+}

@@ -1,12 +1,10 @@
-@import "~@/assets/styles/variable.styl"
-.archive {
-  @import "./common.styl"
+@import "~@/assets/styles/common.styl"
 
+.archive {
   .collection {
     padding 0 20px
     position relative
     display block
-    border-left 2px solid $color_4
   }
 
   .year {
@@ -15,6 +13,7 @@
     position relative
     font-weight normal
     padding 1em 0
+    color $cr_main
 
     .counter {
       margin 0 8px
@@ -24,7 +23,7 @@
       content ""
       width 6px
       height 6px
-      background-color $color_5
+      background-color $cr_main
       position absolute
       z-index 2
       top 1.5em
@@ -54,8 +53,6 @@
     }
 
     a {
-      color $color_3
-
       span {
         text-transform capitalize
         overflow hidden
@@ -68,10 +65,7 @@
     }
 
     a:hover {
-      color $color_1
-
       span {
-        color $color_1
         text-decoration underline
       }
     }

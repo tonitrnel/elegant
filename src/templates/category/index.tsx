@@ -2,7 +2,8 @@ import * as React from 'react'
 import _ from 'lodash'
 import { Link, graphql, PageRendererProps } from 'gatsby'
 import Container from '@/component/container'
-import classes from './index.styl'
+import Header from '@/component/header'
+import classes from '../tag/index.styl'
 
 interface PageProps extends PageRendererProps {
   data: {
@@ -54,12 +55,8 @@ export default (props: PageProps) => {
     : []
   const name = props.pageContext.id
   return (
-    <Container path="/archives" className={classes.category} title={`分类：${name}`}>
-      <h1>分类：{name}</h1>
-      <p className={classes.counter}>{data.length}篇文章</p>
-      <p className={classes.link}>
-        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
-      </p>
+    <Container path="/archives" title={`分类：${name}`}>
+      <Header title={`分类:${name}`} desc={`${data.length}篇文章`} />
       <ul className={classes.list}>
         {data.map(({ node }, index) => (
           <li key={index} className={classes.item}>

@@ -3,6 +3,7 @@ import { Link, graphql } from 'gatsby'
 import Container from '@/component/container'
 import classes from './index.styl'
 import _ from 'lodash'
+import Header from '@/component/header'
 
 interface TagsPageProps {
   data: {
@@ -24,11 +25,7 @@ export default (props: TagsPageProps) => {
   const total = tags.map(value => value.totalCount).reduce((v, c) => v + c)
   return (
     <Container path="/archives" className={classes.tags} title='标签'>
-      <h1>标签</h1>
-      <p className={classes.counter}>{tags.length}个标签</p>
-      <p className={classes.link}>
-        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
-      </p>
+      <Header title="标签" desc={`${tags.length}个标签`} />
       <ul className={classes.list}>
         {tags.map((tag, i) => (
           <li key={i}>

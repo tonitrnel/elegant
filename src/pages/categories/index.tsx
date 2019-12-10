@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Container from '@/component/container'
 import classes from './index.styl'
+import Header from '@/component/header'
 
 interface PageProps {
   data: {
@@ -20,11 +21,7 @@ export default (props: PageProps) => {
   )
   return (
     <Container path="/archives" className={classes.categories} title="分类">
-      <h1>分类</h1>
-      <p className={classes.counter}>{categories.length}个分类</p>
-      <p className={classes.link}>
-        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
-      </p>
+      <Header title="分类" desc={`${categories.length}个分类`} />
       <ul className={classes.list}>
         {categories.map((category, i) => (
           <li className={classes.item} key={i}>

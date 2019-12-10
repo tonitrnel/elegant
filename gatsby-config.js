@@ -25,7 +25,7 @@ module.exports = {
           {
             resolve: 'gatsby-remark-images',
             options: {
-              maxWidth: 890 + 890 / 100 * 4,
+              maxWidth: 890 + (890 / 100) * 4,
               showCaptions: true,
               withWebp: true
             }
@@ -53,9 +53,9 @@ module.exports = {
         short_name: config.site.title,
         start_url: '/',
         background_color: '#ffffff',
-        theme_color: '#4c7b97',
+        theme_color: '#39AD86',
         display: 'minimal-ui',
-        icon: 'src/assets/images/favicon.png'
+        icon: './src/assets/images/favicon-512x512.png'
       }
     },
     {
@@ -95,8 +95,8 @@ module.exports = {
                     node {
                       excerpt
                       html
-                      fields { 
-                        slug 
+                      fields {
+                        slug
                         title
                         date
                       }
@@ -120,7 +120,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-nprogress',
       options: {
-        color: '#4c7b97'
+        color: '#39AD86'
       }
     },
     'gatsby-plugin-typescript',
@@ -128,7 +128,6 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
-    'gatsby-plugin-offline',
     'gatsby-plugin-svgr',
     'gatsby-plugin-stylus'
   ]

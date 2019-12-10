@@ -32,6 +32,7 @@ const all_desc = [
   '黄昏',
   '定昏'
 ]
+// const all_number = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 
 export function toOldName(hour: number | string) {
   const index = Math.floor((Number(hour) + 1) / 2)
@@ -42,14 +43,13 @@ export function toOldName(hour: number | string) {
 }
 
 const now = moment()
+const o = toOldName(now.format('HH'))
 
 export default () => (
   <Container className={classes.error404} title={'找不到页面'}>
     <h1>404 Not Found.</h1>
-    <p>页面已被少女遗忘.</p>
-    <p>
-      Date: {now.format('DD[日] HH:mm:ss')}{' '}
-      {toOldName(now.format('HH')).desc}.
-    </p>
+    <p>页面已被遗忘.</p>
+    <p style={{ fontSize: '12px' }}>{o.name} · {o.desc}</p>
+    <p style={{ fontSize: '12px' }}>{now.format('YYYY.MM.DD HH.mm')} </p>
   </Container>
 )

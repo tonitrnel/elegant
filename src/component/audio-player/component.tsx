@@ -24,6 +24,10 @@ interface State {
   loading: boolean
   error: boolean
   duration: number
+  pointer: {
+    pos: number
+    show: boolean
+  }
 }
 
 function pad(str: number) {
@@ -31,7 +35,9 @@ function pad(str: number) {
 }
 
 export function mmss(duration: number) {
-  return `${pad(Math.floor(duration / 60))}:${pad(Math.floor(duration % 60))}`
+  return `${pad(Math.floor(duration / 60) | 0)}:${pad(
+    Math.floor(duration % 60) | 0
+  )}`
 }
 
 class AudioPlayerComponent extends PureComponent<Props, State> {
@@ -42,7 +48,11 @@ class AudioPlayerComponent extends PureComponent<Props, State> {
     paused: true,
     loop: false,
     loading: false,
-    error: false
+    error: false,
+    pointer: {
+      pos: 0,
+      show: false
+    }
   }
   listen_stack: { name: string; handle: (event: any) => void }[] = []
   readonly title = document.title
@@ -104,15 +114,20 @@ class AudioPlayerComponent extends PureComponent<Props, State> {
   onPlaying = () => {
     this.setState({ loading: true })
   }
+  // 发生错误
   onError = () => {
     this.setState({ error: true })
   }
+  // 音频加载
   onWaiting = () => {
-    console.log('音频加载中')
-    this.setState({ paused: true, loading: true })
+    this.setState({ loading: true })
   }
+  // 结束
   onEnded = () => {
-    this.setState({ paused: true })
+    const { target } = this.props
+    if (!target.loop) {
+      this.setState({ paused: true })
+    }
   }
   getDuration = () => {
     const { target } = this.props
@@ -123,6 +138,7 @@ class AudioPlayerComponent extends PureComponent<Props, State> {
     return ((e / duration) * 100).toFixed(2) + `%`
   }
   onTimeUpdate = ({ target }) => {
+    if (this.dragPointer) return void 0
     this.setState({ played: target.currentTime, loading: false })
   }
   getBuffered = () => {
@@ -157,9 +173,70 @@ class AudioPlayerComponent extends PureComponent<Props, State> {
     target.loop = !target.loop
     this.setState({ loop: target.loop })
   }
+  updateTime = ev => {
+    const {
+      left,
+      width
+    } = (ev.currentTarget as HTMLElement).getBoundingClientRect()
+    const x = ev.clientX - left
+    if (x > width) return void 0
+    const { target } = this.props
+    target.currentTime = (x / width) * target.duration
+  }
+  enablePointer = false
+  dragPointer = false
+  movePointer = ev => {
+    const { left, width } = ev.target.getBoundingClientRect()
+    const x = ev.clientX - left
+    if (x > width) return void 0
+    requestAnimationFrame(() => {
+      if (!this.enablePointer) return void 0
+      if (this.dragPointer) {
+        const { target } = this.props
+        this.setState({ played: (x / width) * target.duration })
+      }
+      this.setState({
+        pointer: {
+          pos: x,
+          show: true
+        }
+      })
+    })
+  }
+  openPointer = () => {
+    this.enablePointer = true
+  }
+  openPointerDrag = () => {
+    this.dragPointer = true
+    document.addEventListener('mouseup', this.closePointerDrag)
+  }
+  closePointerDrag = () => {
+    this.dragPointer = false
+    document.removeEventListener('mouseup', this.closePointerDrag)
+    const { target } = this.props
+    target.play()
+  }
+  cleanPointer = () => {
+    if (this.dragPointer) return
+    this.enablePointer = false
+    this.setState({
+      pointer: {
+        pos: 0,
+        show: false
+      }
+    })
+  }
   render() {
     const { data } = this.props
-    const { played, loaded, paused, loop, loading, duration } = this.state
+    const {
+      played,
+      loaded,
+      paused,
+      loop,
+      loading,
+      duration,
+      pointer
+    } = this.state
     return (
       <Fragment>
         <div
@@ -273,15 +350,31 @@ class AudioPlayerComponent extends PureComponent<Props, State> {
               </button>
             )}
             <span>{mmss(played)}</span>
-            <div className={classes.audioBarWrap}>
+            <div
+              className={classes.audioBarWrap}
+              onMouseMove={this.movePointer}
+              onMouseOut={this.cleanPointer}
+              onMouseOver={this.openPointer}
+              onMouseDown={this.openPointerDrag}
+              onClick={this.updateTime}
+            >
               <div
-                className={classes.audioLoaded}
-                style={{ width: this.getWidth(loaded) }}
+                className={classes.audioPointer}
+                style={{
+                  display: pointer.show ? 'block' : 'none',
+                  transform: `translateX(${pointer.pos}px)`
+                }}
               />
-              <div
-                className={classes.audioPlayed}
-                style={{ width: this.getWidth(played) }}
-              />
+              <div className={classes.audioBarContainer}>
+                <div
+                  className={classes.audioLoaded}
+                  style={{ width: this.getWidth(loaded) }}
+                />
+                <div
+                  className={classes.audioPlayed}
+                  style={{ width: this.getWidth(played) }}
+                />
+              </div>
             </div>
             <span>{mmss(duration)}</span>
           </div>

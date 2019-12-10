@@ -2,6 +2,7 @@ import * as React from 'react'
 import _ from 'lodash'
 import { Link, graphql, PageRendererProps } from 'gatsby'
 import Container from '@/component/container'
+import Header from '@/component/header'
 import classes from './index.styl'
 interface TagPageProps extends PageRendererProps {
   data: {
@@ -52,12 +53,8 @@ export default (props: TagPageProps) => {
     : []
   const name = props.pageContext.id
   return (
-    <Container path="/archives" className={classes.tags} title={`标签: ${name}`}>
-      <h1>标签：{name}</h1>
-      <p className={classes.counter}>共有: {data.length}篇文章</p>
-      <p className={classes.link}>
-        <Link to="/archives">归档</Link> | <Link to="/categories">分类</Link> | <Link to="/tags">标签</Link>
-      </p>
+    <Container path="/archives" title={`标签: ${name}`}>
+      <Header title={`标签:${name}`} desc={`${data.length}篇文章`} />
       <ul className={classes.list}>
         {data.map(({ node }, index) => (
           <li className={classes.item} key={index}>

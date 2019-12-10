@@ -1,0 +1,32 @@
+// 主色
+$cr_main = #39AD86;
+$cr_text = #101314;
+$cr_text_2nd = #373737;
+$cr_text_3nd = #7A7A7A;
+$cr_bg = #FFFFFF;
+$cr_bg_2nd = #1C1B1B;
+$cr_line = #E2E2E2;
+// 居中
+$center(){
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+// Please use @block
+$mediaMobile(innerCss) {
+  @media screen and (max-width: 768px) {
+    {innerCss}
+  }
+}
+$mediaPc(innerCss) {
+  @media screen and (min-width: 1366px) {
+    {innerCss}
+  }
+}
+$mediaPad(innerCss){
+  @media screen and (max-width: 1024px) and (min-width: 890px) {
+    {innerCss}
+  }
+}

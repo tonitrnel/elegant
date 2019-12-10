@@ -1,11 +1,11 @@
-@import "~@/assets/styles/variable.styl"
+@import "~@/assets/styles/common.styl"
+
 .audio-player{
-  border 1px solid #eee
-  border-radius 4px
   width 104%
   margin 1em 1em 1em -2%
   padding 20px
   box-sizing border-box
+  //background-color #F5F5F5
   display flex
 }
 .audio-left{
@@ -51,10 +51,29 @@
 }
 .audio-bar-wrap{
   flex 1
-  height 2px
+  height 20px
   margin 0 10px
+  position relative
+  cursor pointer
+}
+.audio-pointer{
+  width 4px
+  height @width
+  background-color $cr_main
+  position absolute
+  top 8px
+  left 0
+  z-index 9
+  border-radius 50%
+  box-shadow 0 0 0 4px #39ad8636
+  pointer-events none
+}
+.audio-bar-container{
+  height 2px
+  margin 9px 0;
   background-color #eee
   position relative
+  pointer-events none
 }
 .audio-loaded, .audio-played{
   position absolute
@@ -66,7 +85,7 @@
   background-color #cccccc
 }
 .audio-played{
-  background-color $color_1
+  background-color $cr_main
 }
 .audio-button{
   width 1.2em
@@ -80,7 +99,7 @@
 .audio-icon{
   width 100%
   height 100%
-  fill $color_3
+  fill $cr_text_2nd
 }
 .loading{
   display inline-block
@@ -89,7 +108,7 @@
   .audio-icon{
     width 1.8em
     height 2.6em
-    fill $color_3
+    fill $cr_text_2nd
   }
 }
 

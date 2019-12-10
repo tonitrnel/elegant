@@ -24,17 +24,10 @@ export default function HTML(props: PageProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
         />
-        <link rel="stylesheet" type="text/css" href={'/global.css'}/>
-        <title>少女祈祷中</title>
+        <title />
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>
-        <div className="loading">
-          <div className="loading-container">
-            <div className="loading-figure"/>
-            <div className="loading-text">少女祈祷中.</div>
-          </div>
-        </div>
         {props.preBodyComponents}
         <div
           key={`body`}

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Frame, { FrameProps, GlobalDataProps } from '@/component/frame'
 import classname from '@/utils/classname'
-import ToTop from '../to_top'
 import { Link } from 'gatsby'
 import classes from './index.styl'
 
@@ -12,39 +11,38 @@ interface ContainerProps extends Omit<FrameProps, 'getGlobalData'> {
 }
 
 
-export function destroy() {
-  if (typeof document !== 'object') return void 0
-  const loading = document.querySelector<HTMLDivElement>('.loading')
-  if (loading) {
-    loading.classList.add('hide')
-    setTimeout(() => {
-      loading.parentNode && loading.parentNode.removeChild(loading)
-    }, 300)
-  }
-}
+// export function destroy() {
+//   if (typeof document !== 'object') return void 0
+//   const loading = document.querySelector<HTMLDivElement>('.loading')
+//   if (loading) {
+//     // loading.classList.add('hide')
+//     setTimeout(() => {
+//       // loading.parentNode && loading.parentNode.removeChild(loading)
+//     }, 300)
+//   }
+// }
 export default function Container(props: ContainerProps) {
   const { className, children, path, ...frameProps } = props
   const now = new Date()
-  const [hideToTop, changeToTop] = React.useState(true)
+  // const [hideToTop, changeToTop] = React.useState(true)
   const [metadata, setMetadata] = React.useState<
     GlobalDataProps['metadata'] | any
   >({})
-  destroy()
-  const toTopCheck = () => {
-    window.requestAnimationFrame(() => {
-      if (scrollY < 300) {
-        changeToTop(true)
-      } else {
-        changeToTop(false)
-      }
-    })
-  }
-  React.useEffect(() => {
-    window.addEventListener('scroll', toTopCheck)
-    return () => {
-      window.removeEventListener('scroll', toTopCheck)
-    }
-  })
+  // const toTopCheck = () => {
+  //   window.requestAnimationFrame(() => {
+  //     if (scrollY < 300) {
+  //       changeToTop(true)
+  //     } else {
+  //       changeToTop(false)
+  //     }
+  //   })
+  // }
+  // React.useEffect(() => {
+  //   window.addEventListener('scroll', toTopCheck)
+  //   return () => {
+  //     window.removeEventListener('scroll', toTopCheck)
+  //   }
+  // })
   const navigate = metadata.navigate || []
   const author = metadata.author || {}
   return (
@@ -78,8 +76,8 @@ export default function Container(props: ContainerProps) {
           <p>
             <span className={classes.copyright}>
               <span>&copy;</span>
-              <span>2017 - {now.getFullYear()}</span>
-              <span>{author.name}.</span>
+              <span>2017-{now.getFullYear() + 1}</span>
+              <span>{metadata.title}.</span>
             </span>
           </p>
           <p className={classes.poweredBy}>
@@ -91,8 +89,8 @@ export default function Container(props: ContainerProps) {
             </span>
             <span>
               Theme By{' '}
-              <a href="https://github.com/mostearly/baijx" title="前往mostearly.com">
-                BaiJX
+              <a href="https://github.com/piecego/elegant">
+               Elegant
               </a>
             </span>
           </p>
@@ -109,7 +107,7 @@ export default function Container(props: ContainerProps) {
             </span>
             <span>
               <a
-                href="//github.com/mostearly"
+                href="//github.com/piecego"
                 target="_blank"
                 rel="noopener"
                 title="前往Github"
@@ -129,7 +127,6 @@ export default function Container(props: ContainerProps) {
             </span>
           </p>
         </section>
-        <ToTop hide={hideToTop}/>
       </footer>
     </Frame>
   )

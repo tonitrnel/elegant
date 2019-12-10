@@ -1,42 +1,37 @@
-@import "~@/assets/styles/variable.styl"
-.tags {
-  @import "~@/pages/archives/common.styl"
+@import "~@/assets/styles/common.styl"
 
-  .list {
-    position relative
-    display block
+.list {
+  position relative
+  display block
+}
+.item {
+  margin 30px 0
+  font-size 14px
+  small {
+    margin 0 10px
+  }
+  a {
+    color $cr_text_3nd
 
-    .item {
-      margin 40px 0
+    span {
+      color $cr_text_2nd
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+      display inline-block
+      width 62%
+      vertical-align top
+    }
+  }
 
-      small {
-        margin 0 10px
-      }
-
-      a {
-        color $color_3
-
-        span {
-          color $color_2
-          overflow hidden
-          text-overflow ellipsis
-          white-space nowrap
-          display inline-block
-          width 62%
-          vertical-align top
-        }
-      }
-
-      a:hover {
-        span {
-          color $color_1
-          text-decoration underline
-          display inline-block
-        }
-        time {
-          color $color_1
-        }
-      }
+  a:hover {
+    span {
+      color $cr_text_2nd
+      text-decoration underline
+      display inline-block
+    }
+    time {
+      color $cr_text_2nd
     }
   }
 }

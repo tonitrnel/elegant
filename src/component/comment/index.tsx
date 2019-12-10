@@ -1,387 +1,24 @@
 import * as React from 'react'
+import Send, { Emoji, FormDataProps, EmojiVersion } from './send'
+import List, { CommentList } from '@/component/comment/list'
+import Pagination from './pagination'
+import { Comment as CommentItem } from './type'
+import Header from './header'
 import classes from './index.styl'
 import md5 from 'crypto-js/md5'
-import classname from '@/utils/classname'
-import { ReactComponent as IconClose } from '@/assets/images/close.svg'
-import { ReactComponent as IconSuccess } from '@/assets/images/success.svg'
-import moment, { Moment } from 'moment'
-import autosize from 'autosize'
-import firebase from './firebase'
+// import unified from 'unified'
+// import markdown from 'remark-parse'
+// import stringify from 'rehype-stringify'
+import moment from 'moment'
+import db from './leancloud'
 
-interface FormDataProps {
-  email: string
-  nickname: string
-  url?: string
-  content: string
-}
-
-interface CommentFormState {
-  form: FormDataProps
-  info: {
-    status: 'error' | 'success' | 'loading'
-    show: boolean
-    message: string
-  }
-}
-
-type Rule = {
-  min?: number
-  max?: number
-  pattern?: RegExp
-  required?: boolean
-  message?: string
-  validate?: (value: any) => Promise<boolean | string>
-}
-type Rules = {
-  [filed: string]: Rule[]
-}
-
-interface CommentFormProps {
-  onSubmit(comment: FormDataProps): Promise<void>
-  id?: string
-  mode: 'reply' | 'comment'
-  onCancel?(): void
-  emoji?: Emoji[]
-  onValidate?: Rule['validate']
-}
-interface Emoji {
-  name: string
-  src: string
-}
-class CommentForm extends React.Component<CommentFormProps, CommentFormState> {
-  state: CommentFormState = {
-    form: {
-      nickname: '',
-      email: '',
-      content: ''
-    },
-    info: {
-      status: 'loading',
-      show: false,
-      message: ''
-    }
-  }
-  editor: HTMLTextAreaElement | null = null
-  rules: Rules = {}
-  submitting = false
-  componentDidMount(): void {
-    if (this.editor) {
-      autosize(this.editor)
-    }
-    const userData = localStorage.getItem('__comment')
-    if (userData) {
-      const [nickname, email] = decodeURI(atob(userData)).split('::')
-      this.setState({
-        form: {
-          nickname,
-          email,
-          content: ''
-        }
-      })
-    }
-  }
-
-  setField = (filed: keyof CommentFormState['form']) => {
-    return (event: React.ChangeEvent | string) => {
-      const { form } = this.state
-      if (typeof event === 'string') {
-        this.setState({ form: { ...form, [filed]: event } })
-      } else {
-        const target = event.target as HTMLInputElement
-        this.setState({ form: { ...form, [filed]: target.value } })
-      }
-    }
-  }
-  setInfo = (
-    message: string,
-    status: CommentFormState['info']['status'],
-    autoHide: boolean = true
-  ) => {
-    this.setState({
-      info: {
-        message,
-        status,
-        show: true
-      }
-    })
-    if (autoHide) {
-      setTimeout(() => {
-        this.setState({
-          info: {
-            message: '',
-            status: 'loading',
-            show: false
-          }
-        })
-      }, 2000)
-    }
-  }
-  generateInfo = () => {
-    const { info } = this.state
-    return (
-      <p
-        className={classname({
-          [classes.info]: true,
-          [classes.info__hide]: !info.show,
-          [classes.info__error]: info.status === 'error',
-          [classes.info__success]: info.status === 'success'
-        })}
-      >
-        {info.status === 'success' ? (
-          <IconSuccess className={classname('icon', classes.loading)} />
-        ) : info.status === 'error' ? (
-          <IconClose className="icon" />
-        ) : null}
-        <span>{info.message}</span>
-      </p>
-    )
-  }
-  setItem = (config: {
-    filed: keyof CommentFormState['form']
-    label: string
-    defaultValue?: string
-    rules?: Rule[]
-  }) => {
-    return (element: React.ReactElement) => {
-      const { form } = this.state
-      const { filed, defaultValue, label, rules } = config
-      if (!form[filed]) {
-        form[filed] = ''
-      }
-      if (rules) {
-        this.rules[filed] = rules
-      }
-      const value = form[filed]
-      return (
-        <p className={classes.formItem}>
-          <label htmlFor={filed}>{label}：</label>
-          {React.cloneElement<React.InputHTMLAttributes<HTMLInputElement>>(
-            element,
-            {
-              name: filed,
-              onChange: this.setField(filed),
-              value,
-              id: filed,
-              defaultValue
-            }
-          )}
-        </p>
-      )
-    }
-  }
-  validateFields = async (): Promise<FormDataProps> => {
-    const { form } = this.state
-    for (let filed of Object.keys(form)) {
-      const rules = this.rules[filed]
-      const value = form[filed]
-      if (!rules) continue
-      for (let rule of rules) {
-        if (!value) {
-          if (rule.required) throw new Error(rule.message)
-          else break
-        }
-        if (rule.min && value.length < rule.min) throw new Error(rule.message)
-        if (rule.max && value.length > rule.max) throw new Error(rule.message)
-        if (rule.pattern && !rule.pattern.test(value))
-          throw new Error(rule.message)
-        if (rule.validate) {
-          const result = await rule.validate(form[filed])
-          if (result === false) throw new Error(rule.message)
-          if (typeof result === 'string') throw new Error(result)
-        }
-      }
-    }
-    return form
-  }
-  onSubmit = async e => {
-    e.preventDefault()
-    if (this.submitting) return void 0
-    this.submitting = true
-    this.setInfo('正在评论中...', 'loading', false)
-    try {
-      const data = await this.validateFields()
-      await this.props.onSubmit(data)
-      this.setInfo('评论成功', 'success')
-      localStorage.setItem(
-        '__comment',
-        btoa(encodeURI(`${data.nickname}::${data.email}`))
-      )
-      this.setField('content')('')
-    } catch (e) {
-      this.setInfo(e.message, 'error')
-      // console.error(e.message)
-    }
-    this.submitting = false
-  }
-  insertEmoji = e => {
-    if (e.button !== 0) return void 0
-    const target = e.target as HTMLLIElement
-    const emojiName = target.dataset.emoji
-    if (!emojiName || !this.editor) return void 0
-    const { selectionStart, selectionEnd } = this.editor
-    const { content } = this.state.form
-    const start = content.substring(0, selectionStart)
-    const end = content.substring(selectionEnd, content.length)
-    if (document.activeElement === this.editor) {
-      // if (selectionStart === selectionEnd) {
-      //   console.log('插入', selectionEnd)
-      // } else {
-      //   console.log('替换', selectionStart, selectionEnd)
-      // }
-      this.setField('content')(`${start} :${emojiName}: ${end}`)
-      const v = start.length + emojiName.length + 4
-      setTimeout(
-        editor => {
-          editor.focus()
-          editor.setSelectionRange(v, v)
-        },
-        0,
-        this.editor
-      )
-    } else {
-      // console.log('追加')
-      this.setField('content')(`${content} :${emojiName}:`)
-      setTimeout(editor => editor.focus(), 0, this.editor)
-    }
-    // console.log(emojiName, )
-  }
-  componentDidUpdate(prevProps: CommentFormProps) {
-    const { emoji } = this.props
-    if (emoji && emoji !== prevProps.emoji && emoji.length > 0) {
-      const all_emoji = document.querySelectorAll<HTMLImageElement>(
-        `.${classes.emojiItem} img`
-      )
-      if ('loading' in HTMLImageElement.prototype) {
-        all_emoji.forEach(item => {
-          if (item.dataset.origin) {
-            item.src = item.dataset.origin
-            item.removeAttribute('data-origin')
-          }
-        })
-        return void 0
-      }
-      const ob = new IntersectionObserver(items => {
-        items.forEach(item => {
-          if (item.isIntersecting || item.intersectionRatio > 0) {
-            const target = item.target as HTMLImageElement
-            if (target.dataset.origin) {
-              target.src = target.dataset.origin
-              target.removeAttribute('data-origin')
-            }
-            ob.unobserve(target)
-          }
-        })
-      })
-      Array.from(all_emoji).forEach(item => {
-        ob.observe(item)
-      })
-    }
-  }
-  componentWillUnmount(): void {
-    // 都卸载了，直接覆盖setState了
-    this.setState = () => void 0
-  }
-  render() {
-    const { id, mode, onCancel, emoji, onValidate } = this.props
-    return (
-      <form
-        id={id}
-        onSubmit={this.onSubmit}
-        onReset={onCancel}
-        method="post"
-        className={classname(classes.form, {
-          [classes.formReply]: mode === 'reply',
-          [classes.formComment]: mode === 'comment'
-        })}
-      >
-        {mode === 'comment' && <p className={classes.note}>坐等你的评论~</p>}
-        {this.setItem({
-          filed: 'nickname',
-          label: '昵称',
-          rules: [
-            {
-              required: true,
-              message: '请输入昵称'
-            },
-            {
-              max: 8,
-              message: '昵称太长'
-            }
-          ]
-        })(<input />)}
-        {this.setItem({
-          filed: 'email',
-          label: '邮箱(仅用作头像)',
-          rules: [
-            { required: true, message: '请输入邮箱地址' },
-            {
-              pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-              message: '邮箱不符合规范'
-            }
-          ]
-        })(<input type="text" />)}
-        {this.setItem({
-          filed: 'url',
-          label: '博客',
-          rules: [
-            {
-              pattern: /^(https?:\/\/)([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/,
-              message: 'URL地址不符合规范'
-            }
-          ]
-        })(<input type="url" placeholder="https://" />)}
-        {this.setItem({
-          filed: 'content',
-          label: '评论',
-          rules: [
-            { required: true, message: '请输入评论内容' },
-            { max: 300, message: '评论内容过长（最多300字）' },
-            { validate: onValidate, message: '验证不通过' }
-          ]
-        })(<textarea ref={ref => (this.editor = ref)} />)}
-        {emoji && (
-          <ul className={classes.emojiList} onMouseDown={this.insertEmoji}>
-            {emoji.map((item, index) => (
-              <li
-                data-emoji={item.name}
-                className={classes.emojiItem}
-                title={item.name}
-                key={index}
-              >
-                <img
-                  draggable={false}
-                  {...{ 'data-origin': item.src, loading: 'lazy' }}
-                  alt={`表情${item.name}`}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-        {this.generateInfo()}
-        <button type="submit">评论</button>
-        <button type="reset" hidden={mode !== 'reply'}>
-          取消
-        </button>
-      </form>
-    )
-  }
-}
+// const QueryIPURL = 'https://api.ip.sb/geoip'
 
 interface CommentProps {
   className?: string
   enable?: boolean
-  realtime?: boolean
 }
 
-type CommentItem = {
-  id: string
-  nickname: string
-  avatar: string
-  content: string
-  date: number
-  url?: string
-  parent: string | null
-}
 const avatar = {
   cdn: 'https://gravatar.loli.net/avatar/',
   ds: ['mp', 'identicon', 'monsterid', 'wavatar', 'robohash', 'retro', 'hide'],
@@ -389,286 +26,353 @@ const avatar = {
   version: 1.0
 }
 
-interface CommentList extends Omit<CommentItem, 'date'> {
-  children: CommentList[]
-  date: Moment
-}
-
-interface CommentState {
+interface State {
   data: CommentItem[]
-  reply: string | null
+  replyObject?: CommentItem
   emoji: Emoji[]
   loading: boolean
+  count: number
+  current: number
 }
 
-export default class Comment extends React.Component<
-  CommentProps,
-  CommentState
-> {
-  state: CommentState = {
+export default class Comment extends React.Component<CommentProps, State> {
+  state: State = {
     data: [],
-    reply: null,
     emoji: [],
-    loading: true
+    loading: true,
+    count: 0,
+    current: 1
   }
-  id: string | null = null
-  ip: string | null = null
-  unsubscribe: null | Function = null
+  id!: string
+  // ip: string | null = null
   async loadEmoji() {
     const emoji: Emoji[] = await fetch(
-      'https://static.wktrf.com/emoji/index.json'
+      `https://s1.wktrf.com/emoji/index.json?v=${EmojiVersion}`
     ).then(res => res.json())
-    this.setState({
-      emoji: emoji.map(({ name, src }) => ({
-        name,
-        src: `https://static.wktrf.com/${encodeURI(src)}`
-      }))
-    })
+    this.setState({ emoji })
+  }
+  // parse comment content
+  parser(data: string): string {
+    const { emoji } = this.state
+    return (
+      data
+        // 链接替换
+        // 不能使用前置断言
+        // 防止匹配到图片(^|[^(])协议((?:http|https):\/\/域[\w-]+ 上级域(?:\.[\w-]+)+路径(?:[^\s]+)?)
+        .replace(
+          /(^|[^(])((?:http|https):\/\/[\w-]+(?:\.[\w-]+)+(?:[^\s]+)?)/gm,
+          (_, u, m) =>
+            `${u}<a title="一个未知的链接" class="link" target="_blank" rel="noopener" href="${m}">${m}</a>`
+        )
+        // 图片替换
+        .replace(
+          /!\[([^\[\]]+)]\((https:[^()]+)\)(@sticker)?/gm,
+          (_, t, s, e) =>
+            `<img class="${
+              e ? 'sticker' : 'image'
+            }" title="${t}" alt="${t}" src="${s}" />`
+        )
+        // 表情替换
+        .replace(/:([~_a-z\u4e00-\u9fa5]+):/gm, (_, v) => {
+          const arr = v.split('_')
+          let prefix, name
+          if (arr.length === 1) {
+            name = arr[0]
+            prefix = ''
+          } else {
+            name = arr[1]
+            prefix = arr[0]
+          }
+          const group = emoji.find(v => v.prefix === prefix)
+          if (!group) return _
+          const item = group.children.find(v => v.name === name)
+          if (!item) return _
+          return `<img src="${item.src}" class="small" title="${item.name}" alt="${item.name}" />`
+        })
+    )
   }
   async componentDidMount() {
+    if (typeof window === 'undefined') return void 0
     const { enable } = this.props
     if (!enable) return void 0
     await this.loadEmoji()
+    this.id = md5(location.pathname.replace(/\/$/, '')).toString()
     try {
-      await this.getCommentList()
+      await this.loadComments()
+      // window.addEventListener('hashchange', this.hashListener)
     } catch (e) {
       console.error('评论加载出错')
     }
   }
-  transitionText = (data: string): string => {
-    const { emoji } = this.state
-    return data.replace(/(?::([\w\u4e00-\u9fa5])+:)/g, value => {
-      const item = emoji.find(v => `:${v.name}:` === value)
-      return item
-        ? `<img src="${item.src}" class="${classes.emoji}" alt="表情${item.name}" />`
-        : value
-    })
-  }
-  transition = (data: CommentItem[]): CommentList[] => {
+  // structured data to fit the list component rendering
+  serializer = (data: CommentItem[]): CommentList[] => {
     const list: CommentList[] = data.map(item => ({
       ...item,
       children: [],
-      date: moment(item.date)
+      date: moment(item.date),
+      parentObject: null,
+      avatar: `${avatar.cdn}${item.avatar}?d=${avatar.params}&v=${avatar.version}`
     }))
-    for (let item of list) {
-      if (!item.parent) continue
-      const index = data.findIndex(v => v.id === item.parent)
-      if (index >= 0) {
-        list[index].children.push(item)
-      }
+    // 防止出现ID重复导致无限循环
+    // let MAX_WHILE_COUNT = 0
+    for (let d of list) {
+      // let cur = d
+      if (!d.rid || !d.rrid) continue
+      const index = list.findIndex(v => v.id === d.rrid)
+      if (index < 0) continue
+      d.parentObject = list.find(v => v.id === d.id) || null
+      list[index].children.push(d)
+      // 依次向上查找节点
+      // while (cur.rid && MAX_WHILE_COUNT < list.length) {
+      //   MAX_WHILE_COUNT++
+      //   const index = list.findIndex(v => v.id === cur.rid)
+      //   if (index < 0) break
+      //   if (!cur.parentObject) cur.parentObject = list[index]
+      //   cur = list[index]
+      // }
+      // if (cur !== d) cur.children.push(d)
     }
-    return list.filter(item => !item.parent)
-  }
-  getId = async () => {
-    const { pathname } = window.location
-    if (this.id) return this.id
-    this.id = md5(pathname.replace(/\/$/, '')).toString()
-    return this.id
-  }
-  getIp = async () => {
-    if (this.ip) return this.id
-    const { ip } = await fetch('https://api.ip.sb/geoip').then(res =>
-      res.json()
-    )
-    this.ip = ip
-    return ip
-  }
-  getCommentList = async () => {
-    const { realtime } = this.props
-    if (realtime) {
-      this.unsubscribe = firebase.on(await this.getId(), data => {
-        this.setState({
-          data: data.map(item => ({
-            ...item,
-            content: this.transitionText(item.content)
-          }))
-        })
-      })
-    } else {
-      const data = (await firebase.get(await this.getId())) as CommentItem[]
-      this.setState({
-        data: data.map(item => ({
-          ...item,
-          content: this.transitionText(item.content)
-        }))
-      })
-    }
-  }
-  generateItem = (data: CommentList[], parent?: CommentList) => {
-    if (data.length === 0) return null
-    const { reply, emoji } = this.state
-    return (
-      <ol
-        className={classname(classes.commentList, {
-          [classes.listChildren]: Boolean(parent)
-        })}
-        onClick={parent ? void 0 : this.onClick}
-      >
-        {data.map((item, index) => (
-          <li key={index} id={`comment-${item.id}`} className={classes.item}>
-            <div className={classes.avatar}>
-              <img
-                src={`${avatar.cdn}${item.avatar}?d=${avatar.params}&v=${avatar.version}`}
-                alt={`${item.nickname}的头像`}
-              />
-            </div>
-            <div className={classes.metadata}>
-              <cite>
-                {item.url ? (
-                  <a href={item.url}>{item.nickname}</a>
-                ) : (
-                  <span>{item.nickname}</span>
-                )}
-                <span className={classes.says}>说道：</span>
-              </cite>
-              <time dateTime={moment(item.date).toISOString()}>
-                {moment(item.date).fromNow()}
-              </time>
-            </div>
-            <div className={classes.actions}>
-              <a
-                className={classes.reply}
-                href={`#reply-${item.id}`}
-                title={`回复${item.nickname}`}
-              >
-                @回复
-              </a>
-            </div>
-            <p
-              className={classes.content}
-              dangerouslySetInnerHTML={{
-                __html: parent
-                  ? `<a class="${classes.at}" href="#comment-${parent.id}" rel="noreferrer noopener">@${parent.nickname}</a> ${item.content}`
-                  : item.content
-              }}
-            />
-            {reply === item.id && (
-              <CommentForm
-                mode="reply"
-                id={`reply-${item.id}`}
-                onSubmit={this.onComment}
-                onCancel={this.onCancelReply}
-                onValidate={this.onCheckContent}
-                emoji={emoji}
-              />
-            )}
-            {this.generateItem(item.children, item)}
-          </li>
-        ))}
-      </ol>
-    )
-  }
-  componentWillUnmount(): void {
-    // 都卸载了，直接覆盖setState了
-    this.setState = () => void 0
-    if (this.unsubscribe) this.unsubscribe()
-  }
-
-  componentDidUpdate(
-    prevProps: Readonly<CommentProps>,
-    prevState: Readonly<CommentState>,
-    snapshot?: any
-  ): void {
-    if (prevState.data !== this.state.data) {
-      const hash = location.hash
-      if (!hash) return void 0
-      if (hash.includes('comment')) {
-        const elm = document.querySelector<HTMLLIElement>(hash)
-        if (!elm) return void 0
-        scrollTo({
-          top: scrollY + elm.getBoundingClientRect().top - 100
-        })
-        return void 0
-      }
-      if (hash.includes('reply')) {
-        const reply = hash.split('-')[1]
-        const elm = document.querySelector(`#comment-${reply}`)
-        if (!elm) return void 0
-        this.setState({ reply })
-        scrollTo({
-          top: scrollY + elm.getBoundingClientRect().top - 100
-        })
-      }
-    }
-  }
-
-  onClick = e => {
-    const target = e.target as HTMLAnchorElement
-    if (!target) return void 0
-    if (target.classList.contains(classes.reply)) {
-      e.preventDefault()
-      const reply = target.hash.split('-')[1]
-      if (!reply) return void 0
-      if (location.hash !== target.hash) {
-        history.pushState(null, document.title, location.pathname + target.hash)
-      }
-      this.setState({ reply })
-      return void 0
-    }
-    if (target.classList.contains(classes.at)) {
-      e.preventDefault()
-      if (location.hash !== target.hash) {
-        history.pushState(null, document.title, location.pathname + target.hash)
-      }
-      const elm = document.querySelector<HTMLLIElement>(target.hash)
-      if (!elm) return void 0
-      scrollTo({
-        top: scrollY + elm.getBoundingClientRect().top - 100,
-        behavior: 'smooth'
-      })
-      return void 0
-    }
-  }
-  onComment = async ({ nickname, content, email, url }: FormDataProps) => {
-    const date = Date.now()
-    const ua = window.navigator.userAgent
-    const hash = md5(email)
-    const { data, reply = null } = this.state
-    const comment = {
-      content,
-      nickname,
-      url,
-      avatar: hash.toString(),
-      date,
-      ua,
-      parent: reply,
-      ip: await this.getIp(),
-      la: navigator.language,
-      pt: decodeURI(location.pathname),
-      pu: decodeURI(location.href),
-      pl: navigator.platform
-    }
-    const result = await firebase.set(await this.getId(), comment)
-    data.push({
-      ...comment,
-      id: result.id,
-      content: this.transitionText(content)
-    })
-    this.setState({
-      data: data.sort((p, n) =>
-        p.date > n.date ? -1 : p.date < n.date ? 1 : 0
+    list.forEach(item => {
+      if (item.rid) return void 0
+      item.children = item.children.sort((p, n) =>
+        p.date > n.date ? 1 : p.date < n.date ? -1 : 0
       )
     })
+    return list.filter(item => !item.rid)
   }
-  onCancelReply = () => {
-    this.setState({ reply: null })
+  // getIp = async () => {
+  //   if (this.ip) return this.ip
+  //   const { ip } = await fetch(QueryIPURL).then(r => r.json())
+  //   this.ip = ip
+  //   return ip
+  // }
+  loadComments = async (current = 1) => {
+    const result = await db.get(this.id, current)
+    this.setState({
+      data: result.list,
+      count: result.count
+    })
+  }
+  // generateItem = (data: CommentList[], parent?: CommentList) => {
+  //   if (data.length === 0) return null
+  //   const { reply, emoji } = this.state
+  //   return (
+  //     <ol
+  //       className={classname(classes.commentList, {
+  //         [classes.listChildren]: Boolean(parent)
+  //       })}
+  //       onClick={parent ? void 0 : this.onClick}
+  //     >
+  //       {data.map(item => (
+  //         <li key={item.id} id={`comment-${item.id}`} className={classes.item}>
+  //           <div className={classes.avatar}>
+  //             <img
+  //               src={`${avatar.cdn}${item.avatar}?d=${avatar.params}&v=${avatar.version}`}
+  //               alt={`${item.nickname}的头像`}
+  //             />
+  //           </div>
+  //           <div className={classes.metadata}>
+  //             <cite>
+  //               {item.url ? (
+  //                 <a href={item.url}>{item.nickname}</a>
+  //               ) : (
+  //                 <span>{item.nickname}</span>
+  //               )}
+  //               <span className={classes.says}>说道：</span>
+  //             </cite>
+  //             <time dateTime={moment(item.date).toISOString()}>
+  //               {moment(item.date).fromNow()}
+  //             </time>
+  //           </div>
+  //           <div className={classes.actions}>
+  //             <a
+  //               className={classes.reply}
+  //               href={`#reply-${item.id}`}
+  //               title={`回复${item.nickname}`}
+  //             >
+  //               回复
+  //             </a>
+  //           </div>
+  //           <p
+  //             className={classes.content}
+  //             dangerouslySetInnerHTML={{
+  //               __html: parent
+  //                 ? `<a class="${classes.at}" href="#comment-${parent.id}" rel="noreferrer noopener">@${parent.nickname}</a> ${item.content}`
+  //                 : item.content
+  //             }}
+  //           />
+  //           {reply === item.id && (
+  //             <Send
+  //               mode="reply"
+  //               id={`reply-${item.id}`}
+  //               onSubmit={this.onComment}
+  //               onCancel={this.onCancelReply}
+  //               onValidate={this.onCheckContent}
+  //               emoji={emoji}
+  //             />
+  //           )}
+  //           {this.generateItem(item.children, item)}
+  //         </li>
+  //       ))}
+  //     </ol>
+  //   )
+  // }
+  componentWillUnmount(): void {
+    // 都卸载了，直接覆盖setState了
+    // window.removeEventListener('hashchange', this.hashListener)
+  }
+  // hashListener = () => {
+  //   const hash = location.hash
+  //   // if (hash.includes('comment')) {
+  //   //   const elm = document.querySelector<HTMLLIElement>(hash)
+  //   //   if (!elm) return void 0
+  //   //   requestAnimationFrame(() => {
+  //   //     const { top, height } = elm.getBoundingClientRect()
+  //   //     const { clientHeight } = document.documentElement
+  //   //     const willTop = scrollY + top - (clientHeight - height) / 2
+  //   //     scrollTo({
+  //   //       top: willTop,
+  //   //       behavior: 'smooth'
+  //   //     })
+  //   //   })
+  //   //   return void 0
+  //   // }
+  // }
+  // componentDidUpdate(
+  //   prevProps: Readonly<CommentProps>,
+  //   prevState: Readonly<CommentState>,
+  //   snapshot?: any
+  // ): void {
+  //   if (prevState.data !== this.state.data) {
+  //     this.hashListener()
+  //   }
+  // }
+  // onClick = e => {
+  //   const target = e.target as HTMLAnchorElement
+  //   if (!target) return void 0
+  //   if (target.classList.contains(classes.reply)) {
+  //     e.preventDefault()
+  //     const reply = target.hash.split('-')[1]
+  //     if (!reply) return void 0
+  //     if (location.hash !== target.hash) {
+  //       history.pushState(null, document.title, location.pathname + target.hash)
+  //     }
+  //     this.setState({ replyObject: void 0 })
+  //     return void 0
+  //   }
+  //   if (target.classList.contains(classes.at)) {
+  //     e.preventDefault()
+  //     if (location.hash !== target.hash) {
+  //       history.pushState(null, document.title, location.pathname + target.hash)
+  //     }
+  //     const elm = document.querySelector<HTMLLIElement>(target.hash)
+  //     if (!elm) return void 0
+  //     scrollTo({
+  //       top: scrollY + elm.getBoundingClientRect().top - 100,
+  //       behavior: 'smooth'
+  //     })
+  //     return void 0
+  //   }
+  // }
+  submit = async ({ nickname, content, email, url }: FormDataProps) => {
+    const ua = window.navigator.userAgent
+    const hash = md5(email)
+    const { data, replyObject, count } = this.state
+    let comment = {
+      content: this.parser(content),
+      nickname,
+      url,
+      email,
+      ua,
+      avatar: hash.toString(),
+      la: navigator.language,
+      origin: location.pathname
+    }
+    if (replyObject) {
+      Object.assign(comment, {
+        rid: replyObject.id,
+        rrid: replyObject.rrid || replyObject.id
+      })
+      const result = await db.set(this.id, comment)
+      data.push({
+        ...comment,
+        id: result.id as string,
+        date: result.createdAt as Date
+      })
+      this.setState({ data })
+    } else {
+      const result = await db.set(this.id, comment)
+      const cur_count = count + 1
+      const current = Math.ceil(cur_count / 10)
+      if (data.length % 10 === 0) {
+        this.setState({
+          data: [
+            {
+              ...comment,
+              id: result.id as string,
+              date: result.createdAt as Date
+            }
+          ],
+          count: cur_count,
+          current: current + 1
+        })
+      } else {
+        data.push({
+          ...comment,
+          id: result.id as string,
+          date: result.createdAt as Date
+        })
+        this.setState({ data, count: cur_count, current })
+      }
+    }
+    scrollTo({
+      top: document.body.scrollHeight
+    })
+  }
+  cancelReply = () => {
+    this.setState({ replyObject: void 0 })
     history.pushState(null, document.title, location.pathname)
   }
   onCheckContent = async (value: string) => {
-    const { data } = this.state
-    let content = value.replace(/:[\w\u4e00-\u9fa5]+:/g, '')
-    if (content.trim().length === 0) return '亲，不能光是表情哦!'
-    const regx = /[^\w\u4e00-\u9fa5]/g
-    content = content.replace(regx, '')
-    const checkRepeat = data.findIndex(item => {
-      regx.lastIndex = 0
-      return item.content.replace(regx, '') === content
-    })
-    if (checkRepeat >= 0) return '重复评论'
+    if (value.trim().length === 0) return '评论内容不能为空'
+    if (value.length > 3000) return '你认真的吗？(⊙ˍ⊙)'
     return true
   }
+  reply = id => {
+    this.setState(({ data }) => {
+      const replyObject = data.find(v => v.id === id)
+      return { replyObject }
+    })
+    scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
+  pagingChange = async page => {
+    const { current } = this.state
+    if (current === page) return void 0
+    this.setState({ current: page })
+    await this.loadComments(page)
+    const element = document.querySelector(`.${classes.comments}`)
+    if (!element) return void 0
+    scrollTo({
+      top: scrollY + element.getBoundingClientRect().top - 100,
+      behavior: 'smooth'
+    })
+  }
+  track = id => {
+    const element = document.querySelector<HTMLLIElement>(`#comment-${id}`)
+    if (!element) return void 0
+    const { top, height } = element.getBoundingClientRect()
+    const { clientHeight } = document.documentElement
+    const willTop = scrollY + top - (clientHeight - height) / 2
+    scrollTo({
+      top: willTop,
+      behavior: 'smooth'
+    })
+  }
   render() {
-    const { data, reply, emoji } = this.state
+    const { data, replyObject, emoji, count, current } = this.state
     const { enable } = this.props
     if (!enable)
       return (
@@ -678,22 +382,25 @@ export default class Comment extends React.Component<
       )
     return (
       <section className={classes.comments}>
-        <h2 className={classes.commentTitle}>
-          留言<i>|</i>评论
-        </h2>
-        {this.generateItem(this.transition(data))}
-        {data.length === 0 && (
-          <div className={classes.commentTips}>还没有评论，快来评论吧</div>
-        )}
-        {!reply && (
-          <CommentForm
-            mode="comment"
-            emoji={emoji}
-            onValidate={this.onCheckContent}
-            onSubmit={this.onComment}
-          />
-        )}
-        <span className={classes.version}>Beta版使用Firebase存储</span>
+        <Header count={count} />
+        <List
+          onTrack={this.track}
+          onReply={this.reply}
+          dataSource={this.serializer(data)}
+        />
+        <Pagination
+          onChange={this.pagingChange}
+          current={current}
+          limit={10}
+          total={count}
+        />
+        <Send
+          emoji={emoji}
+          onValidate={this.onCheckContent}
+          onCancel={this.cancelReply}
+          onSubmit={this.submit}
+          reply={replyObject}
+        />
       </section>
     )
   }

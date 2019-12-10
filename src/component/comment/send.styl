@@ -1,0 +1,238 @@
+@import "~@/assets/styles/common.styl"
+
+setStatusColor($param) {
+  color $param
+  :global {
+    .icon {
+      fill color
+    }
+  }
+}
+
+.comment-send{
+  background-color $cr_bg
+  position relative
+}
+.user-info{
+  display flex
+  justify-content space-between
+  $mediaMobile(@block {
+    display block
+  })
+}
+.item{
+  flex .3
+  label {
+    display block
+    color $cr_text_2nd
+    margin 2em 0 1em
+    user-select none
+  }
+
+  input {
+    line-height 20px
+    width 100%
+    padding .6em
+    box-sizing border-box
+  }
+
+  textarea {
+    min-height 8.75rem
+    resize none
+    box-sizing border-box
+    width 100%
+    margin-bottom 10px
+    font-family inherit
+    padding 10px
+  }
+
+  input, textarea {
+    color $cr_text_3nd
+    outline 0
+    font-family inherit
+    background-color #F6F6F6
+    border-radius 4px
+    border 0
+    &::placeholder {
+      opacity .8
+    }
+    &:focus{
+      color $cr_text_2nd
+    }
+  }
+}
+.other{
+  display flex
+  justify-content space-between
+  align-items center
+  margin 1em 0
+  position relative
+}
+.comment-emoji{
+  background-color transparent
+  border 0
+  outline 0
+  height 36px
+  setStatusColor($cr_text_2nd)
+  cursor pointer
+  font-size 1.6em
+  &:hover{
+    setStatusColor($cr_text)
+  }
+}
+.emoji-box{
+  position absolute
+  width 300px
+  background-color $cr_bg
+  border 1px solid #e5e9ef
+  box-shadow 0 11px 12px 0 rgba(106,115,133,.3)
+  border-radius 8px
+  right 10px
+  bottom -286px
+  display none
+  opacity 0
+  z-index 99
+  $mediaMobile(@block {
+    width 90vw
+  })
+  &:after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: 13px;
+    width: 8px;
+    height: 5px;
+    background: url(../../assets/images/arrow.png) 0 -49px no-repeat;
+  }
+}
+.emoji-box.show{
+  display block
+  animation slide .3s linear forwards
+}
+@keyframes slide{
+  to{
+    opacity 1
+  }
+}
+.emoji-title{
+  font-size 12px
+  padding 10px
+}
+.emoji-wrap {
+  user-select none
+  height 200px
+  overflow-y auto
+  &::-webkit-scrollbar {
+    width 8px
+    background-color $cr_bg
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $cr_line
+  }
+}
+.emoji-tabs{
+  width 100%
+  height 36px
+  position: relative;
+  border-radius 0 0 8px 8px
+  overflow hidden
+  background-color #f4f4f4f4
+}
+.tab-link{
+  display inline-block
+  padding 7px 18px
+  width 22px
+  height 22px
+  cursor pointer
+  transition background-color .3s linear
+  &:hover{
+    background-color #e7e7e7
+  }
+  img{
+    height 100%
+  }
+}
+.tab-link.on{
+  background-color #fff
+}
+.emoji-item {
+  display inline-block
+  height 1.6em
+  cursor pointer
+  opacity 0
+  padding 12px
+  border-radius 2px
+  animation sideIn .3s linear forwards
+  transition opacity .3s linear, transform .3s linear
+  &:hover {
+    transform translateY(-2px)
+    background-color #eee
+    opacity 1
+  }
+  img {
+    height 100%
+    pointer-events none
+  }
+}
+@keyframes sideIn{
+  to{
+    opacity .8
+  }
+}
+.info {
+  height 20px
+  overflow hidden
+  color $cr_text_2nd
+  opacity 1
+  margin 0
+  transition all .3s ease-in-out
+}
+
+.info.hide {
+  height 0
+  opacity .6
+}
+setStatusColor(color) {
+color color
+:global {
+  .icon {
+    fill color
+  }
+}
+}
+.info.error {
+  setStatusColor(#d41855)
+}
+
+.info.success {
+  setStatusColor(#2fc0c7)
+}
+.submit{
+  padding .6em 2.8em
+  outline 0
+  color $cr_bg
+  border 1px solid $cr_bg_2nd
+  background-color $cr_bg_2nd
+  cursor pointer
+  letter-spacing 4px
+  border-radius 4px
+  transition all .3s linear
+  &:hover {
+    background-color $cr_text
+    box-shadow 0 0 12px 2px rgba(106,115,133,0.3)
+  }
+}
+.cancel{
+  background-color transparent
+  margin-left 8px
+  border 0
+  outline 0
+  font-family inherit
+  color $cr_text_2nd
+  cursor pointer
+
+  &:hover {
+    color $cr_text_2nd
+  }
+}

@@ -1,0 +1,150 @@
+@import "~@/assets/styles/common.styl"
+
+.comment-list{
+  background-color #fffff
+}
+.list-item{
+  display block
+  margin-top 1em
+  padding-top 1em
+  transition all .3s ease-in-out
+}
+.avatar{
+  float: left;
+  width 48px
+  height @width
+  margin: 24px 0 0 5px;
+  a{
+    cursor pointer
+  }
+  img{
+    width 48px
+    height @width
+    border-radius 50%
+    $mediaMobile(@block {
+      width 36px
+      height @width
+    })
+  }
+}
+.con{
+  position: relative;
+  margin-left: 85px;
+  padding 22px 0 14px
+  $mediaMobile(@block {
+    margin-left: 55px;
+  })
+}
+.user{
+  padding-bottom 4px
+  display block
+  .name{
+    font-weight bold
+    font-style normal
+    line-height 18px
+    color $cr_text
+    margin-right 10px
+    word-wrap break-word
+  }
+  :global{
+    .os, .browser{
+      font-size 12px
+      margin-left 10px
+      padding 4px 8px
+      border-radius 4px
+      color #b3b1b1
+      background-color #ededed
+      font-family 'monospace'
+    }
+
+    $mediaMobile(@block {
+      .os, .browser{
+        display none
+      }
+    })
+  }
+}
+.text{
+  line-height 20px
+  padding 2px 0
+  font-size 14px
+  overflow hidden
+  white-space pre-wrap
+  word-wrap break-word
+  word-break break-word
+  :global{
+    img.small{
+      height 20px
+      vertical-align text-bottom
+      padding 0 1px
+    }
+    img.image{
+      object-fit contain
+      max-height 400px
+      max-width 400px
+      margin 10px 0
+      vertical-align top
+      cursor zoom-in
+    }
+    img.sticker{
+      max-width 160px
+      vertical-align text-top
+      padding 0 1px
+    }
+    img.zoom{
+      max-height 1000px
+      max-width 100%
+      cursor zoom-out
+    }
+    a.link{
+      text-decoration underline
+    }
+  }
+}
+.info{
+  display block
+  color $cr_text_2nd
+  font-size 12px
+  line-height 26px
+  time{
+    margin-right 20px
+  }
+}
+.reply{
+  padding 0 5px
+  border-radius 4px
+  display inline-block
+  &:hover{
+    background-color #e5e9ef
+    color $cr_main
+  }
+}
+.reply-item{
+  padding 10px 0
+  display flex
+  margin 10px 0
+  transition all .3s ease-in-out
+  .avatar{
+    width 36px
+    height @width
+    margin 0 20px 0 5px
+  }
+  .at{
+    color $cr_main
+  }
+}
+.view-more{
+  font-size 12px
+  color $cr_text_2nd
+}
+.more{
+  color $cr_main
+  cursor pointer
+}
+.tips{
+  color $cr_text_2nd
+  text-align center
+  font-weight normal
+  margin 1em 0
+  user-select none
+}

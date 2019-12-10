@@ -6,7 +6,6 @@ export default async function audioPlayer(
 ) {
   if (audios.length === 0) return
   const { default: load } = await import('@/lib/id3')
-
   Array.from(audios).forEach(audio => {
     load(audio.src).then(tags => {
       register(audio, tags)

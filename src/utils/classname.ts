@@ -1,10 +1,9 @@
 type DynamicClassName = {
   [className: string]: boolean
 }
-
 type ClassName = (DynamicClassName | string | undefined)[]
 
-export default function classname(...arg: ClassName): string {
+function classname(...arg: ClassName): string {
   const list: string[] = []
   for (let item of arg) {
     if (typeof item === 'string') {
@@ -18,3 +17,4 @@ export default function classname(...arg: ClassName): string {
   }
   return list.join(' ')
 }
+export default classname
