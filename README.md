@@ -1,10 +1,10 @@
 ## Elegant 素雅
 
-参考：[https://mostearly.com](https://mostearly.com)
+参考：[https://piecego.com](https://piecego.com)
 
 一个使用TypeScript搭建的Gatsby主题项目
 
-可搭配命令行工具：[BlogCommander](https://github.com/Piecego/BlogCommander)
+⚠ 不打算继续开发，转而全力开发博客系统，静态生成SSG不是很友好，功能也不丰富
 
 ### 功能
 
