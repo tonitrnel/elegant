@@ -91,8 +91,8 @@ const PostNavComponent = (props: PostNavComponentProps) => {
 }
 
 const stylesHref = [
-  'https://static.wktrf.com/styles/prism-line-numbers.css',
-  'https://static.wktrf.com/styles/katex.min.css'
+  '/styles/line-numbers.css',
+  'https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css'
 ]
 
 interface State {

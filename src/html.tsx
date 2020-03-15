@@ -24,6 +24,7 @@ export default function HTML(props: PageProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
         />
+        <link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Josefin+Sans|PT+Sans&display=swap"/>
         <title />
         {props.headComponents}
       </head>

@@ -7,19 +7,26 @@
     -webkit-overflow-scrolling: touch;
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
-    font-family: 'Trebuchet MS', 'PT Mono', Consolas, 'Source Han Serif SC', 'Microsoft YaHei Mono', monospace;
+    font-family: 'Josefin Sans', 'PT Mono', Consolas, 'PingFang SC Medium', monospace;
     height: 100%;
+  }
+  ::-webkit-scrollbar {
+    width 8px
+    height 8px
+    background-color $cr_bg
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $cr_line
+    &:hover{
+      background: #c2c3c4;
+    }
+    &:active{
+      background: #a1a2a3;
+    }
   }
   body {
     font-size: 1rem;
     color: $cr_text;
-    &::-webkit-scrollbar {
-      width 8px
-      background-color $cr_bg
-    }
-    &::-webkit-scrollbar-thumb {
-      background: $cr_line
-    }
   }
   ::selection {
     background-color: $cr_main;

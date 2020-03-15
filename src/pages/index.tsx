@@ -174,7 +174,6 @@ export default class Index extends React.Component<PageProps, PageState> {
           {posts.map((post, index) => (
             <li
               className={classes.postItem}
-              style={{ animationDelay: `${post.rate * 0.2}s` }}
               key={index}
             >
               <header className={classes.postHeader}>
