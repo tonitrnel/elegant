@@ -47,7 +47,7 @@ export default class Comment extends React.Component<CommentProps, State> {
   // ip: string | null = null
   async loadEmoji() {
     const emoji: Emoji[] = await fetch(
-      `https://s1.wktrf.com/emoji/index.json?v=${EmojiVersion}`
+      `/emoji/index.json?v=${EmojiVersion}`
     ).then(res => res.json())
     this.setState({ emoji })
   }
