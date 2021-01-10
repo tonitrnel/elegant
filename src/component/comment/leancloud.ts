@@ -6,8 +6,6 @@ interface Result {
   count: number
 }
 
-type Listener = (data: any[]) => void
-
 function composTo(data: db.Queriable): Comment {
   return {
     id: data.get('objectId'),
@@ -68,8 +66,5 @@ export default class LeanCloud {
       comment.set(key, data[key])
     })
     return await comment.save()
-  }
-  static async on(id: string, listener: Listener) {
-    console.warn('未实现实时更新')
   }
 }

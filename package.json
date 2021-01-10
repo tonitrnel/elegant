@@ -1,9 +1,9 @@
 {
   "name": "elegant",
   "version": "1.0.4",
-  "description": "Piecego's gatsby theme",
+  "description": "piecego's gatsby theme",
   "main": "src/html.tsx",
-  "repository": "https://github.com/Piecego/Elegant.git",
+  "repository": "https://github.com/piecego/elegant.git",
   "author": "piecego",
   "license": "MIT",
   "private": true,
@@ -21,8 +21,7 @@
     "@svgr/webpack": "^4.3.3",
     "autosize": "^4.0.2",
     "crypto-js": "^3.1.9-1",
-    "firebase": "^7.5.2",
-    "gatsby": "^2.18.7",
+    "gatsby": "^2.20.2",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-feed": "^2.3.23",
     "gatsby-plugin-google-analytics": "^2.1.29",
@@ -36,7 +35,7 @@
     "gatsby-remark-copy-linked-files": "^2.1.31",
     "gatsby-remark-external-links": "^0.0.4",
     "gatsby-remark-images": "^3.1.35",
-    "gatsby-remark-katex": "^3.1.18",
+    "gatsby-remark-katex": "^3.2.0",
     "gatsby-remark-prismjs": "^3.3.25",
     "gatsby-source-filesystem": "^2.1.40",
     "gatsby-transformer-remark": "^2.6.39",
@@ -57,7 +56,7 @@
     "@types/crypto-js": "^3.1.43",
     "@types/js-yaml": "^3.12.1",
     "@types/lodash": "^4.14.149",
-    "@types/moment": "^2.13.0",
+    "@types/node": "^13.9.3",
     "@types/react": "^16.9.15",
     "@types/react-dom": "^16.9.4",
     "@types/react-helmet": "^5.0.14",
@@ -75,6 +74,7 @@
     "prettier": "^1.19.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "webpack": "^4.42.0"
   }
 }

@@ -53,7 +53,7 @@ module.exports = {
         short_name: config.site.title,
         start_url: '/',
         background_color: '#ffffff',
-        theme_color: '#39AD86',
+        theme_color: '#1ba784',
         display: 'minimal-ui',
         icon: './src/assets/images/favicon-512x512.png'
       }

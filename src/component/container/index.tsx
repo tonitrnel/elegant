@@ -76,7 +76,7 @@ export default function Container(props: ContainerProps) {
           <p>
             <span className={classes.copyright}>
               <span>&copy;</span>
-              <span>2017-{now.getFullYear() + 1}</span>
+              <span>2017-{now.getFullYear()}</span>
               <span>{metadata.title}.</span>
             </span>
           </p>

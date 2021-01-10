@@ -1,4 +1,4 @@
-import db from '@/helpers/cloud'
+// import db from '@/helpers/cloud'
 
 const CLASS_NAME = 'statistics'
 export default class Visitors {

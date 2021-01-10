@@ -111,7 +111,7 @@ export default class Post extends React.Component<PageProps, State> {
     )
     installAudioPlayer(audios)
     this.id = md5(location.pathname.replace(/\/$/, '')).toString()
-    this.loadViews()
+    // this.loadViews()
   }
   async loadViews() {
     try {
@@ -218,7 +218,7 @@ export default class Post extends React.Component<PageProps, State> {
             <PostNavComponent next={next} prev={prev} className={classes.nav} />
           </footer>
         </article>
-        <Comment enable={posts.fields.comment} />
+        <Comment enable={false} />
       </Container>
     )
   }

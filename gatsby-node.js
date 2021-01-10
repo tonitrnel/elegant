@@ -1,9 +1,9 @@
-const { resolve } = require('path')
-const pinyin = require('pinyin')
 const segment = require('nodejieba')
-const $ = require('lodash')
-const moment = require('moment')
+const { resolve } = require('path')
 const config = require('./config')
+const pinyin = require('pinyin')
+const moment = require('moment')
+const $ = require('lodash')
 
 const fields = 'node.fields'
 const template = (path, filename = 'index.tsx') =>

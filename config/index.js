@@ -1,11 +1,17 @@
 const { resolve } = require('path')
 const yaml = require('js-yaml')
 const fs = require('fs')
-const DIR = 'D://Writing'
+let dir = ''
+if (process.platform === 'linux') {
+  dir = '/mnt/d/OneDrive/Documents/Blog'
+}
+if (process.platform === 'win32') {
+  dir = 'D://OneDrive/Documents/Blog'
+}
 
 function load() {
   try {
-    const source = fs.readFileSync(resolve(DIR, 'site.yaml'))
+    const source = fs.readFileSync(resolve(dir, 'site.yaml'))
     return yaml.safeLoad(source.toString())
   } catch (e) {
     console.error(e.message)
@@ -14,7 +20,7 @@ function load() {
   }
 }
 module.exports = {
-  dir: DIR,
+  dir,
   site: {
     title: '',
     url: '',
