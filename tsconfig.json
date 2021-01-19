@@ -1,0 +1,58 @@
+{
+    "extends": "./paths.json",
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "allowJs": false,
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "strict": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "declaration": false,
+      "skipLibCheck": true,
+      "importHelpers": false,
+      "strictNullChecks": true,
+      "noImplicitReturns": false,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "removeComments": true,
+      "emitDecoratorMetadata": false,
+      "experimentalDecorators": true,
+      "listFiles": false,
+      "noImplicitThis": true,
+      "traceResolution": false,
+      "pretty": false,
+      "noImplicitAny": true,
+      "forceConsistentCasingInFileNames": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "jsx": "react",
+      "baseUrl": ".",
+      "allowSyntheticDefaultImports": true,
+      "isolatedModules": true,
+      "typeRoots": [
+        "node_modules/@types",
+      ],
+      "types": [
+        "webpack-env",
+        "jest"
+      ],
+      "lib": [
+        "esnext",
+        "dom",
+        "dom.iterable",
+        "scripthost"
+      ],
+      "noEmit": true
+    },
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "node_modules/gatsby/index.d.ts",
+      "tests/**/*.ts",
+      "tests/**/*.tsx"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
