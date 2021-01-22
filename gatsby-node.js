@@ -1,4 +1,5 @@
 const std_path = require('path');
+const { resolve } = require('./webpack.alias');
 const { dir } = require('./scripts/configure');
 
 /**
@@ -7,11 +8,7 @@ const { dir } = require('./scripts/configure');
  */
 exports.onCreateWebpackConfig = function onCreateWebpackConfig({ actions }) {
   actions.setWebpackConfig({
-    resolve: {
-      alias: {
-        '~': std_path.resolve(__dirname, 'src')
-      }
-    }
+    resolve,
   });
 };
 
@@ -19,7 +16,12 @@ exports.onCreateWebpackConfig = function onCreateWebpackConfig({ actions }) {
  * 创建节点 onCreateNode
  * @param {CreateNodeArgs} args
  */
-exports.onCreateNode = function onCreateNode({ node, actions, getNode, reporter }) {
+exports.onCreateNode = function onCreateNode({
+  node,
+  actions,
+  getNode,
+  reporter,
+}) {
   if (node.internal.type !== 'MarkdownRemark') return void 0;
   const parentNode = getNode(node.parent);
   const directory = slashPath(parentNode.dir).replace(slashPath(dir), '');
@@ -44,7 +46,7 @@ exports.onCreateNode = function onCreateNode({ node, actions, getNode, reporter 
     actions.createNodeField({
       node,
       name: `slug`,
-      value: node.frontmatter.permalink
+      value: node.frontmatter.permalink,
     });
   } else {
     for (const key of ['title', 'date']) {
@@ -54,8 +56,10 @@ exports.onCreateNode = function onCreateNode({ node, actions, getNode, reporter 
       }
     }
     if (node.frontmatter.title.includes(`"`)) {
-      console.warn(`\nIt is not recommended to include " in the title.\n- file: ` +
-        `${node.fileAbsolutePath}\n- title: ${node.frontmatter.title}`);
+      console.warn(
+        `\nIt is not recommended to include " in the title.\n- file: ` +
+          `${node.fileAbsolutePath}\n- title: ${node.frontmatter.title}`
+      );
     }
     // 关键字
     if (!node.frontmatter.keywords) {
@@ -92,7 +96,8 @@ exports.onCreateNode = function onCreateNode({ node, actions, getNode, reporter 
     actions.createNodeField({
       node,
       name: `slug`,
-      value: node.frontmatter.permalink || `/${year}/${node.frontmatter.title}.void`
+      value:
+        node.frontmatter.permalink || `/${year}/${node.frontmatter.title}.void`,
     });
   }
 };
@@ -115,13 +120,18 @@ const resolveTemplate = (name) =>
  * @param str {string}
  * @return {string}
  */
-const toBigCamelcase = (str) => str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase());
+const toBigCamelcase = (str) =>
+  str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase());
 
 /**
  * 创建页面 createPages
  * @param {CreatePagesArgs} args
  */
-exports.createPages = async function createPages({ actions, reporter, graphql }) {
+exports.createPages = async function createPages({
+  actions,
+  reporter,
+  graphql,
+}) {
   /**
    * GraphQL result
    * @type {{data: {allMarkdownRemark: {edges: {node: {fields: Object, frontmatter: Object}}[]}}, errors: Error[] | null}}
@@ -175,11 +185,11 @@ exports.createPages = async function createPages({ actions, reporter, graphql })
           component: resolveTemplate(template),
           context: {
             slug,
-            lastmod: update
-          }
+            lastmod: update,
+          },
         });
       } else {
-        node.frontmatter.tags.forEach(tag => tags.add(tag));
+        node.frontmatter.tags.forEach((tag) => tags.add(tag));
         categories.add(node.frontmatter.category);
         dates.add(node.frontmatter.date);
         actions.createPage({
@@ -187,34 +197,38 @@ exports.createPages = async function createPages({ actions, reporter, graphql })
           component: resolveTemplate(template),
           context: {
             slug,
-            lastmod: update
-          }
+            lastmod: update,
+          },
         });
       }
       usedLinks.add(slug);
     } catch (e) {
-      console.log('\n----------------------------------------------------------');
+      console.log(
+        '\n----------------------------------------------------------'
+      );
       console.dir(node);
-      console.log('\n----------------------------------------------------------');
+      console.log(
+        '\n----------------------------------------------------------'
+      );
       reporter.panicOnBuild(e);
     }
   });
-  tags.forEach(tag => {
+  tags.forEach((tag) => {
     const path = `/tags/${tag.toLowerCase()}`;
     usedLinks.add(path);
     actions.createPage({
       path,
       component: resolveTemplate('tag'),
-      context: { id: tag }
+      context: { id: tag },
     });
   });
-  categories.forEach(category => {
+  categories.forEach((category) => {
     const path = `/categories/${category.toLowerCase()}`;
     usedLinks.add(path);
     actions.createPage({
       path,
       component: resolveTemplate('category'),
-      context: { id: category }
+      context: { id: category },
     });
   });
 };

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Layout from '~/components/Layout';
+import Layout from 'components/Layout';
 import { graphql, PageProps } from 'gatsby';
 
 export const QUERY_POST_DSL = graphql`

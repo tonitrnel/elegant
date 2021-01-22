@@ -38,29 +38,37 @@ const Layout: FC<
   PropsWithChildren<{
     title?: string;
   }>
-> = (props) => {
+> = ({ title, children }) => {
   const {
     site: { metadata },
   }: IQueryResponse = useStaticQuery(QUERY_DSL);
+  const {
+    metadata: { google_search_console },
+  } = metadata.config;
   return (
     <>
       <Helmet htmlAttributes={{ lang: metadata.language }}>
         <title>
-          {props.title ? `${props.title} - ` : ''}
+          {title ? `${title} - ` : ''}
           {metadata.title}
         </title>
         <meta name="author" content={metadata.author} />
         <meta name="copyright" content={metadata.author} />
-        <meta
-          name="google-site-verification"
-          content={metadata.config.metadata.google_search_console ?? ''}
-        />
+        {google_search_console && (
+          <meta
+            name="google-site-verification"
+            content={google_search_console}
+          />
+        )}
         <link
           rel="stylesheet"
           href="https://fonts.proxy.ustclug.org/css?family=Josefin+Sans|PT+Sans&display=swap"
         />
       </Helmet>
-      {props.children}
+      <section id="layout" className="color-theme--dark">
+        <main id="content">{children}</main>
+        <footer>footer</footer>
+      </section>
     </>
   );
 };

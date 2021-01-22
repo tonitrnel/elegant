@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import {
   ImmerContext,
   __internal__immer__context,
-} from '~/components/ImmerProvider';
+} from 'components/ImmerProvider';
 /**
  * useImmer hook
  */
