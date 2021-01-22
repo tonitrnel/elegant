@@ -68,7 +68,7 @@ const QUERY_SITEMAP_DSL = `
  * @type {GatsbyConfig}
  */
 module.exports = {
-  siteMetadata: { title, description, author, siteUrl, language, navs: config.navs },
+  siteMetadata: { title, description, author, siteUrl, language, navs: config.navs, config },
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',

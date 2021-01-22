@@ -4,7 +4,7 @@ export interface RootState {
   isMobile: boolean;
 }
 export const initial_state: RootState = {
-  path: "",
-  size: "25px",
+  path: '',
+  size: '25px',
   isMobile: false,
 };

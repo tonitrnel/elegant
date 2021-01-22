@@ -115,7 +115,7 @@ const resolveTemplate = (name) =>
  * @param str {string}
  * @return {string}
  */
-const toBigCamelcase = (str) => str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase())
+const toBigCamelcase = (str) => str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase());
 
 /**
  * 创建页面 createPages
@@ -175,8 +175,9 @@ exports.createPages = async function createPages({ actions, reporter, graphql })
           component: resolveTemplate(template),
           context: {
             slug,
+            lastmod: update
           }
-        })
+        });
       } else {
         node.frontmatter.tags.forEach(tag => tags.add(tag));
         categories.add(node.frontmatter.category);
@@ -188,7 +189,7 @@ exports.createPages = async function createPages({ actions, reporter, graphql })
             slug,
             lastmod: update
           }
-        })
+        });
       }
       usedLinks.add(slug);
     } catch (e) {
@@ -198,22 +199,22 @@ exports.createPages = async function createPages({ actions, reporter, graphql })
       reporter.panicOnBuild(e);
     }
   });
-  // tags.forEach(tag => {
-  //   const path = `/tags/${tag.toLowerCase()}`;
-  //   usedLinks.add(path);
-  //   actions.createPage({
-  //     path,
-  //     component: resolveTemplate('tag'),
-  //     context: { id: tag }
-  //   });
-  // });
-  // categories.forEach(category => {
-  //   const path = `/categories/${$.kebabCase(category)}`;
-  //   usedLinks.add(path);
-  //   actions.createPage({
-  //     path,
-  //     component: resolveTemplate('category'),
-  //     context: { id: category }
-  //   });
-  // });
+  tags.forEach(tag => {
+    const path = `/tags/${tag.toLowerCase()}`;
+    usedLinks.add(path);
+    actions.createPage({
+      path,
+      component: resolveTemplate('tag'),
+      context: { id: tag }
+    });
+  });
+  categories.forEach(category => {
+    const path = `/categories/${category.toLowerCase()}`;
+    usedLinks.add(path);
+    actions.createPage({
+      path,
+      component: resolveTemplate('category'),
+      context: { id: category }
+    });
+  });
 };

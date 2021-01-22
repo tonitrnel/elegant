@@ -5,11 +5,11 @@ import React, {
   useCallback,
   useEffect,
   PropsWithChildren,
-} from "react";
-import { Draft, produce } from "immer";
-import { initial_state, RootState } from "~/states/root";
+} from 'react';
+import { Draft, produce } from 'immer';
+import { initial_state, RootState } from '~/states/root';
 
-export type MutationCallback<T> = (draft: Draft<ImmerContext["state"]>) => T;
+export type MutationCallback<T> = (draft: Draft<ImmerContext['state']>) => T;
 
 export type Mutation = <T>(dispatch: MutationCallback<T>) => T | undefined;
 
@@ -18,19 +18,21 @@ export interface ImmerContext {
   readonly mutation: Mutation;
 }
 
-export const __internal__immer__context = createContext<ImmerContext | void>(void 0);
+export const __internal__immer__context = createContext<ImmerContext | void>(
+  void 0
+);
 
-const DEFAULT_STATE: ImmerContext["state"] = initial_state;
+const DEFAULT_STATE: ImmerContext['state'] = initial_state;
 
 export const ImmerProvider: FC<
   PropsWithChildren<{
     onUpdate?: (
-      prevState: void | ImmerContext["state"],
-      nextState: ImmerContext["state"]
+      prevState: void | ImmerContext['state'],
+      nextState: ImmerContext['state']
     ) => void;
   }>
 > = ({ children, onUpdate }) => {
-  const [state, setState] = useState<ImmerContext["state"]>(DEFAULT_STATE);
+  const [state, setState] = useState<ImmerContext['state']>(DEFAULT_STATE);
   useEffect(() => {
     onUpdate && onUpdate(DEFAULT_STATE, DEFAULT_STATE);
   }, [onUpdate]);

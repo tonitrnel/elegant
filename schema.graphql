@@ -968,13 +968,13 @@ input MarkdownRemarkFrontmatterFilterInput {
   tags: StringQueryOperatorInput
 
   #
+  excerpt: StringQueryOperatorInput
+
+  #
   category: StringQueryOperatorInput
 
   #
   thumbnail: FileFilterInput
-
-  #
-  excerpt: StringQueryOperatorInput
 
   #
   modified: DateQueryOperatorInput
@@ -1841,9 +1841,9 @@ type MarkdownRemarkFrontmatter {
     locale: String
   ): Date
   tags: [String]
+  excerpt: String
   category: String
   thumbnail: File
-  excerpt: String
   modified(
     # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
     formatString: String
@@ -2777,6 +2777,7 @@ enum FileFieldsEnum {
   childrenMarkdownRemark___frontmatter___date
   childrenMarkdownRemark___frontmatter___update
   childrenMarkdownRemark___frontmatter___tags
+  childrenMarkdownRemark___frontmatter___excerpt
   childrenMarkdownRemark___frontmatter___category
   childrenMarkdownRemark___frontmatter___thumbnail___sourceInstanceName
   childrenMarkdownRemark___frontmatter___thumbnail___absolutePath
@@ -2816,7 +2817,6 @@ enum FileFieldsEnum {
   childrenMarkdownRemark___frontmatter___thumbnail___childrenMarkdownRemark
   childrenMarkdownRemark___frontmatter___thumbnail___id
   childrenMarkdownRemark___frontmatter___thumbnail___children
-  childrenMarkdownRemark___frontmatter___excerpt
   childrenMarkdownRemark___frontmatter___modified
   childrenMarkdownRemark___excerpt
     @deprecated(
@@ -3142,6 +3142,7 @@ enum FileFieldsEnum {
   childMarkdownRemark___frontmatter___date
   childMarkdownRemark___frontmatter___update
   childMarkdownRemark___frontmatter___tags
+  childMarkdownRemark___frontmatter___excerpt
   childMarkdownRemark___frontmatter___category
   childMarkdownRemark___frontmatter___thumbnail___sourceInstanceName
   childMarkdownRemark___frontmatter___thumbnail___absolutePath
@@ -3181,7 +3182,6 @@ enum FileFieldsEnum {
   childMarkdownRemark___frontmatter___thumbnail___childrenMarkdownRemark
   childMarkdownRemark___frontmatter___thumbnail___id
   childMarkdownRemark___frontmatter___thumbnail___children
-  childMarkdownRemark___frontmatter___excerpt
   childMarkdownRemark___frontmatter___modified
   childMarkdownRemark___excerpt
     @deprecated(
@@ -3935,21 +3935,110 @@ input SiteSiteMetadataFilterInput {
   language: StringQueryOperatorInput
 
   #
-  navs: SiteSiteMetadataNavsFilterInput
+  navs: SiteSiteMetadataNavsFilterListInput
+
+  #
+  config: SiteSiteMetadataConfigFilterInput
+}
+
+input SiteSiteMetadataNavsFilterListInput {
+  #
+  elemMatch: SiteSiteMetadataNavsFilterInput
 }
 
 input SiteSiteMetadataNavsFilterInput {
   #
-  _: StringQueryOperatorInput
+  path: StringQueryOperatorInput
 
   #
-  _archives: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+}
+
+input SiteSiteMetadataConfigFilterInput {
+  #
+  site: SiteSiteMetadataConfigSiteFilterInput
 
   #
-  _links: StringQueryOperatorInput
+  author: SiteSiteMetadataConfigAuthorFilterInput
 
   #
-  _about: StringQueryOperatorInput
+  navs: SiteSiteMetadataConfigNavsFilterListInput
+
+  #
+  metadata: SiteSiteMetadataConfigMetadataFilterInput
+}
+
+input SiteSiteMetadataConfigSiteFilterInput {
+  #
+  title: StringQueryOperatorInput
+
+  #
+  url: StringQueryOperatorInput
+
+  #
+  language: StringQueryOperatorInput
+
+  #
+  description: StringQueryOperatorInput
+
+  #
+  keywords: StringQueryOperatorInput
+
+  #
+  pagination_limit: IntQueryOperatorInput
+
+  #
+  parse_ignore_dirs: StringQueryOperatorInput
+
+  #
+  main_color: StringQueryOperatorInput
+}
+
+input SiteSiteMetadataConfigAuthorFilterInput {
+  #
+  name: StringQueryOperatorInput
+
+  #
+  comment: StringQueryOperatorInput
+
+  #
+  avatar: StringQueryOperatorInput
+
+  #
+  email: StringQueryOperatorInput
+
+  #
+  github: StringQueryOperatorInput
+
+  #
+  location: StringQueryOperatorInput
+}
+
+input SiteSiteMetadataConfigNavsFilterListInput {
+  #
+  elemMatch: SiteSiteMetadataConfigNavsFilterInput
+}
+
+input SiteSiteMetadataConfigNavsFilterInput {
+  #
+  path: StringQueryOperatorInput
+
+  #
+  name: StringQueryOperatorInput
+}
+
+input SiteSiteMetadataConfigMetadataFilterInput {
+  #
+  google_analytics: StringQueryOperatorInput
+
+  #
+  google_search_console: StringQueryOperatorInput
+
+  #
+  google_adsense_slot: StringQueryOperatorInput
+
+  #
+  google_adsense_client: StringQueryOperatorInput
 }
 
 type Site implements Node {
@@ -3983,14 +4072,52 @@ type SiteSiteMetadata {
   author: String
   siteUrl: String
   language: String
-  navs: SiteSiteMetadataNavs
+  navs: [SiteSiteMetadataNavs]
+  config: SiteSiteMetadataConfig
 }
 
 type SiteSiteMetadataNavs {
-  _: String
-  _archives: String
-  _links: String
-  _about: String
+  path: String
+  name: String
+}
+
+type SiteSiteMetadataConfig {
+  site: SiteSiteMetadataConfigSite
+  author: SiteSiteMetadataConfigAuthor
+  navs: [SiteSiteMetadataConfigNavs]
+  metadata: SiteSiteMetadataConfigMetadata
+}
+
+type SiteSiteMetadataConfigSite {
+  title: String
+  url: String
+  language: String
+  description: String
+  keywords: [String]
+  pagination_limit: Int
+  parse_ignore_dirs: [String]
+  main_color: String
+}
+
+type SiteSiteMetadataConfigAuthor {
+  name: String
+  comment: String
+  avatar: String
+  email: String
+  github: String
+  location: String
+}
+
+type SiteSiteMetadataConfigNavs {
+  path: String
+  name: String
+}
+
+type SiteSiteMetadataConfigMetadata {
+  google_analytics: String
+  google_search_console: String
+  google_adsense_slot: String
+  google_adsense_client: String
 }
 
 input SiteFilterInput {
@@ -4037,10 +4164,30 @@ enum SiteFieldsEnum {
   siteMetadata___author
   siteMetadata___siteUrl
   siteMetadata___language
-  siteMetadata___navs____
-  siteMetadata___navs____archives
-  siteMetadata___navs____links
-  siteMetadata___navs____about
+  siteMetadata___navs
+  siteMetadata___navs___path
+  siteMetadata___navs___name
+  siteMetadata___config___site___title
+  siteMetadata___config___site___url
+  siteMetadata___config___site___language
+  siteMetadata___config___site___description
+  siteMetadata___config___site___keywords
+  siteMetadata___config___site___pagination_limit
+  siteMetadata___config___site___parse_ignore_dirs
+  siteMetadata___config___site___main_color
+  siteMetadata___config___author___name
+  siteMetadata___config___author___comment
+  siteMetadata___config___author___avatar
+  siteMetadata___config___author___email
+  siteMetadata___config___author___github
+  siteMetadata___config___author___location
+  siteMetadata___config___navs
+  siteMetadata___config___navs___path
+  siteMetadata___config___navs___name
+  siteMetadata___config___metadata___google_analytics
+  siteMetadata___config___metadata___google_search_console
+  siteMetadata___config___metadata___google_adsense_slot
+  siteMetadata___config___metadata___google_adsense_client
   port
   host
   polyfill
@@ -4163,6 +4310,9 @@ input SitePageContextFilterInput {
 
   #
   lastmod: DateQueryOperatorInput
+
+  #
+  id: StringQueryOperatorInput
 }
 
 input SitePluginFilterInput {
@@ -4611,6 +4761,7 @@ type SitePage implements Node {
 type SitePageContext {
   slug: String
   lastmod: Date
+  id: String
 }
 
 type SitePlugin implements Node {
@@ -4917,6 +5068,7 @@ enum SitePageFieldsEnum {
   isCreatedByStatefulCreatePages
   context___slug
   context___lastmod
+  context___id
   pluginCreator___id
   pluginCreator___parent___id
   pluginCreator___parent___parent___id
@@ -5793,6 +5945,7 @@ enum MarkdownRemarkFieldsEnum {
   frontmatter___date
   frontmatter___update
   frontmatter___tags
+  frontmatter___excerpt
   frontmatter___category
   frontmatter___thumbnail___sourceInstanceName
   frontmatter___thumbnail___absolutePath
@@ -5950,7 +6103,6 @@ enum MarkdownRemarkFieldsEnum {
   frontmatter___thumbnail___internal___mediaType
   frontmatter___thumbnail___internal___owner
   frontmatter___thumbnail___internal___type
-  frontmatter___excerpt
   frontmatter___modified
   excerpt
     @deprecated(

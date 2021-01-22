@@ -1,6 +1,6 @@
 const TOML = require('toml');
 const std_fs = require('fs');
-const std_path = require("path");
+const std_path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config({ debug: true });
@@ -33,7 +33,7 @@ const dir = process.env.ARTICLE_DIRECTORY;
 
 /**
  * interface INavs
- * @typedef {Record<string, string>} INavs
+ * @typedef {Array<{path: string, name: string}>} INavs
  */
 
 /**
@@ -66,13 +66,14 @@ const dir = process.env.ARTICLE_DIRECTORY;
  * @returns {IConfigure}
  */
 function configure() {
-    try {
-        const source = std_fs.readFileSync(std_path.resolve(dir, 'site.toml'));
-        return {config: TOML.parse(source.toString('utf8')), dir}
-    } catch (e) {
-        console.error(e.message)
-        throw new Error('Load config failed!')
-    }
+  try {
+    const source = std_fs.readFileSync(std_path.resolve(dir, 'site.toml'));
+    const config = TOML.parse(source.toString('utf8'));
+    return { config, dir };
+  } catch (e) {
+    console.error(e);
+    throw new Error('Load config failed!');
+  }
 }
 
 module.exports = configure();

@@ -3,27 +3,66 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
 const QUERY_DSL = graphql`
-    query siteTitleQuery{
-        site{
-            siteMetadata{
-                author
-                title
-            }
+  query {
+    site {
+      metadata: siteMetadata {
+        author
+        title
+        language
+        config {
+          metadata {
+            google_search_console
+          }
         }
+      }
     }
-`
+  }
+`;
 
-const Layout: FC<PropsWithChildren<{
-  title?: string
-}>> = (props) => {
-  const result = useStaticQuery(QUERY_DSL)
-  console.log(result)
-  return (<>
-    <Helmet>
-      <title>{result.site.siteMetadata.title}</title>
-    </Helmet>
-    {props.children}
-  </>)
+interface IQueryResponse {
+  site: {
+    metadata: {
+      author: string;
+      title: string;
+      language: string;
+      config: {
+        metadata: {
+          google_search_console: string;
+        };
+      };
+    };
+  };
 }
 
-export default Layout
+const Layout: FC<
+  PropsWithChildren<{
+    title?: string;
+  }>
+> = (props) => {
+  const {
+    site: { metadata },
+  }: IQueryResponse = useStaticQuery(QUERY_DSL);
+  return (
+    <>
+      <Helmet htmlAttributes={{ lang: metadata.language }}>
+        <title>
+          {props.title ? `${props.title} - ` : ''}
+          {metadata.title}
+        </title>
+        <meta name="author" content={metadata.author} />
+        <meta name="copyright" content={metadata.author} />
+        <meta
+          name="google-site-verification"
+          content={metadata.config.metadata.google_search_console ?? ''}
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.proxy.ustclug.org/css?family=Josefin+Sans|PT+Sans&display=swap"
+        />
+      </Helmet>
+      {props.children}
+    </>
+  );
+};
+
+export default Layout;
