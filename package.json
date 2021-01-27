@@ -1,14 +1,14 @@
 {
   "name": "elegant",
   "version": "2.0.0",
-  "description": "Gatsbyjs theme",
-  "main": "index.js",
+  "description": "GatsbyJS theme",
+  "main": "none",
   "repository": "https://github.com/piecego/elegant.git",
   "author": "piecego <wktrf@foxmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "node node_modules/gatsby/dist/bin/gatsby build",
-    "dev": "node node_modules/gatsby/dist/bin/gatsby develop -p 9999",
+    "dev": "node node_modules/gatsby/dist/bin/gatsby develop",
     "serve": "node node_modules/gatsby/dist/bin/gatsby serve",
     "clean": "node node_modules/gatsby/dist/bin/gatsby clean",
     "develop-inspect": "node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop",
@@ -22,7 +22,8 @@
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "web-vitals": "^1.1.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
