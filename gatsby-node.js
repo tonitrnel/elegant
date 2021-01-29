@@ -124,6 +124,24 @@ const toBigCamelcase = (str) =>
   str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase());
 
 /**
+ * 当创建页面时拦截 onCreatePage
+ * @param {CreatePageArgs} args
+ */
+exports.onCreatePage = function onCreatePage({ page, actions }) {
+  if (
+    std_path.resolve(page.component) ===
+    std_path.resolve(__dirname, 'src/pages/Index.tsx')
+  ) {
+    console.log('rewrite', page.path);
+    actions.deletePage({ path: page.path, component: page.component });
+    actions.createPage({
+      ...page,
+      path: '/',
+    });
+  }
+};
+
+/**
  * 创建页面 createPages
  * @param {CreatePagesArgs} args
  */

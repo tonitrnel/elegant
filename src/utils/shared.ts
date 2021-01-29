@@ -133,16 +133,18 @@ export function clone<T>(target: T): T {
  * 按路径获取对象或数组上的属性
  * @param val
  * @param path
+ * @param struct 严格模式，启用后如果路径中断将报错
  */
-export const get = <T extends any = any>(
+export const get = <T = any>(
   val: any,
-  path: string | string[]
+  path: string | string[],
+  struct = true
 ): T => {
   const keys = Array.isArray(path) ? [...path] : path.split('.');
   let count = 0;
   const loops = (obj: any, key: string | null): T => {
     if (!val) {
-      if (count !== keys.length - 1)
+      if (count !== keys.length - 1 && struct)
         throw new Error(
           `An unreachable error occurred while fetching data, path: ${keys
             .slice(0, count + 1)

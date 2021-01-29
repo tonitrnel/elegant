@@ -3,7 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { get } from 'utils/shared';
 
 const QUERY_BIO_DSL = graphql`
-  query {
+  query Bio {
     site {
       metadata: siteMetadata {
         config {
@@ -38,9 +38,10 @@ const Bio = () => {
   const {
     site: { url },
     author: { comment, location, email, github },
-  } = get<IQueryResponse>(
-    useStaticQuery(QUERY_BIO_DSL),
-    'site.metadata.config'
+  } = get(
+    useStaticQuery<IQueryResponse>(QUERY_BIO_DSL),
+    'site.metadata.config',
+    false
   );
   return (
     <div className="bio">

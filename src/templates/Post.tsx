@@ -3,7 +3,7 @@ import Layout from 'components/Layout';
 import { graphql, PageProps } from 'gatsby';
 
 export const QUERY_POST_DSL = graphql`
-  query($slug: String!) {
+  query Post($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       html

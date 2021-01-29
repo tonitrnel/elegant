@@ -3,9 +3,9 @@ const std_fs = require('fs');
 const std_path = require('path');
 const dotenv = require('dotenv');
 
-dotenv.config({ debug: true });
+dotenv.config({ debug: process.env.DEBUG, path: '.env.local' });
 
-const dir = process.env.ARTICLE_DIRECTORY;
+const dir = process.env.GATSBY_POSTS_DIRECTORY;
 
 /**
  * interface ISite

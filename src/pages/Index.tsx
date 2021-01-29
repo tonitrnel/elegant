@@ -2,6 +2,7 @@ import React from 'react';
 import { FC } from 'react';
 import { graphql } from 'gatsby';
 import Layout from 'components/Layout';
+import SEO from 'components/SEO';
 
 const IndexPage: FC<{
   path: string;
@@ -10,13 +11,14 @@ const IndexPage: FC<{
   const posts = data.allMarkdownRemark.edges;
   return (
     <Layout>
-      <div>{JSON.stringify(posts, null, 2)}</div>
+      <SEO title={data.site.siteMetadata.title} />
+      <div>{posts.length}</div>
     </Layout>
   );
 };
 
-export const Query = graphql`
-  query {
+export const QUERY_LIST_DSL = graphql`
+  query List {
     site {
       siteMetadata {
         title

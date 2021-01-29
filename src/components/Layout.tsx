@@ -3,7 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
 const QUERY_DSL = graphql`
-  query {
+  query SiteMetadata {
     site {
       metadata: siteMetadata {
         author
@@ -47,11 +47,7 @@ const Layout: FC<
   } = metadata.config;
   return (
     <>
-      <Helmet htmlAttributes={{ lang: metadata.language }}>
-        <title>
-          {title ? `${title} - ` : ''}
-          {metadata.title}
-        </title>
+      <Helmet>
         <meta name="author" content={metadata.author} />
         <meta name="copyright" content={metadata.author} />
         {google_search_console && (

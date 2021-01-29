@@ -68,7 +68,15 @@ const QUERY_SITEMAP_DSL = `
  * @type {GatsbyConfig}
  */
 module.exports = {
-  siteMetadata: { title, description, author, siteUrl, language, navs: config.navs, config },
+  siteMetadata: {
+    title,
+    description,
+    author,
+    siteUrl,
+    language,
+    navs: config.navs,
+    config,
+  },
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
@@ -80,8 +88,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: config.metadata.google_analytics
-      }
+        trackingId: config.metadata.google_analytics,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
@@ -89,8 +97,8 @@ module.exports = {
         name: 'archives',
         path: dir,
         // 屏蔽git文件夹
-        ignore: config.site.parse_ignore_dirs.map(item => '**/' + item)
-      }
+        ignore: config.site.parse_ignore_dirs.map((item) => '**/' + item),
+      },
     },
     {
       resolve: `gatsby-transformer-remark`,
@@ -106,8 +114,8 @@ module.exports = {
               maxWidth: 890 + (890 / 100) * 4,
               showCaptions: true,
               loading: 'lazy',
-              withWebp: true
-            }
+              withWebp: true,
+            },
           },
           {
             resolve: `gatsby-remark-prismjs`,
@@ -122,24 +130,24 @@ module.exports = {
                 javascriptreact: 'jsx',
                 'javascript react': 'jsx',
                 typescriptreact: 'tsx',
-                'typescript react': 'tsx'
-              }
-            }
+                'typescript react': 'tsx',
+              },
+            },
           },
           {
             resolve: `gatsby-remark-katex`,
             options: {
-              strict: `ignore`
-            }
+              strict: `ignore`,
+            },
           },
           {
             resolve: 'gatsby-remark-external-links',
             options: {
-              rel: 'noopener'
-            }
-          }
-        ]
-      }
+              rel: 'noopener',
+            },
+          },
+        ],
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -156,8 +164,8 @@ module.exports = {
         icon: './src/assets/images/favicon-512x512.png',
         legacy: false,
         include_favicon: false,
-        crossOrigin: `use-credentials`
-      }
+        crossOrigin: `use-credentials`,
+      },
     },
     {
       resolve: 'gatsby-plugin-feed',
@@ -169,20 +177,21 @@ module.exports = {
             serialize: ({ query: { site, allMarkdownRemark } }) => {
               const { metadata } = site;
               const { edges } = allMarkdownRemark;
-              return edges.map(edge => ({
+              return edges.map((edge) => ({
                 title: edge.node.frontmatter.title,
-                description: edge.node.frontmatter.description || edge.node.excerpt,
+                description:
+                  edge.node.frontmatter.description || edge.node.excerpt,
                 date: edge.node.frontmatter.date,
                 url: metadata.siteUrl + edge.node.fields.slug,
                 guid: metadata.siteUrl + edge.node.fields.slug,
-                custom_elements: [{ 'content:encoded': edge.node.html }]
+                custom_elements: [{ 'content:encoded': edge.node.html }],
               }));
             },
             output: '/rss.xml',
-            title: `${title} | Feed`
-          }
-        ]
-      }
+            title: `${title} | Feed`,
+          },
+        ],
+      },
     },
     {
       resolve: 'gatsby-plugin-sitemap',
@@ -190,22 +199,37 @@ module.exports = {
         output: '/sitemap.xml',
         query: QUERY_SITEMAP_DSL,
         serialize: ({ site, allSitePage }) => {
-          return allSitePage.edges.map(edge => ({
+          return allSitePage.edges.map((edge) => ({
             url: site.metadata.siteUrl + edge.node.path,
             changefreq: `daily`,
             lastmod: edge.node.context.lastmod,
-            priority: 0.7
+            priority: 0.7,
           }));
-        }
-      }
+        },
+      },
     },
     {
       resolve: 'gatsby-plugin-robots-txt',
       options: {
         host: siteUrl,
-        sitemap: `${siteUrl}${siteUrl[siteUrl.length - 1] !== '/' ? '/' : ''}sitemap.xml`,
-        policy: [{ userAgent: '*', allow: '/' }]
-      }
-    }
-  ]
+        sitemap: `${siteUrl}${
+          siteUrl[siteUrl.length - 1] !== '/' ? '/' : ''
+        }sitemap.xml`,
+        policy: [{ userAgent: '*', allow: '/' }],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-codegen',
+      options: {
+        addTypename: true,
+        localSchemaFile: './schema.graphql',
+        output: './src/types/gql',
+        target: 'typescript',
+        tagName: 'graphql',
+        tsFileExtension: 'd.ts',
+        includes: ['./src/**/*.tsx', './src/**/*.ts'],
+        watch: process.env.NODE_ENV === 'development',
+      },
+    },
+  ],
 };
