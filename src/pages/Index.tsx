@@ -3,24 +3,25 @@ import { FC } from 'react';
 import { graphql } from 'gatsby';
 import Layout from 'components/Layout';
 import SEO from 'components/SEO';
+import { PostListQuery } from 'types/gql';
 
 const IndexPage: FC<{
   path: string;
-  data: any;
+  data: PostListQuery;
 }> = ({ data }) => {
   const posts = data.allMarkdownRemark.edges;
   return (
     <Layout>
-      <SEO title={data.site.siteMetadata.title} />
+      <SEO title={data.site?.metadata?.title ?? undefined} />
       <div>{posts.length}</div>
     </Layout>
   );
 };
 
 export const QUERY_LIST_DSL = graphql`
-  query List {
+  query PostList {
     site {
-      siteMetadata {
+      metadata: siteMetadata {
         title
       }
     }

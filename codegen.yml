@@ -1,0 +1,13 @@
+overwrite: true
+schema: "./schema.graphql"
+documents:
+  - "src/**/*.{ts,tsx}"
+  - "src/WrapWithProvider.tsx"
+generates:
+  src/types/gql.d.ts:
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    plugins:
+      - "typescript"
+      - "typescript-operations"

@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
+import { SeoQuery } from 'types/gql';
 
 const QUERY_METADATA_DSL = graphql`
   query SEO {
@@ -14,16 +15,6 @@ const QUERY_METADATA_DSL = graphql`
     }
   }
 `;
-interface IQueryResponse {
-  site: {
-    metadata: {
-      title: string;
-      description: string;
-      author: string;
-      language: string;
-    };
-  };
-}
 
 type MetaProps = Array<JSX.IntrinsicElements['meta']>;
 
@@ -34,15 +25,13 @@ const SEO: FC<{
   title?: string;
   keywords?: string[];
 }> = ({ description, lang, meta, title, keywords }) => {
-  const {
-    site: { metadata },
-  } = useStaticQuery<IQueryResponse>(QUERY_METADATA_DSL);
+  const { metadata } = useStaticQuery<SeoQuery>(QUERY_METADATA_DSL).site ?? {};
   const _meta = useMemo<MetaProps>(
     () =>
       ([
         {
           name: 'description',
-          content: description ?? metadata.description,
+          content: description ?? metadata?.description,
         },
         {
           property: `og:title`,
@@ -50,7 +39,7 @@ const SEO: FC<{
         },
         {
           property: `og:description`,
-          content: description ?? metadata.description,
+          content: description ?? metadata?.description,
         },
         {
           property: `og:type`,
@@ -65,10 +54,10 @@ const SEO: FC<{
   );
   return (
     <Helmet
-      htmlAttributes={{ lang: metadata.language }}
+      htmlAttributes={{ lang: lang ?? metadata?.language ?? 'en-US' }}
       title={title}
       titleTemplate={
-        title === metadata.title ? metadata.title : `%s | ${metadata.title}`
+        title === metadata?.title ? metadata?.title : `%s | ${metadata?.title}`
       }
       meta={_meta}
     />

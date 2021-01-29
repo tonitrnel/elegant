@@ -7,7 +7,8 @@
         "states/*": ["./src/states/*"],
         "pages/*": ["./src/pages/*"],
         "templates/*": ["./src/templates/*"],
-        "utils/*": ["./src/utils/*"]
+        "utils/*": ["./src/utils/*"],
+        "types/*": ["./src/types/*"]
       }
     }
   }

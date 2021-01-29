@@ -12,7 +12,7 @@
     "serve": "node node_modules/gatsby/dist/bin/gatsby serve",
     "clean": "node node_modules/gatsby/dist/bin/gatsby clean",
     "develop-inspect": "node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop",
-    "gencode": "apollo client:codegen --target=typescript --localSchemaFile=schema.graphql --includes=src/**/*.tsx --tagName=graphql --addTypename --outputFlat src/types/gql.d.ts",
+    "generate": "graphql-codegen",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.+(js|ts|tsx|json|css|md)\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,12 +27,15 @@
     "web-vitals": "^1.1.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.20.1",
+    "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/typescript": "^1.20.2",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
     "@svgr/webpack": "^5.5.0",
     "@types/dotenv": "^8.2.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-helmet": "^6.1.0",
-    "apollo": "^2.32.1",
     "dotenv": "^8.2.0",
     "gatsby": "^2.30.1",
     "gatsby-cli": "^2.17.1",

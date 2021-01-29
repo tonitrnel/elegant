@@ -31,7 +31,7 @@
       "allowSyntheticDefaultImports": true,
       "isolatedModules": true,
       "typeRoots": [
-        "node_modules/@types",
+        "node_modules/@types"
       ],
       "types": [
         "webpack-env",
@@ -48,9 +48,9 @@
     "include": [
       "src/**/*.ts",
       "src/**/*.tsx",
-      "node_modules/gatsby/index.d.ts",
       "tests/**/*.ts",
-      "tests/**/*.tsx"
+      "tests/**/*.tsx",
+      "node_modules/gatsby/index.d.ts"
     ],
     "exclude": [
       "node_modules"

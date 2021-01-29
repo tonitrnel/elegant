@@ -1,9 +1,10 @@
 import React, { FC, PropsWithChildren } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { Helmet } from 'react-helmet';
+import { LayoutQuery } from 'types/gql';
 
 const QUERY_DSL = graphql`
-  query SiteMetadata {
+  query Layout {
     site {
       metadata: siteMetadata {
         author
@@ -19,37 +20,19 @@ const QUERY_DSL = graphql`
   }
 `;
 
-interface IQueryResponse {
-  site: {
-    metadata: {
-      author: string;
-      title: string;
-      language: string;
-      config: {
-        metadata: {
-          google_search_console: string;
-        };
-      };
-    };
-  };
-}
-
 const Layout: FC<
   PropsWithChildren<{
     title?: string;
   }>
 > = ({ title, children }) => {
-  const {
-    site: { metadata },
-  }: IQueryResponse = useStaticQuery(QUERY_DSL);
-  const {
-    metadata: { google_search_console },
-  } = metadata.config;
+  const metadata = useStaticQuery<LayoutQuery>(QUERY_DSL).site?.metadata;
+  const google_search_console =
+    metadata?.config?.metadata?.google_search_console;
   return (
     <>
       <Helmet>
-        <meta name="author" content={metadata.author} />
-        <meta name="copyright" content={metadata.author} />
+        <meta name="author" content={metadata?.author as string} />
+        <meta name="copyright" content={metadata?.author as string} />
         {google_search_console && (
           <meta
             name="google-site-verification"

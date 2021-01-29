@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { get } from 'utils/shared';
+import { BioQuery } from 'types/gql';
 
 const QUERY_BIO_DSL = graphql`
   query Bio {
@@ -22,24 +23,12 @@ const QUERY_BIO_DSL = graphql`
   }
 `;
 
-interface IQueryResponse {
-  site: {
-    url: string;
-  };
-  author: {
-    location: string;
-    email: string;
-    github: string;
-    comment: string;
-  };
-}
-
 const Bio = () => {
   const {
     site: { url },
     author: { comment, location, email, github },
   } = get(
-    useStaticQuery<IQueryResponse>(QUERY_BIO_DSL),
+    useStaticQuery<BioQuery>(QUERY_BIO_DSL),
     'site.metadata.config',
     false
   );
