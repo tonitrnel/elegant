@@ -1,33 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link, PageProps } from 'gatsby';
+import Image, { FluidObject } from 'gatsby-image';
 import Layout from 'components/Layout';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import SEO from 'components/SEO';
-import { PostListQuery } from 'types/gql';
+import { ListQuery } from 'types/gql';
+import dayjs from 'dayjs';
 
-const IndexPage: FC<{
-  path: string;
-  data: PostListQuery;
-}> = ({ data }) => {
-  const posts = data.allMarkdownRemark.edges;
+dayjs.extend(relativeTime);
+
+type Frontmatter = ListQuery['allMarkdownRemark']['edges'][0]['node']['frontmatter'];
+
+const FeaturedImage: FC<{ frontmatter: Frontmatter }> = ({ frontmatter }) => {
+  if (!frontmatter?.thumbnail) return null;
   return (
-    <Layout>
-      <SEO title={data.site?.metadata?.title ?? undefined} />
-      <div>{posts.length}</div>
+    <Image
+      className="featured-image"
+      fluid={frontmatter.thumbnail.childImageSharp?.fluid as FluidObject}
+    />
+  );
+};
+
+const IndexPage: FC<PageProps<ListQuery, { limit: number }>> = ({
+  data,
+  pageContext: { limit },
+}) => {
+  const [posts, setPosts] = useState<ListQuery['allMarkdownRemark']['edges']>(
+    data.allMarkdownRemark.edges
+  );
+  const [metadata, setMetadata] = useState({
+    limit,
+    index: 0,
+    total: data.allMarkdownRemark.totalCount,
+    nextPage: Math.ceil(data.allMarkdownRemark.totalCount / limit) > 1,
+  });
+  const loadNextPage = async () => {
+    console.log('加载中');
+    if (!metadata.nextPage) return void 0;
+    const currentIndex = metadata.index + 1;
+    try {
+      const response = await fetch(
+        `/page-data/query/stream=${currentIndex}/page-data.json`
+      ).then((it) => it.json());
+      console.log(response);
+    } catch (e) {}
+  };
+  return (
+    <Layout title={'首页'}>
+      <SEO title={'首页'} />
+      <ol>
+        {posts.map((it) => (
+          <li key={it.node.fields?.slug}>
+            <div className="post-header">
+              <time
+                className="post__date"
+                dateTime={it.node.frontmatter?.date}
+                title={dayjs(it.node.frontmatter?.date).format('MMMM DD, YYYY')}
+              >
+                <span className="post__date-day">
+                  {dayjs(it.node.frontmatter?.date).format('DD')}
+                </span>
+                <span className="post__date-month">
+                  {dayjs(it.node.frontmatter?.date).format('MMMM')}
+                </span>
+              </time>
+              <Link
+                to={`/categories/${it.node.frontmatter?.category}`}
+                title={`分类：${it.node.frontmatter?.category}`}
+                className="post__category"
+              >
+                {it.node.frontmatter?.category}
+              </Link>
+            </div>
+            <FeaturedImage frontmatter={it.node.frontmatter} />
+            <div className="post-main">
+              <h2>
+                <Link to={it.node.fields?.slug as string}>
+                  {it.node.frontmatter?.title}
+                </Link>
+              </h2>
+              <span>{dayjs(it.node.frontmatter?.date).fromNow()}</span>
+              <p>{it.node.frontmatter?.excerpt}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      {metadata.nextPage && <button onClick={loadNextPage}>加载更多</button>}
     </Layout>
   );
 };
 
 export const QUERY_LIST_DSL = graphql`
-  query PostList {
+  query List($limit: Int) {
     site {
       metadata: siteMetadata {
         title
       }
     }
     allMarkdownRemark(
+      filter: {
+        frontmatter: { status: { eq: "publish" }, template: { eq: "post" } }
+      }
       sort: { fields: [frontmatter___date], order: DESC }
-      limit: 100
+      skip: 0
+      limit: $limit
     ) {
       edges {
         node {
@@ -36,13 +113,29 @@ export const QUERY_LIST_DSL = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "MMM DD, YYYY")
-            update(formatString: "MMM DD, YYYY")
+            date
+            update
             title
             tags
+            category
+            excerpt
+            thumbnail {
+              childImageSharp {
+                fluid {
+                  base64
+                  aspectRatio
+                  src
+                  srcSet
+                  srcWebp
+                  srcSetWebp
+                  sizes
+                }
+              }
+            }
           }
         }
       }
+      totalCount
     }
   }
 `;

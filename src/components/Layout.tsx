@@ -2,6 +2,8 @@ import React, { FC, PropsWithChildren } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import { LayoutQuery } from 'types/gql';
+import 'assets/styles/Global.less';
+import clsx from 'utils/clsx';
 
 const QUERY_DSL = graphql`
   query Layout {
@@ -23,14 +25,24 @@ const QUERY_DSL = graphql`
 const Layout: FC<
   PropsWithChildren<{
     title?: string;
+    lang?: string;
+    className?: string;
   }>
-> = ({ title, children }) => {
+> = ({ title, children, lang, className }) => {
   const metadata = useStaticQuery<LayoutQuery>(QUERY_DSL).site?.metadata;
   const google_search_console =
     metadata?.config?.metadata?.google_search_console;
   return (
     <>
-      <Helmet>
+      <Helmet
+        htmlAttributes={{ lang: lang ?? metadata?.language ?? 'zh-CN' }}
+        title={title}
+        titleTemplate={
+          title === metadata?.title
+            ? metadata?.title
+            : `%s | ${metadata?.title}`
+        }
+      >
         <meta name="author" content={metadata?.author as string} />
         <meta name="copyright" content={metadata?.author as string} />
         {google_search_console && (
@@ -44,9 +56,8 @@ const Layout: FC<
           href="https://fonts.proxy.ustclug.org/css?family=Josefin+Sans|PT+Sans&display=swap"
         />
       </Helmet>
-      <section id="layout" className="color-theme--dark">
-        <main id="content">{children}</main>
-        <footer>footer</footer>
+      <section id="layout" className={clsx('color-theme--dark', className)}>
+        {children}
       </section>
     </>
   );

@@ -1,6 +1,11 @@
 const std_path = require('path');
 const { resolve } = require('./webpack.alias');
-const { dir } = require('./scripts/configure');
+const {
+  dir,
+  config: {
+    site: { pagination_limit: pagination = 10 },
+  },
+} = require('./scripts/configure');
 
 /**
  * 修改Webpack配置 onCreateWebpackConfig
@@ -119,6 +124,7 @@ const resolveTemplate = (name) =>
  * 命名转大驼峰
  * @param str {string}
  * @return {string}
+ * @example toBigCamelcase("hello-world") => HelloWorld
  */
 const toBigCamelcase = (str) =>
   str.replace(/(?:-|^)(\w)/g, (_, v) => v.toUpperCase());
@@ -127,16 +133,19 @@ const toBigCamelcase = (str) =>
  * 当创建页面时拦截 onCreatePage
  * @param {CreatePageArgs} args
  */
-exports.onCreatePage = function onCreatePage({ page, actions }) {
+exports.onCreatePage = function onCreatePage({ page, actions, reporter }) {
   if (
     std_path.resolve(page.component) ===
     std_path.resolve(__dirname, 'src/pages/Index.tsx')
   ) {
-    console.log('rewrite', page.path);
+    reporter.info(`rewrite ${page.path}`);
     actions.deletePage({ path: page.path, component: page.component });
     actions.createPage({
       ...page,
       path: '/',
+      context: {
+        limit: pagination,
+      },
     });
   }
 };
@@ -189,37 +198,22 @@ exports.createPages = async function createPages({
   const categories = new Set();
   const dates = new Set();
   const tags = new Set();
-  const usedLinks = new Set();
-  edges.forEach(({ node }) => {
+  const posts = edges.filter((it) => it.node.frontmatter.template === 'post');
+  for (const { node } of edges.filter((it) => !posts.includes(it))) {
     try {
-      if (!node.fields) return void 0;
+      if (!node.fields) continue;
       const { slug } = node.fields;
       // 不要使用解构，防止js类型推导错误
       const template = node.frontmatter.template;
       const update = node.frontmatter.update;
-      if (template !== 'post') {
-        actions.createPage({
-          path: slug,
-          component: resolveTemplate(template),
-          context: {
-            slug,
-            lastmod: update,
-          },
-        });
-      } else {
-        node.frontmatter.tags.forEach((tag) => tags.add(tag));
-        categories.add(node.frontmatter.category);
-        dates.add(node.frontmatter.date);
-        actions.createPage({
-          path: slug,
-          component: resolveTemplate(template),
-          context: {
-            slug,
-            lastmod: update,
-          },
-        });
-      }
-      usedLinks.add(slug);
+      actions.createPage({
+        path: slug,
+        component: resolveTemplate(template),
+        context: {
+          slug,
+          lastmod: update,
+        },
+      });
     } catch (e) {
       console.log(
         '\n----------------------------------------------------------'
@@ -230,10 +224,64 @@ exports.createPages = async function createPages({
       );
       reporter.panicOnBuild(e);
     }
-  });
+  }
+  for (const { node } of posts) {
+    try {
+      if (!node.fields) continue;
+      const { slug } = node.fields;
+      const update = node.frontmatter.update;
+      node.frontmatter.tags.forEach((tag) => tags.add(tag));
+      categories.add(node.frontmatter.category);
+      dates.add(node.frontmatter.date);
+      const i = posts.indexOf(node);
+      const prev = i < posts.length ? posts[i + 1]?.node : null;
+      const next = i > 0 ? posts[i - 1]?.node : null;
+      actions.createPage({
+        path: slug,
+        component: resolveTemplate('post'),
+        context: {
+          slug,
+          lastmod: update,
+          prev: prev
+            ? {
+                title: prev.frontmatter.title,
+                path: prev.fields.slug,
+              }
+            : null,
+          next: next
+            ? {
+                title: next.frontmatter.title,
+                path: next.fields.slug,
+              }
+            : null,
+        },
+      });
+      reporter.info(`create page ${slug}`);
+    } catch (e) {
+      console.log(
+        '\n----------------------------------------------------------'
+      );
+      console.dir(node);
+      console.log(
+        '\n----------------------------------------------------------'
+      );
+      reporter.panicOnBuild(e);
+    }
+  }
+  for (let index = 1; index < Math.ceil(posts.length / pagination); index++) {
+    actions.createPage({
+      path: `/query/stream=${index}`,
+      component: resolveTemplate('query-stream'),
+      context: {
+        limit: pagination,
+        skip: index * pagination,
+        total: posts.length,
+        index,
+      },
+    });
+  }
   tags.forEach((tag) => {
     const path = `/tags/${tag.toLowerCase()}`;
-    usedLinks.add(path);
     actions.createPage({
       path,
       component: resolveTemplate('tag'),
@@ -242,7 +290,6 @@ exports.createPages = async function createPages({
   });
   categories.forEach((category) => {
     const path = `/categories/${category.toLowerCase()}`;
-    usedLinks.add(path);
     actions.createPage({
       path,
       component: resolveTemplate('category'),

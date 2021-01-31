@@ -218,18 +218,5 @@ module.exports = {
         policy: [{ userAgent: '*', allow: '/' }],
       },
     },
-    {
-      resolve: 'gatsby-plugin-codegen',
-      options: {
-        addTypename: true,
-        localSchemaFile: './schema.graphql',
-        output: './src/types/gql',
-        target: 'typescript',
-        tagName: 'graphql',
-        tsFileExtension: 'd.ts',
-        includes: ['./src/**/*.tsx', './src/**/*.ts'],
-        watch: process.env.NODE_ENV === 'development',
-      },
-    },
   ],
 };

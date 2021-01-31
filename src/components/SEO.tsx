@@ -20,11 +20,10 @@ type MetaProps = Array<JSX.IntrinsicElements['meta']>;
 
 const SEO: FC<{
   description?: string;
-  lang?: string;
-  meta?: MetaProps;
   title?: string;
+  meta?: MetaProps;
   keywords?: string[];
-}> = ({ description, lang, meta, title, keywords }) => {
+}> = ({ description, meta, title, keywords }) => {
   const { metadata } = useStaticQuery<SeoQuery>(QUERY_METADATA_DSL).site ?? {};
   const _meta = useMemo<MetaProps>(
     () =>
@@ -52,15 +51,6 @@ const SEO: FC<{
       ] as MetaProps).concat(meta ?? []),
     [meta]
   );
-  return (
-    <Helmet
-      htmlAttributes={{ lang: lang ?? metadata?.language ?? 'en-US' }}
-      title={title}
-      titleTemplate={
-        title === metadata?.title ? metadata?.title : `%s | ${metadata?.title}`
-      }
-      meta={_meta}
-    />
-  );
+  return <Helmet meta={_meta} />;
 };
 export default SEO;

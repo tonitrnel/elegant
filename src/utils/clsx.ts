@@ -28,5 +28,5 @@ const toString = (mix: Acceptable): string => {
 };
 
 export default function clsx(...args: Acceptable[]): string {
-  return args.reduce<string>((prev, it) => prev + toString(it), '');
+  return args.map((it) => toString(it)).join(' ');
 }
