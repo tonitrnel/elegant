@@ -4437,12 +4437,12 @@ export type PostQuery = { __typename?: 'Query' } & {
   >;
 };
 
-export type PostsStreamQueryVariables = Exact<{
+export type PostsPaginationQueryVariables = Exact<{
   skip: Scalars['Int'];
   limit: Scalars['Int'];
 }>;
 
-export type PostsStreamQuery = { __typename?: 'Query' } & {
+export type PostsPaginationQuery = { __typename?: 'Query' } & {
   posts: { __typename?: 'MarkdownRemarkConnection' } & Pick<
     MarkdownRemarkConnection,
     'totalCount'
@@ -4490,4 +4490,31 @@ export type PostsStreamQuery = { __typename?: 'Query' } & {
         }
       >;
     };
+};
+
+export type TagQueryVariables = Exact<{
+  tag: Scalars['String'];
+}>;
+
+export type TagQuery = { __typename?: 'Query' } & {
+  allMarkdownRemark: { __typename?: 'MarkdownRemarkConnection' } & {
+    edges: Array<
+      { __typename?: 'MarkdownRemarkEdge' } & {
+        node: { __typename?: 'MarkdownRemark' } & {
+          fields?: Maybe<
+            { __typename?: 'MarkdownRemarkFields' } & Pick<
+              MarkdownRemarkFields,
+              'slug'
+            >
+          >;
+          frontmatter?: Maybe<
+            { __typename?: 'MarkdownRemarkFrontmatter' } & Pick<
+              MarkdownRemarkFrontmatter,
+              'title' | 'date'
+            >
+          >;
+        };
+      }
+    >;
+  };
 };

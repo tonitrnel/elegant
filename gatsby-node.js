@@ -270,8 +270,8 @@ exports.createPages = async function createPages({
   }
   for (let index = 1; index < Math.ceil(posts.length / pagination); index++) {
     actions.createPage({
-      path: `/query/stream=${index}`,
-      component: resolveTemplate('query-stream'),
+      path: `/query/pagination=${index}`,
+      component: resolveTemplate('query-pagination'),
       context: {
         limit: pagination,
         skip: index * pagination,
@@ -285,7 +285,7 @@ exports.createPages = async function createPages({
     actions.createPage({
       path,
       component: resolveTemplate('tag'),
-      context: { id: tag },
+      context: { tag },
     });
   });
   categories.forEach((category) => {
@@ -293,7 +293,7 @@ exports.createPages = async function createPages({
     actions.createPage({
       path,
       component: resolveTemplate('category'),
-      context: { id: category },
+      context: { category },
     });
   });
 };

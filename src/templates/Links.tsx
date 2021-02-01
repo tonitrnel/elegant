@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-const LinksPage: FC<{}> = () => {
+const LinksTemplatePage: FC<{}> = () => {
   return <div>喵喵喵</div>;
 };
 
-export default LinksPage;
+export default LinksTemplatePage;

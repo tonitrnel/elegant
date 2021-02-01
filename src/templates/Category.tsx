@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-const CategoryPage: FC<{}> = () => {
+const CategoryTemplatePage: FC<{}> = () => {
   return <div>喵喵喵</div>;
 };
 
-export default CategoryPage;
+export default CategoryTemplatePage;

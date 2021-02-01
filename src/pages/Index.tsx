@@ -5,7 +5,7 @@ import Image, { FluidObject } from 'gatsby-image';
 import Layout from 'components/Layout';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import SEO from 'components/SEO';
-import { ListQuery } from 'types/gql';
+import { ListQuery, PostsPaginationQuery } from 'types/gql';
 import dayjs from 'dayjs';
 
 dayjs.extend(relativeTime);
@@ -41,10 +41,20 @@ const IndexPage: FC<PageProps<ListQuery, { limit: number }>> = ({
     const currentIndex = metadata.index + 1;
     try {
       const response = await fetch(
-        `/page-data/query/stream=${currentIndex}/page-data.json`
-      ).then((it) => it.json());
-      console.log(response);
-    } catch (e) {}
+        `/page-data/query/pagination=${currentIndex}/page-data.json`
+      ).then<PostsPaginationQuery>((it) => it.json());
+      setPosts(response.posts.edges);
+      setMetadata({
+        index: currentIndex,
+        limit,
+        total: data.allMarkdownRemark.totalCount,
+        nextPage:
+          Math.ceil(data.allMarkdownRemark.totalCount / limit) > currentIndex,
+      });
+      console.log('加载成功');
+    } catch (e) {
+      console.log('加载失败');
+    }
   };
   return (
     <Layout title={'首页'}>

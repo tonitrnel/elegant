@@ -27,8 +27,9 @@ const Layout: FC<
     title?: string;
     lang?: string;
     className?: string;
+    path?: string;
   }>
-> = ({ title, children, lang, className }) => {
+> = ({ title, children, lang, className, path = '/' }) => {
   const metadata = useStaticQuery<LayoutQuery>(QUERY_DSL).site?.metadata;
   const google_search_console =
     metadata?.config?.metadata?.google_search_console;

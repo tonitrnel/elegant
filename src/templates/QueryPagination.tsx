@@ -1,7 +1,7 @@
 import { graphql } from 'gatsby';
 
-export const QUERY_POSTS_STREAM_DSL = graphql`
-  query PostsStream($skip: Int!, $limit: Int!) {
+export const QUERY_POSTS_PAGINATION_DSL = graphql`
+  query PostsPagination($skip: Int!, $limit: Int!) {
     posts: allMarkdownRemark(
       filter: {
         frontmatter: { status: { eq: "publish" }, template: { eq: "post" } }

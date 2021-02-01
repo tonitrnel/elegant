@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Layout from 'components/Layout';
-import { graphql, PageProps } from 'gatsby';
+import { graphql, Link, PageProps } from 'gatsby';
 import { PostQuery } from 'types/gql';
 import NotFound from 'components/NotFound';
 
@@ -22,18 +22,27 @@ export const QUERY_POST_DSL = graphql`
   }
 `;
 
-const PostPage: FC<PageProps<PostQuery>> = ({ data }) => {
+const PostTemplatePage: FC<PageProps<PostQuery>> = ({ data }) => {
   if (!data.markdownRemark) {
     return <NotFound />;
   }
   return (
-    <Layout>
-      <h1>{data.markdownRemark.frontmatter?.title}</h1>
-      <div
-        dangerouslySetInnerHTML={{ __html: data.markdownRemark.html ?? '' }}
-      />
+    <Layout title={data.markdownRemark.frontmatter?.title ?? undefined}>
+      <article>
+        <header>
+          <h1 className="post-title">
+            {data.markdownRemark.frontmatter?.title}
+          </h1>
+          <section>
+            <Link className="post-category" to={''} />
+          </section>
+        </header>
+        <div
+          dangerouslySetInnerHTML={{ __html: data.markdownRemark.html ?? '' }}
+        />
+      </article>
     </Layout>
   );
 };
 
-export default PostPage;
+export default PostTemplatePage;
