@@ -10,7 +10,7 @@ const QUERY_FEEDS_DSL = `
     sort: { fields: [frontmatter___date], order: DESC }
     filter: {
       fields: { ready: { eq: true } }
-      frontmatter: { template: { eq: "post" }, status: { eq: "publish" } }
+      frontmatter: { template: { eq: "post" }, status: { eq: PUBLISH } }
     }
     limit: 10
   ) {

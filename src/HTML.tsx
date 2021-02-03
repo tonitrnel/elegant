@@ -38,7 +38,7 @@ export default function HTML(props: HTMLProps) {
         </noscript>
         <div
           key="body"
-          id="__gatsby"
+          id="___gatsby"
           className="wrapper"
           dangerouslySetInnerHTML={{ __html: props.body }}
         />

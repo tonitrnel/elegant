@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
+import { SiteSiteMetadataNavs } from 'types/gql';
 import { useImmer } from 'hooks/useImmer';
 import './styles/Header.less';
 import clsx from 'utils/clsx';
@@ -6,7 +7,7 @@ import { Link } from 'gatsby';
 
 const Header: FC<{
   title: string;
-  navs: Record<'name' | 'path', string>[];
+  navs: Array<SiteSiteMetadataNavs>;
   path?: string;
 }> = ({ title, navs, path }) => {
   const [{ isMobile, size, colorMode }, mutation] = useImmer();
@@ -21,7 +22,7 @@ const Header: FC<{
         <Link to="/">
           <div className="header-profile-image-wrap">
             <img
-              src={`https://source.unsplash.com/random/100x100'`}
+              src={`https://source.unsplash.com/random/240x240'`}
               alt="title profile picture"
               style={{
                 width: avatarSize,

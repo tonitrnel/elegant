@@ -31,7 +31,7 @@ export const QUERY_TAG_DSL = graphql`
     allMarkdownRemark(
       filter: {
         frontmatter: {
-          status: { eq: "publish" }
+          status: { eq: PUBLISH }
           template: { eq: "post" }
           tags: { in: [$tag] }
         }

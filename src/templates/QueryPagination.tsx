@@ -4,7 +4,7 @@ export const QUERY_POSTS_PAGINATION_DSL = graphql`
   query PostsPagination($skip: Int!, $limit: Int!) {
     posts: allMarkdownRemark(
       filter: {
-        frontmatter: { status: { eq: "publish" }, template: { eq: "post" } }
+        frontmatter: { status: { eq: PUBLISH }, template: { eq: "post" } }
       }
       sort: { order: DESC, fields: [frontmatter___date] }
       limit: $limit
@@ -19,6 +19,7 @@ export const QUERY_POSTS_PAGINATION_DSL = graphql`
             title
             date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
             update(formatString: "MMMM DD, YYYY", locale: "zh-CN")
+            tags
             thumbnail {
               childImageSharp {
                 fluid {

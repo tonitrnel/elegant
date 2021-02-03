@@ -6,7 +6,7 @@ export interface RootState {
 }
 export const initial_state: RootState = {
   path: '',
-  size: '25px',
+  size: '120px',
   isMobile: false,
   colorMode: 'light',
 };

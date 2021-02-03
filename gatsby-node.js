@@ -7,6 +7,17 @@ const {
   },
 } = require('./scripts/configure');
 
+const PUBLISH_STATUS = ['draft', 'publish'];
+let untitledFileCount = -1;
+
+const createUntitledText = () => {
+  untitledFileCount += 1;
+  return `Untitled file ${untitledFileCount}`;
+};
+const createTempLink = () => {
+  return `temp-${Math.random().toString(16).slice(2)}`;
+};
+
 /**
  * 修改Webpack配置 onCreateWebpackConfig
  * @param {CreateWebpackConfigArgs} args
@@ -35,75 +46,112 @@ exports.onCreateNode = function onCreateNode({
     node.frontmatter.template = 'post';
   }
   actions.createNodeField({ node, name: 'ready', value: false });
-  if (node.frontmatter.template !== 'post') {
-    for (const key of ['title', 'permalink']) {
-      if (!node.frontmatter[key]) {
-        reporter.warn(`Missing "${key}" in ${node.fileAbsolutePath}`);
-        return void 0;
+  let ready = true;
+  try {
+    const rewriteOtherNode = () => {
+      for (const key of ['title', 'permalink']) {
+        if (!node.frontmatter[key]) {
+          reporter.warn(`Missing "${key}" in ${node.fileAbsolutePath}`);
+          markInvalidNode();
+          return void 0;
+        }
       }
-    }
-    node.frontmatter.date = null;
-    node.frontmatter.update = new Date(parentNode.mtime.toString());
-    node.frontmatter.status = null;
-    node.frontmatter.tags = [];
-    node.frontmatter.keywords = [];
-    actions.createNodeField({ node, name: 'ready', value: true });
-    actions.createNodeField({
-      node,
-      name: `slug`,
-      value: node.frontmatter.permalink,
-    });
-  } else {
-    for (const key of ['title', 'date']) {
-      if (!node.frontmatter[key]) {
-        reporter.warn(`Missing "${key}" in ${node.fileAbsolutePath}`);
-        return void 0;
-      }
-    }
-    if (node.frontmatter.title.includes(`"`)) {
-      console.warn(
-        `\nIt is not recommended to include " in the title.\n- file: ` +
-          `${node.fileAbsolutePath}\n- title: ${node.frontmatter.title}`
-      );
-    }
-    // 关键字
-    if (!node.frontmatter.keywords) {
-      node.frontmatter.keywords = [];
-    }
-    // 标签
-    if (!node.frontmatter.tags || node.frontmatter.tags === '') {
-      node.frontmatter.tags = [];
-    } else if (typeof node.frontmatter.tags === 'string') {
-      node.frontmatter.tags = [node.frontmatter.tags];
-    }
-    // 时间
-    if (node.frontmatter.date.includes('+')) {
-      node.frontmatter.date = new Date(node.frontmatter.date.split('+')[0]);
-    } else {
-      node.frontmatter.date = new Date(node.frontmatter.date);
-    }
-    // 修改时间通常是被记录的，而创建时间会因为复制等而被修改
-    if (parentNode.mtime) {
+      node.frontmatter.date = new Date(parentNode.atime.toString());
       node.frontmatter.update = new Date(parentNode.mtime.toString());
-    } else {
-      node.frontmatter.update = new Date(node.frontmatter.date);
-    }
-    // 分类
-    if (!node.frontmatter.category) {
-      node.frontmatter.category = directory || '默认';
-    }
-    // 是否写入
-    if (!node.frontmatter.status) {
-      node.frontmatter.status = 'draft';
-    }
-    const year = node.frontmatter.date.getFullYear();
-    actions.createNodeField({ node, name: 'ready', value: true });
-    actions.createNodeField({
-      node,
-      name: `slug`,
-      value:
-        node.frontmatter.permalink || `/${year}/${node.frontmatter.title}.void`,
-    });
+      node.frontmatter.status = 'publish';
+      node.frontmatter.tags = [];
+      node.frontmatter.category = '页面';
+      node.frontmatter.keywords = [];
+      actions.createNodeField({
+        node,
+        name: `slug`,
+        value: node.frontmatter.permalink,
+      });
+    };
+    const rewritePostNode = () => {
+      for (const key of ['title', 'date']) {
+        if (!node.frontmatter[key]) {
+          reporter.warn(`Missing "${key}" in ${node.fileAbsolutePath}`);
+          markInvalidNode();
+          return void 0;
+        }
+      }
+      if (node.frontmatter.title.includes(`"`)) {
+        reporter.warn(
+          `\nIt is not recommended to include " in the title.\n- file: ` +
+            `${node.fileAbsolutePath}\n- title: ${node.frontmatter.title}`
+        );
+      }
+      // 关键字
+      if (!node.frontmatter.keywords) {
+        node.frontmatter.keywords = [];
+      }
+      // 标签
+      if (!node.frontmatter.tags || node.frontmatter.tags === '') {
+        node.frontmatter.tags = [];
+      } else if (typeof node.frontmatter.tags === 'string') {
+        node.frontmatter.tags = [node.frontmatter.tags];
+      }
+      // 时间
+      if (node.frontmatter.date.includes('+')) {
+        node.frontmatter.date = new Date(node.frontmatter.date.split('+')[0]);
+      } else {
+        node.frontmatter.date = new Date(node.frontmatter.date);
+      }
+      // 修改时间通常是被记录的，而创建时间会因为复制等而被修改
+      if (parentNode.mtime) {
+        node.frontmatter.update = new Date(parentNode.mtime.toString());
+      } else {
+        node.frontmatter.update = new Date(node.frontmatter.date);
+      }
+      // 分类
+      if (!node.frontmatter.category) {
+        node.frontmatter.category = directory || '默认';
+      }
+      // 是否写入
+      if (!node.frontmatter.status) {
+        node.frontmatter.status = 'draft';
+      }
+      // 验证发布状态
+      if (!PUBLISH_STATUS.includes(node.frontmatter.status.toLowerCase())) {
+        reporter.warn(
+          `Error publish status "${node.frontmatter.status}" in ${node.fileAbsolutePath}, only support "publish" and "draft" word`
+        );
+        node.frontmatter.status = 'draft';
+      }
+      const year = node.frontmatter.date.getFullYear();
+      actions.createNodeField({ node, name: 'ready', value: true });
+      actions.createNodeField({
+        node,
+        name: `slug`,
+        value:
+          node.frontmatter.permalink || `/${year}/${node.frontmatter.title}`,
+      });
+    };
+    const markInvalidNode = () => {
+      node.frontmatter.title = createUntitledText();
+      node.frontmatter.permalink = createTempLink();
+      node.frontmatter.date = new Date(parentNode.atime.toString());
+      node.frontmatter.update = new Date(parentNode.mtime.toString());
+      node.frontmatter.status = 'invalid';
+      node.frontmatter.tags = [];
+      node.frontmatter.category = '无效';
+      node.frontmatter.keywords = [];
+      ready = false;
+    };
+    node.frontmatter.template === 'post'
+      ? rewritePostNode()
+      : rewriteOtherNode();
+    node.frontmatter.status = node.frontmatter.status.toUpperCase();
+    actions.createNodeField({ node, name: 'ready', value: ready });
+  } catch (e) {
+    console.log(`-------------------------------------------------`);
+    console.log(
+      `Error message: ${e.message}\n file in ${node.fileAbsolutePath}\n frontmatter: `
+    );
+    console.log(node.frontmatter);
+    console.log(`-------------------------------------------------`);
+    reporter.panic(e);
   }
 };
 
@@ -296,4 +344,86 @@ exports.createPages = async function createPages({
       context: { category },
     });
   });
+};
+
+/**
+ * 创建自定义GraphQL Schema
+ * @param {CreateSchemaCustomizationArgs} args
+ */
+exports.createSchemaCustomization = function CreateSchemaCustomizationArgs({
+  actions,
+}) {
+  actions.createTypes(`
+    type MarkdownRemarkFields implements Node @dontInfer{
+      ready: Boolean!
+      slug: String!
+    }
+  `);
+  actions.createTypes(`
+      type SiteNavigationMap {
+        path: String!
+        name: String!
+      }
+      type RawSiteConfig{
+        title: String!
+        url: String!
+        language: String
+        description: String
+        keywords: [String!]
+        pagination_limit: Int!
+        parse_ignore_dirs: [String!]
+        main_color: String
+      }
+      type RawAuthorConfig{
+         name: String!
+         comment: String
+         avatar: String
+         email: String
+         github: String
+         location: String
+      }
+      type RawMetadataConfig{
+        google_analytics: String
+        google_search_console: String
+        google_adsense_slot: String
+        google_adsense_client: String
+      }
+      type RawConfigData{
+        site: RawSiteConfig!
+        author: RawAuthorConfig!
+        navs: [SiteNavigationMap!]!
+        metadata: RawMetadataConfig!
+      }
+      type SiteSiteMetadata implements Node @dontInfer{
+        title: String!
+        description: String
+        author: String!
+        siteUrl: String!
+        language: String
+        navs: [SiteNavigationMap!]!
+        config: RawConfigData!
+      }
+      type Site implements Node{
+        buildTime: Date!@dateformat
+        siteMetadata: SiteSiteMetadata!
+      }
+    `);
+  actions.createTypes(`
+    enum PublishStatus{
+      PUBLISH
+      DRAFT
+      INVALID
+    }
+    type MarkdownRemarkFrontmatter implements Node{
+      title: String!
+      template: String!
+      date: Date!@dateformat
+      status: PublishStatus!
+      tags: [String!]!
+      excerpt: String
+      update: Date!@dateformat
+      category: String!
+      permalink: String
+    }
+  `);
 };

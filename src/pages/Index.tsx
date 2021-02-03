@@ -110,7 +110,7 @@ export const QUERY_LIST_DSL = graphql`
     }
     allMarkdownRemark(
       filter: {
-        frontmatter: { status: { eq: "publish" }, template: { eq: "post" } }
+        frontmatter: { status: { eq: PUBLISH }, template: { eq: "post" } }
       }
       sort: { fields: [frontmatter___date], order: DESC }
       skip: 0
