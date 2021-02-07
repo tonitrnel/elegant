@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { graphql, Link, PageProps } from 'gatsby';
 import Image, { FluidObject } from 'gatsby-image';
@@ -7,13 +7,17 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import SEO from 'components/SEO';
 import { ListQuery, PostsPaginationQuery } from 'types/gql';
 import dayjs from 'dayjs';
+import { PageData } from 'types/helper';
+import { createProduceWrapper } from 'utils/createProduceWrapper';
+import './styles/Index.less';
 
 dayjs.extend(relativeTime);
 
 type Frontmatter = ListQuery['allMarkdownRemark']['edges'][0]['node']['frontmatter'];
 
 const FeaturedImage: FC<{ frontmatter: Frontmatter }> = ({ frontmatter }) => {
-  if (!frontmatter?.thumbnail) return null;
+  if (!frontmatter?.thumbnail || !frontmatter.thumbnail.childImageSharp?.fluid)
+    return null;
   return (
     <Image
       className="featured-image"
@@ -26,42 +30,52 @@ const IndexPage: FC<PageProps<ListQuery, { limit: number }>> = ({
   data,
   pageContext: { limit },
 }) => {
-  const [posts, setPosts] = useState<ListQuery['allMarkdownRemark']['edges']>(
-    data.allMarkdownRemark.edges
+  const [posts, setPosts] = createProduceWrapper(
+    useState<ListQuery['allMarkdownRemark']['edges']>(
+      data.allMarkdownRemark.edges
+    )
   );
-  const [metadata, setMetadata] = useState({
-    limit,
-    index: 0,
-    total: data.allMarkdownRemark.totalCount,
-    nextPage: Math.ceil(data.allMarkdownRemark.totalCount / limit) > 1,
-  });
-  const loadNextPage = async () => {
+  const [metadata, setMetadata] = createProduceWrapper(
+    useState({
+      limit,
+      index: 0,
+      total: data.allMarkdownRemark.totalCount,
+      nextPage: Math.ceil(data.allMarkdownRemark.totalCount / limit) > 1,
+    })
+  );
+  const loadNextPage = useCallback(async () => {
     console.log('加载中');
     if (!metadata.nextPage) return void 0;
     const currentIndex = metadata.index + 1;
     try {
+      const now = performance.now();
       const response = await fetch(
         `/page-data/query/pagination=${currentIndex}/page-data.json`
-      ).then<PostsPaginationQuery>((it) => it.json());
-      setPosts(response.posts.edges);
-      setMetadata({
-        index: currentIndex,
-        limit,
-        total: data.allMarkdownRemark.totalCount,
-        nextPage:
-          Math.ceil(data.allMarkdownRemark.totalCount / limit) > currentIndex,
+      ).then<PageData<PostsPaginationQuery>>((it) => it.json());
+      setPosts((draft) => {
+        if (!response.result) return void 0;
+        draft.push(...response.result.data.posts.edges);
       });
-      console.log('加载成功');
+      setMetadata((draft) => {
+        draft.index = currentIndex;
+        draft.limit = limit;
+        draft.total = data.allMarkdownRemark.totalCount;
+        // 索引从0开始
+        draft.nextPage =
+          Math.floor(data.allMarkdownRemark.totalCount / limit) > currentIndex;
+      });
+      console.log(`加载成功, 耗时：${performance.now() - now}ms`);
     } catch (e) {
+      console.error(e);
       console.log('加载失败');
     }
-  };
+  }, [metadata]);
   return (
     <Layout title={'首页'}>
       <SEO title={'首页'} />
-      <ol>
+      <section className="post-list">
         {posts.map((it) => (
-          <li key={it.node.fields?.slug}>
+          <article className="post-item" key={it.node.fields?.slug}>
             <div className="post-header">
               <time
                 className="post__date"
@@ -75,15 +89,8 @@ const IndexPage: FC<PageProps<ListQuery, { limit: number }>> = ({
                   {dayjs(it.node.frontmatter?.date).format('MMMM')}
                 </span>
               </time>
-              <Link
-                to={`/categories/${it.node.frontmatter?.category}`}
-                title={`分类：${it.node.frontmatter?.category}`}
-                className="post__category"
-              >
-                {it.node.frontmatter?.category}
-              </Link>
             </div>
-            <FeaturedImage frontmatter={it.node.frontmatter} />
+            {/*<FeaturedImage frontmatter={it.node.frontmatter} />*/}
             <div className="post-main">
               <h2>
                 <Link to={it.node.fields?.slug as string}>
@@ -91,12 +98,23 @@ const IndexPage: FC<PageProps<ListQuery, { limit: number }>> = ({
                 </Link>
               </h2>
               <span>{dayjs(it.node.frontmatter?.date).fromNow()}</span>
+              <Link
+                to={`/categories/${it.node.frontmatter?.category}`}
+                title={`分类：${it.node.frontmatter?.category}`}
+                className="post__category"
+              >
+                {it.node.frontmatter?.category}
+              </Link>
               <p>{it.node.frontmatter?.excerpt}</p>
             </div>
-          </li>
+          </article>
         ))}
-      </ol>
-      {metadata.nextPage && <button onClick={loadNextPage}>加载更多</button>}
+      </section>
+      {metadata.nextPage && (
+        <button className="next-page-btn" onClick={loadNextPage}>
+          加载更多
+        </button>
+      )}
     </Layout>
   );
 };
@@ -132,13 +150,13 @@ export const QUERY_LIST_DSL = graphql`
             thumbnail {
               childImageSharp {
                 fluid {
-                  base64
                   aspectRatio
                   src
                   srcSet
+                  sizes
+                  base64
                   srcWebp
                   srcSetWebp
-                  sizes
                 }
               }
             }

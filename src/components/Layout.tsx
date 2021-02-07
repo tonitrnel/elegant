@@ -69,7 +69,7 @@ const Layout: FC<
           href="https://fonts.proxy.ustclug.org/css?family=Josefin+Sans|PT+Sans&display=swap"
         />
       </Helmet>
-      <Header title={metadata?.title ?? ''} navs={metadata?.navs ?? []} />
+      <Header title={metadata?.author ?? ''} navs={metadata?.navs ?? []} />
       <main className={clsx('main', 'color-theme--dark', className)}>
         {children}
       </main>

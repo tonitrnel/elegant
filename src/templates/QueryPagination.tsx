@@ -16,26 +16,26 @@ export const QUERY_POSTS_PAGINATION_DSL = graphql`
             slug
           }
           frontmatter {
+            date
+            update
             title
-            date(formatString: "MMMM DD, YYYY", locale: "zh-CN")
-            update(formatString: "MMMM DD, YYYY", locale: "zh-CN")
             tags
+            category
+            excerpt
             thumbnail {
               childImageSharp {
                 fluid {
-                  base64
                   aspectRatio
                   src
                   srcSet
+                  sizes
+                  base64
                   srcWebp
                   srcSetWebp
-                  sizes
                 }
               }
             }
-            category
           }
-          excerpt
         }
       }
       totalCount
