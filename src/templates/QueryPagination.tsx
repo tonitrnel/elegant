@@ -24,15 +24,7 @@ export const QUERY_POSTS_PAGINATION_DSL = graphql`
             excerpt
             thumbnail {
               childImageSharp {
-                fluid {
-                  aspectRatio
-                  src
-                  srcSet
-                  sizes
-                  base64
-                  srcWebp
-                  srcSetWebp
-                }
+                image: gatsbyImageData
               }
             }
           }

@@ -1,6 +1,3 @@
-# Provides default value for input field.
-directive @default(value: JSON!) on INPUT_FIELD_DEFINITION
-
 # Add date formatting options.
 directive @dateformat(
   formatString: String
@@ -23,16 +20,10 @@ directive @fileByRelativePath(from: String) on FIELD_DEFINITION
 directive @proxy(from: String!, fromNode: Boolean! = false) on FIELD_DEFINITION
 
 # Infer field types from field values.
-directive @infer(
-  # Don't add default resolvers to defined fields.
-  noDefaultResolvers: Boolean
-) on OBJECT
+directive @infer on OBJECT
 
 # Do not infer field types from field values.
-directive @dontInfer(
-  # Don't add default resolvers to defined fields.
-  noDefaultResolvers: Boolean
-) on OBJECT
+directive @dontInfer on OBJECT
 
 # Define the mime-types handled by this type.
 directive @mimeTypes(
@@ -47,13 +38,1117 @@ directive @childOf(
 
   # A list of types this type is a child of. Usually these are the types handled by a transformer plugin.
   types: [String!]! = ["File"]
-
-  # Specifies whether a parent can have multiple children of this type or not.
-  many: Boolean! = false
 ) on OBJECT
 
+# DEPRECATED: Use interface inheritance instead, i.e. "interface Foo implements Node".
+#
 # Adds root query fields for an interface. All implementing types must also implement the Node interface.
 directive @nodeInterface on INTERFACE
+
+type File implements Node {
+  sourceInstanceName: String!
+  absolutePath: String!
+  relativePath: String!
+  extension: String!
+  size: Int!
+  prettySize: String!
+  modifiedTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  accessTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  changeTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  birthTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  root: String!
+  dir: String!
+  base: String!
+  ext: String!
+  name: String!
+  relativeDirectory: String!
+  dev: Int!
+  mode: Int!
+  nlink: Int!
+  uid: Int!
+  gid: Int!
+  rdev: Int!
+  ino: Float!
+  atimeMs: Float!
+  mtimeMs: Float!
+  ctimeMs: Float!
+  atime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  mtime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  ctime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
+  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
+  blksize: Int
+  blocks: Int
+
+  # Copy file to static directory and return public url to it
+  publicURL: String
+
+  # Returns all children nodes filtered by type ImageSharp
+  childrenImageSharp: [ImageSharp]
+
+  # Returns the first child node of type ImageSharp or null if there are no children of given type on this node
+  childImageSharp: ImageSharp
+
+  # Returns all children nodes filtered by type MarkdownRemark
+  childrenMarkdownRemark: [MarkdownRemark]
+
+  # Returns the first child node of type MarkdownRemark or null if there are no children of given type on this node
+  childMarkdownRemark: MarkdownRemark
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+# Node Interface
+interface Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type Internal {
+  content: String
+  contentDigest: String!
+  description: String
+  fieldOwners: [String]
+  ignoreType: Boolean
+  mediaType: String
+  owner: String!
+  type: String!
+}
+
+# A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+scalar Date
+
+type Directory implements Node {
+  sourceInstanceName: String!
+  absolutePath: String!
+  relativePath: String!
+  extension: String!
+  size: Int!
+  prettySize: String!
+  modifiedTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  accessTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  changeTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  birthTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  root: String!
+  dir: String!
+  base: String!
+  ext: String!
+  name: String!
+  relativeDirectory: String!
+  dev: Int!
+  mode: Int!
+  nlink: Int!
+  uid: Int!
+  gid: Int!
+  rdev: Int!
+  ino: Float!
+  atimeMs: Float!
+  mtimeMs: Float!
+  ctimeMs: Float!
+  atime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  mtime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  ctime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
+  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
+  blksize: Int
+  blocks: Int
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type Site implements Node {
+  buildTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date
+  siteMetadata: SiteSiteMetadata!
+  port: Int
+  host: String
+  polyfill: Boolean
+  pathPrefix: String
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type SiteSiteMetadata implements Node {
+  title: String!
+  description: String
+  author: String!
+  siteUrl: String!
+  language: String
+  navs: [SiteNavigationMap!]!
+  config: RawConfigData!
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type SitePage implements Node {
+  path: String!
+  component: String!
+  internalComponentName: String!
+  componentChunkName: String!
+  matchPath: String
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+  isCreatedByStatefulCreatePages: Boolean
+  context: SitePageContext
+  pluginCreator: SitePlugin
+  pluginCreatorId: String
+  componentPath: String
+}
+
+type SitePageContext {
+  slug: String
+  lastmod: Date
+  prev: SitePageContextPrev
+  limit: Int
+  skip: Int
+  total: Int
+  index: Int
+  tag: String
+  category: String
+}
+
+type SitePageContextPrev {
+  title: String
+  path: String
+}
+
+enum ImageFormat {
+  NO_CHANGE
+  AUTO
+  JPG
+  PNG
+  WEBP
+  AVIF
+}
+
+enum ImageFit {
+  COVER
+  CONTAIN
+  FILL
+  INSIDE
+  OUTSIDE
+}
+
+enum ImageLayout {
+  FIXED
+  FULL_WIDTH
+  CONSTRAINED
+}
+
+enum ImageCropFocus {
+  CENTER
+  NORTH
+  NORTHEAST
+  EAST
+  SOUTHEAST
+  SOUTH
+  SOUTHWEST
+  WEST
+  NORTHWEST
+  ENTROPY
+  ATTENTION
+}
+
+input DuotoneGradient {
+  highlight: String!
+  shadow: String!
+  opacity: Int
+}
+
+enum PotraceTurnPolicy {
+  TURNPOLICY_BLACK
+  TURNPOLICY_WHITE
+  TURNPOLICY_LEFT
+  TURNPOLICY_RIGHT
+  TURNPOLICY_MINORITY
+  TURNPOLICY_MAJORITY
+}
+
+input Potrace {
+  turnPolicy: PotraceTurnPolicy
+  turdSize: Float
+  alphaMax: Float
+  optCurve: Boolean
+  optTolerance: Float
+  threshold: Int
+  blackOnWhite: Boolean
+  color: String
+  background: String
+}
+
+type ImageSharp implements Node {
+  fixed(
+    width: Int
+    height: Int
+    base64Width: Int
+    jpegProgressive: Boolean = true
+    pngCompressionSpeed: Int = 4
+    grayscale: Boolean = false
+    duotone: DuotoneGradient
+    traceSVG: Potrace
+    quality: Int
+    jpegQuality: Int
+    pngQuality: Int
+    webpQuality: Int
+    toFormat: ImageFormat = AUTO
+    toFormatBase64: ImageFormat = AUTO
+    cropFocus: ImageCropFocus = ATTENTION
+    fit: ImageFit = COVER
+    background: String = "rgba(0,0,0,1)"
+    rotate: Int = 0
+    trim: Float = 0
+  ): ImageSharpFixed
+  fluid(
+    maxWidth: Int
+    maxHeight: Int
+    base64Width: Int
+    grayscale: Boolean = false
+    jpegProgressive: Boolean = true
+    pngCompressionSpeed: Int = 4
+    duotone: DuotoneGradient
+    traceSVG: Potrace
+    quality: Int
+    jpegQuality: Int
+    pngQuality: Int
+    webpQuality: Int
+    toFormat: ImageFormat = AUTO
+    toFormatBase64: ImageFormat = AUTO
+    cropFocus: ImageCropFocus = ATTENTION
+    fit: ImageFit = COVER
+    background: String = "rgba(0,0,0,1)"
+    rotate: Int = 0
+    trim: Float = 0
+    sizes: String = ""
+
+    # A list of image widths to be generated. Example: [ 200, 340, 520, 890 ]
+    srcSetBreakpoints: [Int] = []
+  ): ImageSharpFluid
+  gatsbyImageData(
+    # The layout for the image.
+    # FIXED: A static image sized, that does not resize according to the screen width
+    # FULL_WIDTH: The image resizes to fit its container. Pass a "sizes" option if it isn't going to be the full width of the screen.
+    # CONSTRAINED: Resizes to fit its container, up to a maximum width, at which point it will remain fixed in size.
+    layout: ImageLayout = CONSTRAINED
+
+    # The display width of the generated image for layout = FIXED, and the maximum display width of the largest image for layout = CONSTRAINED.
+    # Ignored if layout = FLUID.
+    width: Int
+
+    # The display height of the generated image for layout = FIXED, and the maximum display height of the largest image for layout = CONSTRAINED.
+    # The image will be cropped if the aspect ratio does not match the source image. If omitted, it is calculated from the supplied width,
+    # matching the aspect ratio of the source image.
+    height: Int
+
+    # If set along with width or height, this will set the value of the other dimension to match the provided aspect ratio, cropping the image if needed.
+    # If neither width or height is provided, height will be set based on the intrinsic width of the source image.
+    aspectRatio: Float
+
+    # Format of generated placeholder image, displayed while the main image loads.
+    # BLURRED: a blurred, low resolution image, encoded as a base64 data URI (default)
+    # DOMINANT_COLOR: a solid color, calculated from the dominant color of the image.
+    # TRACED_SVG: a low-resolution traced SVG of the image.
+    # NONE: no placeholder. Set "background" to use a fixed background color.
+    placeholder: ImagePlaceholder
+
+    # Options for the low-resolution placeholder image. Set placeholder to "BLURRED" to use this
+    blurredOptions: BlurredOptions
+
+    # Options for traced placeholder SVGs. You also should set placeholder to "TRACED_SVG".
+    tracedSVGOptions: Potrace
+
+    # The image formats to generate. Valid values are "AUTO" (meaning the same format as the source image), "JPG", "PNG", "WEBP" and "AVIF".
+    # The default value is [AUTO, WEBP], and you should rarely need to change this. Take care if you specify JPG or PNG when you do
+    # not know the formats of the source images, as this could lead to unwanted results such as converting JPEGs to PNGs. Specifying
+    # both PNG and JPG is not supported and will be ignored.
+    formats: [ImageFormat]
+
+    # A list of image pixel densities to generate. It will never generate images larger than the source, and will always include a 1x image.
+    # Default is [ 1, 2 ] for FIXED images, meaning 1x and 2x and [0.25, 0.5, 1, 2] for CONSTRAINED. In this case, an image with a constrained layout
+    # and width = 400 would generate images at 100, 200, 400 and 800px wide. Ignored for FULL_WIDTH images, which use breakpoints instead
+    outputPixelDensities: [Float]
+
+    # Specifies the image widths to generate. For FIXED and CONSTRAINED images it is better to allow these to be determined automatically,
+    # based on the image size. For FULL_WIDTH images this can be used to override the default, which is [750, 1080, 1366, 1920].
+    # It will never generate any images larger than the source.
+    breakpoints: [Int]
+
+    # The "sizes" property, passed to the img tag. This describes the display size of the image.
+    # This does not affect the generated images, but is used by the browser to decide which images to download.
+    # You should usually leave this blank, and a suitable value will be calculated. The exception is if a FULL_WIDTH image
+    # does not actually span the full width of the screen, in which case you should pass the correct size here.
+    sizes: String
+
+    # The default quality. This is overridden by any format-specific options
+    quality: Int
+
+    # Options to pass to sharp when generating JPG images.
+    jpgOptions: JPGOptions
+
+    # Options to pass to sharp when generating PNG images.
+    pngOptions: PNGOptions
+
+    # Options to pass to sharp when generating WebP images.
+    webpOptions: WebPOptions
+
+    # Options to pass to sharp when generating AVIF images.
+    avifOptions: AVIFOptions
+
+    # Options to pass to sharp to control cropping and other image manipulations.
+    transformOptions: TransformOptions
+
+    # Background color applied to the wrapper. Also passed to sharp to use as a background when "letterboxing" an image to another aspect ratio.
+    backgroundColor: String
+  ): JSON!
+  original: ImageSharpOriginal
+  resize(
+    width: Int
+    height: Int
+    quality: Int
+    jpegQuality: Int
+    pngQuality: Int
+    webpQuality: Int
+    jpegProgressive: Boolean = true
+    pngCompressionLevel: Int = 9
+    pngCompressionSpeed: Int = 4
+    grayscale: Boolean = false
+    duotone: DuotoneGradient
+    base64: Boolean = false
+    traceSVG: Potrace
+    toFormat: ImageFormat = AUTO
+    cropFocus: ImageCropFocus = ATTENTION
+    fit: ImageFit = COVER
+    background: String = "rgba(0,0,0,1)"
+    rotate: Int = 0
+    trim: Float = 0
+  ): ImageSharpResize
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type ImageSharpFixed {
+  base64: String
+  tracedSVG: String
+  aspectRatio: Float
+  width: Float!
+  height: Float!
+  src: String!
+  srcSet: String!
+  srcWebp: String
+  srcSetWebp: String
+  originalName: String
+}
+
+type ImageSharpFluid {
+  base64: String
+  tracedSVG: String
+  aspectRatio: Float!
+  src: String!
+  srcSet: String!
+  srcWebp: String
+  srcSetWebp: String
+  sizes: String!
+  originalImg: String
+  originalName: String
+  presentationWidth: Int!
+  presentationHeight: Int!
+}
+
+# The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+scalar JSON
+
+enum ImagePlaceholder {
+  DOMINANT_COLOR
+  TRACED_SVG
+  BLURRED
+  NONE
+}
+
+input BlurredOptions {
+  # Width of the generated low-res preview. Default is 20px
+  width: Int
+
+  # Force the output format for the low-res preview. Default is to use the same format as the input. You should rarely need to change this
+  toFormat: ImageFormat
+}
+
+input JPGOptions {
+  quality: Int
+  progressive: Boolean = true
+}
+
+input PNGOptions {
+  quality: Int
+  compressionSpeed: Int = 4
+}
+
+input WebPOptions {
+  quality: Int
+}
+
+input AVIFOptions {
+  quality: Int
+  lossless: Boolean
+  speed: Int
+}
+
+input TransformOptions {
+  grayscale: Boolean = false
+  duotone: DuotoneGradient
+  rotate: Int = 0
+  trim: Float = 0
+  cropFocus: ImageCropFocus = ATTENTION
+  fit: ImageFit = COVER
+}
+
+type ImageSharpOriginal {
+  width: Float
+  height: Float
+  src: String
+}
+
+type ImageSharpResize {
+  src: String
+  tracedSVG: String
+  width: Int
+  height: Int
+  aspectRatio: Float
+  originalName: String
+}
+
+type MarkdownHeading {
+  id: String
+  value: String
+  depth: Int
+}
+
+enum MarkdownHeadingLevels {
+  h1
+  h2
+  h3
+  h4
+  h5
+  h6
+}
+
+enum MarkdownExcerptFormats {
+  PLAIN
+  HTML
+  MARKDOWN
+}
+
+type MarkdownWordCount {
+  paragraphs: Int
+  sentences: Int
+  words: Int
+}
+
+type MarkdownRemark implements Node {
+  id: ID!
+  frontmatter: MarkdownRemarkFrontmatter
+  excerpt(
+    pruneLength: Int = 140
+    truncate: Boolean = false
+    format: MarkdownExcerptFormats = PLAIN
+  ): String
+  rawMarkdownBody: String
+  fileAbsolutePath: String
+  fields: MarkdownRemarkFields
+  html: String
+  htmlAst: JSON
+  excerptAst(pruneLength: Int = 140, truncate: Boolean = false): JSON
+  headings(depth: MarkdownHeadingLevels): [MarkdownHeading]
+  timeToRead: Int
+  tableOfContents(
+    absolute: Boolean = false
+    pathToSlugField: String = ""
+    maxDepth: Int
+    heading: String
+  ): String
+  wordCount: MarkdownWordCount
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type MarkdownRemarkFields implements Node {
+  ready: Boolean!
+  slug: String!
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type SiteNavigationMap {
+  path: String!
+  name: String!
+}
+
+type RawSiteConfig {
+  title: String!
+  url: String!
+  language: String
+  description: String
+  keywords: [String!]
+  pagination_limit: Int!
+  parse_ignore_dirs: [String!]
+  main_color: String
+}
+
+type RawAuthorConfig {
+  name: String!
+  comment: String
+  avatar: String
+  email: String
+  github: String
+  location: String
+}
+
+type RawMetadataConfig {
+  google_analytics: String
+  google_search_console: String
+  google_adsense_slot: String
+  google_adsense_client: String
+}
+
+type RawConfigData {
+  site: RawSiteConfig!
+  author: RawAuthorConfig!
+  navs: [SiteNavigationMap!]!
+  metadata: RawMetadataConfig!
+}
+
+enum PublishStatus {
+  PUBLISH
+  DRAFT
+  INVALID
+}
+
+type MarkdownRemarkFrontmatter implements Node {
+  title: String!
+  template: String!
+  date(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  status: PublishStatus!
+  tags: [String!]!
+  excerpt: String
+  update(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date!
+  category: String!
+  permalink: String
+  _0: String
+  _1: String
+  _2: String
+  _3: String
+  _4: String
+  _5: String
+  _6: String
+  _7: String
+  _8: String
+  _9: String
+  _10: String
+  _11: String
+  _12: String
+  _13: String
+  _14: String
+  _15: String
+  _16: String
+  _17: String
+  _18: String
+  _19: String
+  _20: String
+  _21: String
+  _22: String
+  _23: String
+  _24: String
+  _25: String
+  _26: String
+  _27: String
+  _28: String
+  _29: String
+  _30: String
+  _31: String
+  _32: String
+  _33: String
+  _34: String
+  _35: String
+  _36: String
+  _37: String
+  _38: String
+  _39: String
+  _40: String
+  _41: String
+  _42: String
+  _43: String
+  _44: String
+  _45: String
+  _46: String
+  _47: String
+  _48: String
+  _49: String
+  _50: String
+  _51: String
+  _52: String
+  _53: String
+  _54: String
+  _55: String
+  _56: String
+  _57: String
+  _58: String
+  _59: String
+  _60: String
+  _61: String
+  _62: String
+  _63: String
+  _64: String
+  _65: String
+  _66: String
+  _67: String
+  _68: String
+  _69: String
+  _70: String
+  _71: String
+  _72: String
+  _73: String
+  _74: String
+  _75: String
+  _76: String
+  _77: String
+  _78: String
+  _79: String
+  _80: String
+  _81: String
+  _82: String
+  _83: String
+  _84: String
+  _85: String
+  _86: String
+  _87: String
+  _88: String
+  _89: String
+  _90: String
+  _91: String
+  _92: String
+  _93: String
+  _94: String
+  _95: String
+  _96: String
+  _97: String
+  _98: String
+  _99: String
+  thumbnail: File
+  _: String
+  modified(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+type SiteBuildMetadata implements Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+  buildTime(
+    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
+    formatString: String
+
+    # Returns a string generated with Moment.js' `fromNow` function
+    fromNow: Boolean
+
+    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
+    difference: String
+
+    # Configures the locale Moment.js will use to format the date.
+    locale: String
+  ): Date
+}
+
+type SitePlugin implements Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+  resolve: String
+  name: String
+  version: String
+  pluginOptions: SitePluginPluginOptions
+  nodeAPIs: [String]
+  browserAPIs: [String]
+  ssrAPIs: [String]
+  pluginFilepath: String
+  packageJson: SitePluginPackageJson
+}
+
+type SitePluginPluginOptions {
+  plugins: [SitePluginPluginOptionsPlugins]
+  isTSX: Boolean
+  jsxPragma: String
+  allExtensions: Boolean
+  output: String
+  createLinkInHead: Boolean
+  base64Width: Int
+  stripMetadata: Boolean
+  defaultQuality: Int
+  failOnError: Boolean
+  trackingId: String
+  head: Boolean
+  anonymize: Boolean
+  respectDNT: Boolean
+  pageTransitionDelay: Int
+  name: String
+  path: String
+  ignore: [String]
+  maxWidth: Int
+  showCaptions: Boolean
+  withWebp: Boolean
+  linkImagesToOriginal: Boolean
+  markdownCaptions: Boolean
+  sizeByPixelDensity: Boolean
+  backgroundColor: String
+  quality: Int
+  tracedSVG: Boolean
+  loading: String
+  disableBgImageOnAlpha: Boolean
+  disableBgImage: Boolean
+  classPrefix: String
+  showLineNumbers: Boolean
+  aliases: SitePluginPluginOptionsAliases
+  strict: String
+  rel: String
+  short_name: String
+  description: String
+  start_url: String
+  background_color: String
+  theme_color_in_head: Boolean
+  display: String
+  lang: String
+  icon: String
+  legacy: Boolean
+  include_favicon: Boolean
+  crossOrigin: String
+  cache_busting_mode: String
+  cacheDigest: String
+  query: String
+  feeds: [SitePluginPluginOptionsFeeds]
+  host: String
+  sitemap: String
+  policy: [SitePluginPluginOptionsPolicy]
+  pathCheck: Boolean
+}
+
+type SitePluginPluginOptionsPlugins {
+  resolve: String
+  id: String
+  name: String
+  version: String
+  pluginOptions: SitePluginPluginOptionsPluginsPluginOptions
+  nodeAPIs: [String]
+  browserAPIs: [String]
+  pluginFilepath: String
+}
+
+type SitePluginPluginOptionsPluginsPluginOptions {
+  maxWidth: Int
+  showCaptions: Boolean
+  withWebp: Boolean
+  linkImagesToOriginal: Boolean
+  markdownCaptions: Boolean
+  sizeByPixelDensity: Boolean
+  backgroundColor: String
+  quality: Int
+  tracedSVG: Boolean
+  loading: String
+  disableBgImageOnAlpha: Boolean
+  disableBgImage: Boolean
+  classPrefix: String
+  showLineNumbers: Boolean
+  aliases: SitePluginPluginOptionsPluginsPluginOptionsAliases
+  strict: String
+  rel: String
+}
+
+type SitePluginPluginOptionsPluginsPluginOptionsAliases {
+  react: String
+  javascriptreact: String
+  javascript_react: String
+  typescriptreact: String
+  typescript_react: String
+}
+
+type SitePluginPluginOptionsAliases {
+  react: String
+  javascriptreact: String
+  javascript_react: String
+  typescriptreact: String
+  typescript_react: String
+}
+
+type SitePluginPluginOptionsFeeds {
+  query: String
+  output: String
+  title: String
+}
+
+type SitePluginPluginOptionsPolicy {
+  userAgent: String
+  allow: String
+}
+
+type SitePluginPackageJson {
+  name: String
+  description: String
+  version: String
+  main: String
+  license: String
+  dependencies: [SitePluginPackageJsonDependencies]
+  devDependencies: [SitePluginPackageJsonDevDependencies]
+  peerDependencies: [SitePluginPackageJsonPeerDependencies]
+  keywords: [String]
+}
+
+type SitePluginPackageJsonDependencies {
+  name: String
+  version: String
+}
+
+type SitePluginPackageJsonDevDependencies {
+  name: String
+  version: String
+}
+
+type SitePluginPackageJsonPeerDependencies {
+  name: String
+  version: String
+}
 
 type Query {
   file(
@@ -198,11 +1293,6 @@ type Query {
     parent: NodeFilterInput
     children: NodeFilterListInput
     internal: InternalFilterInput
-    isCreatedByStatefulCreatePages: BooleanQueryOperatorInput
-    context: SitePageContextFilterInput
-    pluginCreator: SitePluginFilterInput
-    pluginCreatorId: StringQueryOperatorInput
-    componentPath: StringQueryOperatorInput
   ): SitePage
   allSitePage(
     filter: SitePageFilterInput
@@ -212,9 +1302,7 @@ type Query {
   ): SitePageConnection!
   imageSharp(
     fixed: ImageSharpFixedFilterInput
-    resolutions: ImageSharpResolutionsFilterInput
     fluid: ImageSharpFluidFilterInput
-    sizes: ImageSharpSizesFilterInput
     gatsbyImageData: JSONQueryOperatorInput
     original: ImageSharpOriginalFilterInput
     resize: ImageSharpResizeFilterInput
@@ -378,8 +1466,8 @@ type Query {
     _98: StringQueryOperatorInput
     _99: StringQueryOperatorInput
     thumbnail: FileFilterInput
-    modified: DateQueryOperatorInput
     _: StringQueryOperatorInput
+    modified: DateQueryOperatorInput
     id: StringQueryOperatorInput
     parent: NodeFilterInput
     children: NodeFilterListInput
@@ -458,9 +1546,6 @@ input DateQueryOperatorInput {
   nin: [Date]
 }
 
-# A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-scalar Date
-
 input FloatQueryOperatorInput {
   eq: Float
   ne: Float
@@ -473,182 +1558,46 @@ input FloatQueryOperatorInput {
 }
 
 input ImageSharpFilterListInput {
-  #
   elemMatch: ImageSharpFilterInput
 }
 
 input ImageSharpFilterInput {
-  #
   fixed: ImageSharpFixedFilterInput
-
-  #
-  resolutions: ImageSharpResolutionsFilterInput
-
-  #
   fluid: ImageSharpFluidFilterInput
-
-  #
-  sizes: ImageSharpSizesFilterInput
-
-  #
   gatsbyImageData: JSONQueryOperatorInput
-
-  #
   original: ImageSharpOriginalFilterInput
-
-  #
   resize: ImageSharpResizeFilterInput
-
-  #
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
 input ImageSharpFixedFilterInput {
-  #
   base64: StringQueryOperatorInput
-
-  #
   tracedSVG: StringQueryOperatorInput
-
-  #
   aspectRatio: FloatQueryOperatorInput
-
-  #
   width: FloatQueryOperatorInput
-
-  #
   height: FloatQueryOperatorInput
-
-  #
   src: StringQueryOperatorInput
-
-  #
   srcSet: StringQueryOperatorInput
-
-  #
   srcWebp: StringQueryOperatorInput
-
-  #
   srcSetWebp: StringQueryOperatorInput
-
-  #
-  originalName: StringQueryOperatorInput
-}
-
-input ImageSharpResolutionsFilterInput {
-  #
-  base64: StringQueryOperatorInput
-
-  #
-  tracedSVG: StringQueryOperatorInput
-
-  #
-  aspectRatio: FloatQueryOperatorInput
-
-  #
-  width: FloatQueryOperatorInput
-
-  #
-  height: FloatQueryOperatorInput
-
-  #
-  src: StringQueryOperatorInput
-
-  #
-  srcSet: StringQueryOperatorInput
-
-  #
-  srcWebp: StringQueryOperatorInput
-
-  #
-  srcSetWebp: StringQueryOperatorInput
-
-  #
   originalName: StringQueryOperatorInput
 }
 
 input ImageSharpFluidFilterInput {
-  #
   base64: StringQueryOperatorInput
-
-  #
   tracedSVG: StringQueryOperatorInput
-
-  #
   aspectRatio: FloatQueryOperatorInput
-
-  #
   src: StringQueryOperatorInput
-
-  #
   srcSet: StringQueryOperatorInput
-
-  #
   srcWebp: StringQueryOperatorInput
-
-  #
   srcSetWebp: StringQueryOperatorInput
-
-  #
   sizes: StringQueryOperatorInput
-
-  #
   originalImg: StringQueryOperatorInput
-
-  #
   originalName: StringQueryOperatorInput
-
-  #
   presentationWidth: IntQueryOperatorInput
-
-  #
-  presentationHeight: IntQueryOperatorInput
-}
-
-input ImageSharpSizesFilterInput {
-  #
-  base64: StringQueryOperatorInput
-
-  #
-  tracedSVG: StringQueryOperatorInput
-
-  #
-  aspectRatio: FloatQueryOperatorInput
-
-  #
-  src: StringQueryOperatorInput
-
-  #
-  srcSet: StringQueryOperatorInput
-
-  #
-  srcWebp: StringQueryOperatorInput
-
-  #
-  srcSetWebp: StringQueryOperatorInput
-
-  #
-  sizes: StringQueryOperatorInput
-
-  #
-  originalImg: StringQueryOperatorInput
-
-  #
-  originalName: StringQueryOperatorInput
-
-  #
-  presentationWidth: IntQueryOperatorInput
-
-  #
   presentationHeight: IntQueryOperatorInput
 }
 
@@ -661,82 +1610,40 @@ input JSONQueryOperatorInput {
   glob: JSON
 }
 
-# The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-scalar JSON
-
 input ImageSharpOriginalFilterInput {
-  #
   width: FloatQueryOperatorInput
-
-  #
   height: FloatQueryOperatorInput
-
-  #
   src: StringQueryOperatorInput
 }
 
 input ImageSharpResizeFilterInput {
-  #
   src: StringQueryOperatorInput
-
-  #
   tracedSVG: StringQueryOperatorInput
-
-  #
   width: IntQueryOperatorInput
-
-  #
   height: IntQueryOperatorInput
-
-  #
   aspectRatio: FloatQueryOperatorInput
-
-  #
   originalName: StringQueryOperatorInput
 }
 
 input NodeFilterInput {
-  #
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
 input NodeFilterListInput {
-  #
   elemMatch: NodeFilterInput
 }
 
 input InternalFilterInput {
-  #
   content: StringQueryOperatorInput
-
-  #
   contentDigest: StringQueryOperatorInput
-
-  #
   description: StringQueryOperatorInput
-
-  #
   fieldOwners: StringQueryOperatorInput
-
-  #
   ignoreType: BooleanQueryOperatorInput
-
-  #
   mediaType: StringQueryOperatorInput
-
-  #
   owner: StringQueryOperatorInput
-
-  #
   type: StringQueryOperatorInput
 }
 
@@ -748,407 +1655,144 @@ input BooleanQueryOperatorInput {
 }
 
 input MarkdownRemarkFilterListInput {
-  #
   elemMatch: MarkdownRemarkFilterInput
 }
 
 input MarkdownRemarkFilterInput {
-  #
   id: StringQueryOperatorInput
-
-  #
   frontmatter: MarkdownRemarkFrontmatterFilterInput
-
-  #
   excerpt: StringQueryOperatorInput
-
-  #
   rawMarkdownBody: StringQueryOperatorInput
-
-  #
   fileAbsolutePath: StringQueryOperatorInput
-
-  #
   fields: MarkdownRemarkFieldsFilterInput
-
-  #
   html: StringQueryOperatorInput
-
-  #
   htmlAst: JSONQueryOperatorInput
-
-  #
   excerptAst: JSONQueryOperatorInput
-
-  #
   headings: MarkdownHeadingFilterListInput
-
-  #
   timeToRead: IntQueryOperatorInput
-
-  #
   tableOfContents: StringQueryOperatorInput
-
-  #
   wordCount: MarkdownWordCountFilterInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
 input MarkdownRemarkFrontmatterFilterInput {
-  #
   title: StringQueryOperatorInput
-
-  #
   template: StringQueryOperatorInput
-
-  #
   date: DateQueryOperatorInput
-
-  #
   status: PublishStatusQueryOperatorInput
-
-  #
   tags: StringQueryOperatorInput
-
-  #
   excerpt: StringQueryOperatorInput
-
-  #
   update: DateQueryOperatorInput
-
-  #
   category: StringQueryOperatorInput
-
-  #
   permalink: StringQueryOperatorInput
-
-  #
   _0: StringQueryOperatorInput
-
-  #
   _1: StringQueryOperatorInput
-
-  #
   _2: StringQueryOperatorInput
-
-  #
   _3: StringQueryOperatorInput
-
-  #
   _4: StringQueryOperatorInput
-
-  #
   _5: StringQueryOperatorInput
-
-  #
   _6: StringQueryOperatorInput
-
-  #
   _7: StringQueryOperatorInput
-
-  #
   _8: StringQueryOperatorInput
-
-  #
   _9: StringQueryOperatorInput
-
-  #
   _10: StringQueryOperatorInput
-
-  #
   _11: StringQueryOperatorInput
-
-  #
   _12: StringQueryOperatorInput
-
-  #
   _13: StringQueryOperatorInput
-
-  #
   _14: StringQueryOperatorInput
-
-  #
   _15: StringQueryOperatorInput
-
-  #
   _16: StringQueryOperatorInput
-
-  #
   _17: StringQueryOperatorInput
-
-  #
   _18: StringQueryOperatorInput
-
-  #
   _19: StringQueryOperatorInput
-
-  #
   _20: StringQueryOperatorInput
-
-  #
   _21: StringQueryOperatorInput
-
-  #
   _22: StringQueryOperatorInput
-
-  #
   _23: StringQueryOperatorInput
-
-  #
   _24: StringQueryOperatorInput
-
-  #
   _25: StringQueryOperatorInput
-
-  #
   _26: StringQueryOperatorInput
-
-  #
   _27: StringQueryOperatorInput
-
-  #
   _28: StringQueryOperatorInput
-
-  #
   _29: StringQueryOperatorInput
-
-  #
   _30: StringQueryOperatorInput
-
-  #
   _31: StringQueryOperatorInput
-
-  #
   _32: StringQueryOperatorInput
-
-  #
   _33: StringQueryOperatorInput
-
-  #
   _34: StringQueryOperatorInput
-
-  #
   _35: StringQueryOperatorInput
-
-  #
   _36: StringQueryOperatorInput
-
-  #
   _37: StringQueryOperatorInput
-
-  #
   _38: StringQueryOperatorInput
-
-  #
   _39: StringQueryOperatorInput
-
-  #
   _40: StringQueryOperatorInput
-
-  #
   _41: StringQueryOperatorInput
-
-  #
   _42: StringQueryOperatorInput
-
-  #
   _43: StringQueryOperatorInput
-
-  #
   _44: StringQueryOperatorInput
-
-  #
   _45: StringQueryOperatorInput
-
-  #
   _46: StringQueryOperatorInput
-
-  #
   _47: StringQueryOperatorInput
-
-  #
   _48: StringQueryOperatorInput
-
-  #
   _49: StringQueryOperatorInput
-
-  #
   _50: StringQueryOperatorInput
-
-  #
   _51: StringQueryOperatorInput
-
-  #
   _52: StringQueryOperatorInput
-
-  #
   _53: StringQueryOperatorInput
-
-  #
   _54: StringQueryOperatorInput
-
-  #
   _55: StringQueryOperatorInput
-
-  #
   _56: StringQueryOperatorInput
-
-  #
   _57: StringQueryOperatorInput
-
-  #
   _58: StringQueryOperatorInput
-
-  #
   _59: StringQueryOperatorInput
-
-  #
   _60: StringQueryOperatorInput
-
-  #
   _61: StringQueryOperatorInput
-
-  #
   _62: StringQueryOperatorInput
-
-  #
   _63: StringQueryOperatorInput
-
-  #
   _64: StringQueryOperatorInput
-
-  #
   _65: StringQueryOperatorInput
-
-  #
   _66: StringQueryOperatorInput
-
-  #
   _67: StringQueryOperatorInput
-
-  #
   _68: StringQueryOperatorInput
-
-  #
   _69: StringQueryOperatorInput
-
-  #
   _70: StringQueryOperatorInput
-
-  #
   _71: StringQueryOperatorInput
-
-  #
   _72: StringQueryOperatorInput
-
-  #
   _73: StringQueryOperatorInput
-
-  #
   _74: StringQueryOperatorInput
-
-  #
   _75: StringQueryOperatorInput
-
-  #
   _76: StringQueryOperatorInput
-
-  #
   _77: StringQueryOperatorInput
-
-  #
   _78: StringQueryOperatorInput
-
-  #
   _79: StringQueryOperatorInput
-
-  #
   _80: StringQueryOperatorInput
-
-  #
   _81: StringQueryOperatorInput
-
-  #
   _82: StringQueryOperatorInput
-
-  #
   _83: StringQueryOperatorInput
-
-  #
   _84: StringQueryOperatorInput
-
-  #
   _85: StringQueryOperatorInput
-
-  #
   _86: StringQueryOperatorInput
-
-  #
   _87: StringQueryOperatorInput
-
-  #
   _88: StringQueryOperatorInput
-
-  #
   _89: StringQueryOperatorInput
-
-  #
   _90: StringQueryOperatorInput
-
-  #
   _91: StringQueryOperatorInput
-
-  #
   _92: StringQueryOperatorInput
-
-  #
   _93: StringQueryOperatorInput
-
-  #
   _94: StringQueryOperatorInput
-
-  #
   _95: StringQueryOperatorInput
-
-  #
   _96: StringQueryOperatorInput
-
-  #
   _97: StringQueryOperatorInput
-
-  #
   _98: StringQueryOperatorInput
-
-  #
   _99: StringQueryOperatorInput
-
-  #
   thumbnail: FileFilterInput
-
-  #
-  modified: DateQueryOperatorInput
-
-  #
   _: StringQueryOperatorInput
-
-  #
+  modified: DateQueryOperatorInput
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
@@ -1159,947 +1803,99 @@ input PublishStatusQueryOperatorInput {
   nin: [PublishStatus]
 }
 
-enum PublishStatus {
-  PUBLISH
-  DRAFT
-  INVALID
-}
-
 input FileFilterInput {
-  #
   sourceInstanceName: StringQueryOperatorInput
-
-  #
   absolutePath: StringQueryOperatorInput
-
-  #
   relativePath: StringQueryOperatorInput
-
-  #
   extension: StringQueryOperatorInput
-
-  #
   size: IntQueryOperatorInput
-
-  #
   prettySize: StringQueryOperatorInput
-
-  #
   modifiedTime: DateQueryOperatorInput
-
-  #
   accessTime: DateQueryOperatorInput
-
-  #
   changeTime: DateQueryOperatorInput
-
-  #
   birthTime: DateQueryOperatorInput
-
-  #
   root: StringQueryOperatorInput
-
-  #
   dir: StringQueryOperatorInput
-
-  #
   base: StringQueryOperatorInput
-
-  #
   ext: StringQueryOperatorInput
-
-  #
   name: StringQueryOperatorInput
-
-  #
   relativeDirectory: StringQueryOperatorInput
-
-  #
   dev: IntQueryOperatorInput
-
-  #
   mode: IntQueryOperatorInput
-
-  #
   nlink: IntQueryOperatorInput
-
-  #
   uid: IntQueryOperatorInput
-
-  #
   gid: IntQueryOperatorInput
-
-  #
   rdev: IntQueryOperatorInput
-
-  #
   ino: FloatQueryOperatorInput
-
-  #
   atimeMs: FloatQueryOperatorInput
-
-  #
   mtimeMs: FloatQueryOperatorInput
-
-  #
   ctimeMs: FloatQueryOperatorInput
-
-  #
   atime: DateQueryOperatorInput
-
-  #
   mtime: DateQueryOperatorInput
-
-  #
   ctime: DateQueryOperatorInput
-
-  #
   birthtime: DateQueryOperatorInput
-
-  #
   birthtimeMs: FloatQueryOperatorInput
-
-  #
   blksize: IntQueryOperatorInput
-
-  #
   blocks: IntQueryOperatorInput
-
-  #
   publicURL: StringQueryOperatorInput
-
-  #
   childrenImageSharp: ImageSharpFilterListInput
-
-  #
   childImageSharp: ImageSharpFilterInput
-
-  #
   childrenMarkdownRemark: MarkdownRemarkFilterListInput
-
-  #
   childMarkdownRemark: MarkdownRemarkFilterInput
-
-  #
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
 input MarkdownRemarkFieldsFilterInput {
-  #
   ready: BooleanQueryOperatorInput
-
-  #
   slug: StringQueryOperatorInput
-
-  #
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
-
-  #
   internal: InternalFilterInput
 }
 
 input MarkdownHeadingFilterListInput {
-  #
   elemMatch: MarkdownHeadingFilterInput
 }
 
 input MarkdownHeadingFilterInput {
-  #
   id: StringQueryOperatorInput
-
-  #
   value: StringQueryOperatorInput
-
-  #
   depth: IntQueryOperatorInput
 }
 
 input MarkdownWordCountFilterInput {
-  #
   paragraphs: IntQueryOperatorInput
-
-  #
   sentences: IntQueryOperatorInput
-
-  #
   words: IntQueryOperatorInput
 }
 
-type File implements Node {
-  sourceInstanceName: String!
-  absolutePath: String!
-  relativePath: String!
-  extension: String!
-  size: Int!
-  prettySize: String!
-  modifiedTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  accessTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  changeTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  birthTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  root: String!
-  dir: String!
-  base: String!
-  ext: String!
-  name: String!
-  relativeDirectory: String!
-  dev: Int!
-  mode: Int!
-  nlink: Int!
-  uid: Int!
-  gid: Int!
-  rdev: Int!
-  ino: Float!
-  atimeMs: Float!
-  mtimeMs: Float!
-  ctimeMs: Float!
-  atime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  mtime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  ctime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
-  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
-  blksize: Int
-  blocks: Int
-
-  # Copy file to static directory and return public url to it
-  publicURL: String
-
-  # Returns all children nodes filtered by type ImageSharp
-  childrenImageSharp: [ImageSharp]
-
-  # Returns the first child node of type ImageSharp or null if there are no children of given type on this node
-  childImageSharp: ImageSharp
-
-  # Returns all children nodes filtered by type MarkdownRemark
-  childrenMarkdownRemark: [MarkdownRemark]
-
-  # Returns the first child node of type MarkdownRemark or null if there are no children of given type on this node
-  childMarkdownRemark: MarkdownRemark
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
+type FileConnection {
+  totalCount: Int!
+  edges: [FileEdge!]!
+  nodes: [File!]!
+  pageInfo: PageInfo!
+  distinct(field: FileFieldsEnum!): [String!]!
+  group(skip: Int, limit: Int, field: FileFieldsEnum!): [FileGroupConnection!]!
 }
 
-# Node Interface
-interface Node {
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
+type FileEdge {
+  next: File
+  node: File!
+  previous: File
 }
 
-type Internal {
-  content: String
-  contentDigest: String!
-  description: String
-  fieldOwners: [String]
-  ignoreType: Boolean
-  mediaType: String
-  owner: String!
-  type: String!
-}
-
-type ImageSharp implements Node {
-  fixed(
-    width: Int
-    height: Int
-    base64Width: Int
-    jpegProgressive: Boolean = true
-    pngCompressionSpeed: Int = 4
-    grayscale: Boolean = false
-    duotone: DuotoneGradient
-    traceSVG: Potrace
-    quality: Int
-    jpegQuality: Int
-    pngQuality: Int
-    webpQuality: Int
-    toFormat: ImageFormat = AUTO
-    toFormatBase64: ImageFormat = AUTO
-    cropFocus: ImageCropFocus = ATTENTION
-    fit: ImageFit = COVER
-    background: String = "rgba(0,0,0,1)"
-    rotate: Int = 0
-    trim: Float = 0
-  ): ImageSharpFixed
-  resolutions(
-    width: Int
-    height: Int
-    base64Width: Int
-    jpegProgressive: Boolean = true
-    pngCompressionSpeed: Int = 4
-    grayscale: Boolean = false
-    duotone: DuotoneGradient
-    traceSVG: Potrace
-    quality: Int
-    jpegQuality: Int
-    pngQuality: Int
-    webpQuality: Int
-    toFormat: ImageFormat = AUTO
-    toFormatBase64: ImageFormat = AUTO
-    cropFocus: ImageCropFocus = ATTENTION
-    fit: ImageFit = COVER
-    background: String = "rgba(0,0,0,1)"
-    rotate: Int = 0
-    trim: Float = 0
-  ): ImageSharpResolutions
-    @deprecated(
-      reason: "Resolutions was deprecated in Gatsby v2. It's been renamed to \"fixed\" https://example.com/write-docs-and-fix-this-example-link"
-    )
-  fluid(
-    maxWidth: Int
-    maxHeight: Int
-    base64Width: Int
-    grayscale: Boolean = false
-    jpegProgressive: Boolean = true
-    pngCompressionSpeed: Int = 4
-    duotone: DuotoneGradient
-    traceSVG: Potrace
-    quality: Int
-    jpegQuality: Int
-    pngQuality: Int
-    webpQuality: Int
-    toFormat: ImageFormat = AUTO
-    toFormatBase64: ImageFormat = AUTO
-    cropFocus: ImageCropFocus = ATTENTION
-    fit: ImageFit = COVER
-    background: String = "rgba(0,0,0,1)"
-    rotate: Int = 0
-    trim: Float = 0
-    sizes: String = ""
-
-    # A list of image widths to be generated. Example: [ 200, 340, 520, 890 ]
-    srcSetBreakpoints: [Int] = []
-  ): ImageSharpFluid
-  sizes(
-    maxWidth: Int
-    maxHeight: Int
-    base64Width: Int
-    grayscale: Boolean = false
-    jpegProgressive: Boolean = true
-    pngCompressionSpeed: Int = 4
-    duotone: DuotoneGradient
-    traceSVG: Potrace
-    quality: Int
-    jpegQuality: Int
-    pngQuality: Int
-    webpQuality: Int
-    toFormat: ImageFormat = AUTO
-    toFormatBase64: ImageFormat = AUTO
-    cropFocus: ImageCropFocus = ATTENTION
-    fit: ImageFit = COVER
-    background: String = "rgba(0,0,0,1)"
-    rotate: Int = 0
-    trim: Float = 0
-    sizes: String = ""
-
-    # A list of image widths to be generated. Example: [ 200, 340, 520, 890 ]
-    srcSetBreakpoints: [Int] = []
-  ): ImageSharpSizes
-    @deprecated(
-      reason: "Sizes was deprecated in Gatsby v2. It's been renamed to \"fluid\" https://example.com/write-docs-and-fix-this-example-link"
-    )
-  gatsbyImageData(
-    # The layout for the image.
-    # FIXED: A static image sized, that does not resize according to the screen width
-    # FLUID: The image resizes to fit its container. Pass a "sizes" option if it isn't going to be the full width of the screen.
-    # CONSTRAINED: Resizes to fit its container, up to a maximum width, at which point it will remain fixed in size.
-    layout: ImageLayout = CONSTRAINED
-
-    # Maximum display width of generated files.
-    # The actual largest image resolution will be this value multipled by the largest value in outputPixelDensities
-    # This only applies when layout = FLUID or CONSTRAINED. For other layout types, use "width"
-    maxWidth: Int
-
-    # If set, the generated image is a maximum of this height, cropping if necessary.
-    # If the image layout is "constrained" then the image will be limited to this height.
-    # If the aspect ratio of the image is different than the source, then the image will be cropped.
-    maxHeight: Int
-
-    # The display width of the generated image.
-    # The actual largest image resolution will be this value multipled by the largest value in outputPixelDensities
-    # Ignored if layout = FLUID or CONSTRAINED, where you should use "maxWidth" instead.
-    width: Int
-
-    # If set, the height of the generated image. If omitted, it is calculated from the supplied width, matching the aspect ratio of the source image.
-    height: Int
-
-    # Format of generated placeholder image, displayed while the main image loads.
-    # BLURRED: a blurred, low resolution image, encoded as a base64 data URI (default)
-    # DOMINANT_COLOR: a solid color, calculated from the dominant color of the image.
-    # TRACED_SVG: a low-resolution traced SVG of the image.
-    # NONE: no placeholder. Set "background" to use a fixed background color.
-    placeholder: ImagePlaceholder = BLURRED
-
-    # Options for the low-resolution placeholder image. Set placeholder to "BLURRED" to use this
-    blurredOptions: BlurredOptions
-
-    # Options for traced placeholder SVGs. You also should set placeholder to "SVG".
-    tracedSVGOptions: Potrace
-
-    # The image formats to generate. Valid values are "AUTO" (meaning the same format as the source image), "JPG", "PNG" and "WEBP".
-    # The default value is [AUTO, WEBP], and you should rarely need to change this. Take care if you specify JPG or PNG when you do
-    # not know the formats of the source images, as this could lead to unwanted results such as converting JPEGs to PNGs. Specifying
-    # both PNG and JPG is not supported and will be ignored.
-    formats: [ImageFormat] = [WEBP]
-
-    # A list of image pixel densities to generate. It will never generate images larger than the source, and will always include a 1x image.
-    # Default is [ 1, 2 ] for fixed images, meaning 1x, 2x, 3x, and [0.25, 0.5, 1, 2] for fluid. In this case, an image with a fluid layout and width = 400 would generate images at 100, 200, 400 and 800px wide
-    outputPixelDensities: [Float]
-
-    # The "sizes" property, passed to the img tag. This describes the display size of the image.
-    # This does not affect the generated images, but is used by the browser to decide which images to download. You can leave this blank for fixed images, or if the responsive image
-    # container will be the full width of the screen. In these cases we will generate an appropriate value.
-    sizes: String = ""
-
-    # The default quality. This is overriden by any format-specific options
-    quality: Int
-
-    # Options to pass to sharp when generating JPG images.
-    jpgOptions: JPGOptions
-
-    # Options to pass to sharp when generating PNG images.
-    pngOptions: PNGOptions
-
-    # Options to pass to sharp when generating WebP images.
-    webpOptions: WebPOptions
-
-    # Options to pass to sharp when generating AVIF images.
-    avifOptions: AVIFOptions
-
-    # Options to pass to sharp to control cropping and other image manipulations.
-    transformOptions: TransformOptions
-
-    # Background color applied to the wrapper. Also passed to sharp to use as a background when "letterboxing" an image to another aspect ratio.
-    background: String = "rgba(0,0,0,0)"
-  ): JSON!
-  original: ImageSharpOriginal
-  resize(
-    width: Int
-    height: Int
-    quality: Int
-    jpegQuality: Int
-    pngQuality: Int
-    webpQuality: Int
-    jpegProgressive: Boolean = true
-    pngCompressionLevel: Int = 9
-    pngCompressionSpeed: Int = 4
-    grayscale: Boolean = false
-    duotone: DuotoneGradient
-    base64: Boolean = false
-    traceSVG: Potrace
-    toFormat: ImageFormat = AUTO
-    cropFocus: ImageCropFocus = ATTENTION
-    fit: ImageFit = COVER
-    background: String = "rgba(0,0,0,1)"
-    rotate: Int = 0
-    trim: Float = 0
-  ): ImageSharpResize
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-input DuotoneGradient {
-  highlight: String!
-  shadow: String!
-  opacity: Int
-}
-
-input Potrace {
-  turnPolicy: PotraceTurnPolicy
-  turdSize: Float
-  alphaMax: Float
-  optCurve: Boolean
-  optTolerance: Float
-  threshold: Int
-  blackOnWhite: Boolean
-  color: String
-  background: String
-}
-
-enum PotraceTurnPolicy {
-  TURNPOLICY_BLACK
-  TURNPOLICY_WHITE
-  TURNPOLICY_LEFT
-  TURNPOLICY_RIGHT
-  TURNPOLICY_MINORITY
-  TURNPOLICY_MAJORITY
-}
-
-enum ImageFormat {
-  NO_CHANGE
-  AUTO
-  JPG
-  PNG
-  WEBP
-  AVIF
-}
-
-enum ImageCropFocus {
-  CENTER
-  NORTH
-  NORTHEAST
-  EAST
-  SOUTHEAST
-  SOUTH
-  SOUTHWEST
-  WEST
-  NORTHWEST
-  ENTROPY
-  ATTENTION
-}
-
-enum ImageFit {
-  COVER
-  CONTAIN
-  FILL
-  INSIDE
-  OUTSIDE
-}
-
-type ImageSharpFixed {
-  base64: String
-  tracedSVG: String
-  aspectRatio: Float
-  width: Float!
-  height: Float!
-  src: String!
-  srcSet: String!
-  srcWebp: String
-  srcSetWebp: String
-  originalName: String
-}
-
-type ImageSharpResolutions {
-  base64: String
-  tracedSVG: String
-  aspectRatio: Float
-  width: Float!
-  height: Float!
-  src: String!
-  srcSet: String!
-  srcWebp: String
-  srcSetWebp: String
-  originalName: String
-}
-
-type ImageSharpFluid {
-  base64: String
-  tracedSVG: String
-  aspectRatio: Float!
-  src: String!
-  srcSet: String!
-  srcWebp: String
-  srcSetWebp: String
-  sizes: String!
-  originalImg: String
-  originalName: String
-  presentationWidth: Int!
-  presentationHeight: Int!
-}
-
-type ImageSharpSizes {
-  base64: String
-  tracedSVG: String
-  aspectRatio: Float!
-  src: String!
-  srcSet: String!
-  srcWebp: String
-  srcSetWebp: String
-  sizes: String!
-  originalImg: String
-  originalName: String
-  presentationWidth: Int!
-  presentationHeight: Int!
-}
-
-enum ImageLayout {
-  FIXED
-  FLUID
-  CONSTRAINED
-}
-
-enum ImagePlaceholder {
-  DOMINANT_COLOR
-  TRACED_SVG
-  BLURRED
-  NONE
-}
-
-input BlurredOptions {
-  # Width of the generated low-res preview. Default is 20px
-  width: Int
-
-  # Force the output format for the low-res preview. Default is to use the same format as the input. You should rarely need to change this
-  toFormat: ImageFormat
-}
-
-input JPGOptions {
-  quality: Int
-  progressive: Boolean = true
-}
-
-input PNGOptions {
-  quality: Int
-  compressionSpeed: Int = 4
-}
-
-input WebPOptions {
-  quality: Int
-}
-
-input AVIFOptions {
-  quality: Int
-  lossless: Boolean
-  speed: Int
-}
-
-input TransformOptions {
-  grayscale: Boolean = false
-  duotone: DuotoneGradient
-  rotate: Int = 0
-  trim: Float = 0
-  cropFocus: ImageCropFocus = ATTENTION
-  fit: ImageFit = COVER
-}
-
-type ImageSharpOriginal {
-  width: Float
-  height: Float
-  src: String
-}
-
-type ImageSharpResize {
-  src: String
-  tracedSVG: String
-  width: Int
-  height: Int
-  aspectRatio: Float
-  originalName: String
-}
-
-type MarkdownRemark implements Node {
-  id: ID!
-  frontmatter: MarkdownRemarkFrontmatter
-  excerpt(
-    pruneLength: Int = 140
-    truncate: Boolean = false
-    format: MarkdownExcerptFormats = PLAIN
-  ): String
-  rawMarkdownBody: String
-  fileAbsolutePath: String
-  fields: MarkdownRemarkFields
-  html: String
-  htmlAst: JSON
-  excerptAst(pruneLength: Int = 140, truncate: Boolean = false): JSON
-  headings(depth: MarkdownHeadingLevels): [MarkdownHeading]
-  timeToRead: Int
-  tableOfContents(
-    absolute: Boolean = true
-    pathToSlugField: String = "fields.slug"
-    maxDepth: Int
-    heading: String
-  ): String
-  wordCount: MarkdownWordCount
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-type MarkdownRemarkFrontmatter implements Node {
-  title: String!
-  template: String!
-  date(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  status: PublishStatus!
-  tags: [String!]!
-  excerpt: String
-  update(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  category: String!
-  permalink: String
-  _0: String
-  _1: String
-  _2: String
-  _3: String
-  _4: String
-  _5: String
-  _6: String
-  _7: String
-  _8: String
-  _9: String
-  _10: String
-  _11: String
-  _12: String
-  _13: String
-  _14: String
-  _15: String
-  _16: String
-  _17: String
-  _18: String
-  _19: String
-  _20: String
-  _21: String
-  _22: String
-  _23: String
-  _24: String
-  _25: String
-  _26: String
-  _27: String
-  _28: String
-  _29: String
-  _30: String
-  _31: String
-  _32: String
-  _33: String
-  _34: String
-  _35: String
-  _36: String
-  _37: String
-  _38: String
-  _39: String
-  _40: String
-  _41: String
-  _42: String
-  _43: String
-  _44: String
-  _45: String
-  _46: String
-  _47: String
-  _48: String
-  _49: String
-  _50: String
-  _51: String
-  _52: String
-  _53: String
-  _54: String
-  _55: String
-  _56: String
-  _57: String
-  _58: String
-  _59: String
-  _60: String
-  _61: String
-  _62: String
-  _63: String
-  _64: String
-  _65: String
-  _66: String
-  _67: String
-  _68: String
-  _69: String
-  _70: String
-  _71: String
-  _72: String
-  _73: String
-  _74: String
-  _75: String
-  _76: String
-  _77: String
-  _78: String
-  _79: String
-  _80: String
-  _81: String
-  _82: String
-  _83: String
-  _84: String
-  _85: String
-  _86: String
-  _87: String
-  _88: String
-  _89: String
-  _90: String
-  _91: String
-  _92: String
-  _93: String
-  _94: String
-  _95: String
-  _96: String
-  _97: String
-  _98: String
-  _99: String
-  thumbnail: File
-  modified(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date
-  _: String
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-enum MarkdownExcerptFormats {
-  PLAIN
-  HTML
-  MARKDOWN
-}
-
-type MarkdownRemarkFields implements Node {
-  ready: Boolean!
-  slug: String!
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-enum MarkdownHeadingLevels {
-  h1
-  h2
-  h3
-  h4
-  h5
-  h6
-}
-
-type MarkdownHeading {
-  id: String
-  value: String
-  depth: Int
-}
-
-type MarkdownWordCount {
-  paragraphs: Int
-  sentences: Int
-  words: Int
-}
-
-input FileSortInput {
-  fields: [FileFieldsEnum]
-  order: [SortOrderEnum] = [ASC]
+type PageInfo {
+  currentPage: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  itemCount: Int!
+  pageCount: Int!
+  perPage: Int
+  totalCount: Int!
 }
 
 enum FileFieldsEnum {
@@ -2178,46 +1974,6 @@ enum FileFieldsEnum {
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
-  childrenImageSharp___resolutions___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___width
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___height
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___resolutions___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
   childrenImageSharp___fluid___base64
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
@@ -2263,54 +2019,6 @@ enum FileFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   childrenImageSharp___fluid___presentationHeight
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___sizes
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___originalImg
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___presentationWidth
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childrenImageSharp___sizes___presentationHeight
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -2546,46 +2254,6 @@ enum FileFieldsEnum {
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
-  childImageSharp___resolutions___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___width
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___height
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___resolutions___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
   childImageSharp___fluid___base64
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
@@ -2631,54 +2299,6 @@ enum FileFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   childImageSharp___fluid___presentationHeight
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___sizes
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___originalImg
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___presentationWidth
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  childImageSharp___sizes___presentationHeight
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -3023,8 +2643,8 @@ enum FileFieldsEnum {
   childrenMarkdownRemark___frontmatter___thumbnail___childrenMarkdownRemark
   childrenMarkdownRemark___frontmatter___thumbnail___id
   childrenMarkdownRemark___frontmatter___thumbnail___children
-  childrenMarkdownRemark___frontmatter___modified
   childrenMarkdownRemark___frontmatter____
+  childrenMarkdownRemark___frontmatter___modified
   childrenMarkdownRemark___frontmatter___id
   childrenMarkdownRemark___frontmatter___parent___id
   childrenMarkdownRemark___frontmatter___parent___children
@@ -3459,8 +3079,8 @@ enum FileFieldsEnum {
   childMarkdownRemark___frontmatter___thumbnail___childrenMarkdownRemark
   childMarkdownRemark___frontmatter___thumbnail___id
   childMarkdownRemark___frontmatter___thumbnail___children
-  childMarkdownRemark___frontmatter___modified
   childMarkdownRemark___frontmatter____
+  childMarkdownRemark___frontmatter___modified
   childMarkdownRemark___frontmatter___id
   childMarkdownRemark___frontmatter___parent___id
   childMarkdownRemark___frontmatter___parent___children
@@ -3835,36 +3455,6 @@ enum FileFieldsEnum {
   internal___type
 }
 
-enum SortOrderEnum {
-  ASC
-  DESC
-}
-
-type FileConnection {
-  totalCount: Int!
-  edges: [FileEdge!]!
-  nodes: [File!]!
-  pageInfo: PageInfo!
-  distinct(field: FileFieldsEnum!): [String!]!
-  group(skip: Int, limit: Int, field: FileFieldsEnum!): [FileGroupConnection!]!
-}
-
-type FileEdge {
-  next: File
-  node: File!
-  previous: File
-}
-
-type PageInfo {
-  currentPage: Int!
-  hasPreviousPage: Boolean!
-  hasNextPage: Boolean!
-  itemCount: Int!
-  pageCount: Int!
-  perPage: Int
-  totalCount: Int!
-}
-
 type FileGroupConnection {
   totalCount: Int!
   edges: [FileEdge!]!
@@ -3874,246 +3464,33 @@ type FileGroupConnection {
   fieldValue: String
 }
 
-type Directory implements Node {
-  sourceInstanceName: String!
-  absolutePath: String!
-  relativePath: String!
-  extension: String!
-  size: Int!
-  prettySize: String!
-  modifiedTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  accessTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  changeTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  birthTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  root: String!
-  dir: String!
-  base: String!
-  ext: String!
-  name: String!
-  relativeDirectory: String!
-  dev: Int!
-  mode: Int!
-  nlink: Int!
-  uid: Int!
-  gid: Int!
-  rdev: Int!
-  ino: Float!
-  atimeMs: Float!
-  mtimeMs: Float!
-  ctimeMs: Float!
-  atime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  mtime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  ctime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date!
-  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
-  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
-  blksize: Int
-  blocks: Int
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-input DirectoryFilterInput {
-  #
-  sourceInstanceName: StringQueryOperatorInput
-
-  #
-  absolutePath: StringQueryOperatorInput
-
-  #
-  relativePath: StringQueryOperatorInput
-
-  #
-  extension: StringQueryOperatorInput
-
-  #
-  size: IntQueryOperatorInput
-
-  #
-  prettySize: StringQueryOperatorInput
-
-  #
-  modifiedTime: DateQueryOperatorInput
-
-  #
-  accessTime: DateQueryOperatorInput
-
-  #
-  changeTime: DateQueryOperatorInput
-
-  #
-  birthTime: DateQueryOperatorInput
-
-  #
-  root: StringQueryOperatorInput
-
-  #
-  dir: StringQueryOperatorInput
-
-  #
-  base: StringQueryOperatorInput
-
-  #
-  ext: StringQueryOperatorInput
-
-  #
-  name: StringQueryOperatorInput
-
-  #
-  relativeDirectory: StringQueryOperatorInput
-
-  #
-  dev: IntQueryOperatorInput
-
-  #
-  mode: IntQueryOperatorInput
-
-  #
-  nlink: IntQueryOperatorInput
-
-  #
-  uid: IntQueryOperatorInput
-
-  #
-  gid: IntQueryOperatorInput
-
-  #
-  rdev: IntQueryOperatorInput
-
-  #
-  ino: FloatQueryOperatorInput
-
-  #
-  atimeMs: FloatQueryOperatorInput
-
-  #
-  mtimeMs: FloatQueryOperatorInput
-
-  #
-  ctimeMs: FloatQueryOperatorInput
-
-  #
-  atime: DateQueryOperatorInput
-
-  #
-  mtime: DateQueryOperatorInput
-
-  #
-  ctime: DateQueryOperatorInput
-
-  #
-  birthtime: DateQueryOperatorInput
-
-  #
-  birthtimeMs: FloatQueryOperatorInput
-
-  #
-  blksize: IntQueryOperatorInput
-
-  #
-  blocks: IntQueryOperatorInput
-
-  #
-  id: StringQueryOperatorInput
-
-  #
-  parent: NodeFilterInput
-
-  #
-  children: NodeFilterListInput
-
-  #
-  internal: InternalFilterInput
-}
-
-input DirectorySortInput {
-  fields: [DirectoryFieldsEnum]
+input FileSortInput {
+  fields: [FileFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+type DirectoryConnection {
+  totalCount: Int!
+  edges: [DirectoryEdge!]!
+  nodes: [Directory!]!
+  pageInfo: PageInfo!
+  distinct(field: DirectoryFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: DirectoryFieldsEnum!
+  ): [DirectoryGroupConnection!]!
+}
+
+type DirectoryEdge {
+  next: Directory
+  node: Directory!
+  previous: Directory
 }
 
 enum DirectoryFieldsEnum {
@@ -4238,25 +3615,6 @@ enum DirectoryFieldsEnum {
   internal___type
 }
 
-type DirectoryConnection {
-  totalCount: Int!
-  edges: [DirectoryEdge!]!
-  nodes: [Directory!]!
-  pageInfo: PageInfo!
-  distinct(field: DirectoryFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: DirectoryFieldsEnum!
-  ): [DirectoryGroupConnection!]!
-}
-
-type DirectoryEdge {
-  next: Directory
-  node: Directory!
-  previous: Directory
-}
-
 type DirectoryGroupConnection {
   totalCount: Int!
   edges: [DirectoryEdge!]!
@@ -4266,241 +3624,121 @@ type DirectoryGroupConnection {
   fieldValue: String
 }
 
-input SiteSiteMetadataFilterInput {
-  #
-  title: StringQueryOperatorInput
-
-  #
-  description: StringQueryOperatorInput
-
-  #
-  author: StringQueryOperatorInput
-
-  #
-  siteUrl: StringQueryOperatorInput
-
-  #
-  language: StringQueryOperatorInput
-
-  #
-  navs: SiteNavigationMapFilterListInput
-
-  #
-  config: RawConfigDataFilterInput
-
-  #
+input DirectoryFilterInput {
+  sourceInstanceName: StringQueryOperatorInput
+  absolutePath: StringQueryOperatorInput
+  relativePath: StringQueryOperatorInput
+  extension: StringQueryOperatorInput
+  size: IntQueryOperatorInput
+  prettySize: StringQueryOperatorInput
+  modifiedTime: DateQueryOperatorInput
+  accessTime: DateQueryOperatorInput
+  changeTime: DateQueryOperatorInput
+  birthTime: DateQueryOperatorInput
+  root: StringQueryOperatorInput
+  dir: StringQueryOperatorInput
+  base: StringQueryOperatorInput
+  ext: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+  relativeDirectory: StringQueryOperatorInput
+  dev: IntQueryOperatorInput
+  mode: IntQueryOperatorInput
+  nlink: IntQueryOperatorInput
+  uid: IntQueryOperatorInput
+  gid: IntQueryOperatorInput
+  rdev: IntQueryOperatorInput
+  ino: FloatQueryOperatorInput
+  atimeMs: FloatQueryOperatorInput
+  mtimeMs: FloatQueryOperatorInput
+  ctimeMs: FloatQueryOperatorInput
+  atime: DateQueryOperatorInput
+  mtime: DateQueryOperatorInput
+  ctime: DateQueryOperatorInput
+  birthtime: DateQueryOperatorInput
+  birthtimeMs: FloatQueryOperatorInput
+  blksize: IntQueryOperatorInput
+  blocks: IntQueryOperatorInput
   id: StringQueryOperatorInput
-
-  #
   parent: NodeFilterInput
-
-  #
   children: NodeFilterListInput
+  internal: InternalFilterInput
+}
 
-  #
+input DirectorySortInput {
+  fields: [DirectoryFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
+}
+
+input SiteSiteMetadataFilterInput {
+  title: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  author: StringQueryOperatorInput
+  siteUrl: StringQueryOperatorInput
+  language: StringQueryOperatorInput
+  navs: SiteNavigationMapFilterListInput
+  config: RawConfigDataFilterInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
   internal: InternalFilterInput
 }
 
 input SiteNavigationMapFilterListInput {
-  #
   elemMatch: SiteNavigationMapFilterInput
 }
 
 input SiteNavigationMapFilterInput {
-  #
   path: StringQueryOperatorInput
-
-  #
   name: StringQueryOperatorInput
 }
 
 input RawConfigDataFilterInput {
-  #
   site: RawSiteConfigFilterInput
-
-  #
   author: RawAuthorConfigFilterInput
-
-  #
   navs: SiteNavigationMapFilterListInput
-
-  #
   metadata: RawMetadataConfigFilterInput
 }
 
 input RawSiteConfigFilterInput {
-  #
   title: StringQueryOperatorInput
-
-  #
   url: StringQueryOperatorInput
-
-  #
   language: StringQueryOperatorInput
-
-  #
   description: StringQueryOperatorInput
-
-  #
   keywords: StringQueryOperatorInput
-
-  #
   pagination_limit: IntQueryOperatorInput
-
-  #
   parse_ignore_dirs: StringQueryOperatorInput
-
-  #
   main_color: StringQueryOperatorInput
 }
 
 input RawAuthorConfigFilterInput {
-  #
   name: StringQueryOperatorInput
-
-  #
   comment: StringQueryOperatorInput
-
-  #
   avatar: StringQueryOperatorInput
-
-  #
   email: StringQueryOperatorInput
-
-  #
   github: StringQueryOperatorInput
-
-  #
   location: StringQueryOperatorInput
 }
 
 input RawMetadataConfigFilterInput {
-  #
   google_analytics: StringQueryOperatorInput
-
-  #
   google_search_console: StringQueryOperatorInput
-
-  #
   google_adsense_slot: StringQueryOperatorInput
-
-  #
   google_adsense_client: StringQueryOperatorInput
 }
 
-type Site implements Node {
-  buildTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date
-  siteMetadata: SiteSiteMetadata
-  port: Int
-  host: String
-  polyfill: Boolean
-  pathPrefix: String
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
+type SiteConnection {
+  totalCount: Int!
+  edges: [SiteEdge!]!
+  nodes: [Site!]!
+  pageInfo: PageInfo!
+  distinct(field: SiteFieldsEnum!): [String!]!
+  group(skip: Int, limit: Int, field: SiteFieldsEnum!): [SiteGroupConnection!]!
 }
 
-type SiteSiteMetadata implements Node {
-  title: String!
-  description: String
-  author: String!
-  siteUrl: String!
-  language: String
-  navs: [SiteNavigationMap!]!
-  config: RawConfigData!
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-}
-
-type SiteNavigationMap {
-  path: String!
-  name: String!
-}
-
-type RawConfigData {
-  site: RawSiteConfig!
-  author: RawAuthorConfig!
-  navs: [SiteNavigationMap!]!
-  metadata: RawMetadataConfig!
-}
-
-type RawSiteConfig {
-  title: String!
-  url: String!
-  language: String
-  description: String
-  keywords: [String!]
-  pagination_limit: Int!
-  parse_ignore_dirs: [String!]
-  main_color: String
-}
-
-type RawAuthorConfig {
-  name: String!
-  comment: String
-  avatar: String
-  email: String
-  github: String
-  location: String
-}
-
-type RawMetadataConfig {
-  google_analytics: String
-  google_search_console: String
-  google_adsense_slot: String
-  google_adsense_client: String
-}
-
-input SiteFilterInput {
-  #
-  buildTime: DateQueryOperatorInput
-
-  #
-  siteMetadata: SiteSiteMetadataFilterInput
-
-  #
-  port: IntQueryOperatorInput
-
-  #
-  host: StringQueryOperatorInput
-
-  #
-  polyfill: BooleanQueryOperatorInput
-
-  #
-  pathPrefix: StringQueryOperatorInput
-
-  #
-  id: StringQueryOperatorInput
-
-  #
-  parent: NodeFilterInput
-
-  #
-  children: NodeFilterListInput
-
-  #
-  internal: InternalFilterInput
-}
-
-input SiteSortInput {
-  fields: [SiteFieldsEnum]
-  order: [SortOrderEnum] = [ASC]
+type SiteEdge {
+  next: Site
+  node: Site!
+  previous: Site
 }
 
 enum SiteFieldsEnum {
@@ -4664,21 +3902,6 @@ enum SiteFieldsEnum {
   internal___type
 }
 
-type SiteConnection {
-  totalCount: Int!
-  edges: [SiteEdge!]!
-  nodes: [Site!]!
-  pageInfo: PageInfo!
-  distinct(field: SiteFieldsEnum!): [String!]!
-  group(skip: Int, limit: Int, field: SiteFieldsEnum!): [SiteGroupConnection!]!
-}
-
-type SiteEdge {
-  next: Site
-  node: Site!
-  previous: Site
-}
-
 type SiteGroupConnection {
   totalCount: Int!
   edges: [SiteEdge!]!
@@ -4688,9 +3911,41 @@ type SiteGroupConnection {
   fieldValue: String
 }
 
-input SiteSiteMetadataSortInput {
-  fields: [SiteSiteMetadataFieldsEnum]
+input SiteFilterInput {
+  buildTime: DateQueryOperatorInput
+  siteMetadata: SiteSiteMetadataFilterInput
+  port: IntQueryOperatorInput
+  host: StringQueryOperatorInput
+  polyfill: BooleanQueryOperatorInput
+  pathPrefix: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input SiteSortInput {
+  fields: [SiteFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type SiteSiteMetadataConnection {
+  totalCount: Int!
+  edges: [SiteSiteMetadataEdge!]!
+  nodes: [SiteSiteMetadata!]!
+  pageInfo: PageInfo!
+  distinct(field: SiteSiteMetadataFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: SiteSiteMetadataFieldsEnum!
+  ): [SiteSiteMetadataGroupConnection!]!
+}
+
+type SiteSiteMetadataEdge {
+  next: SiteSiteMetadata
+  node: SiteSiteMetadata!
+  previous: SiteSiteMetadata
 }
 
 enum SiteSiteMetadataFieldsEnum {
@@ -4811,25 +4066,6 @@ enum SiteSiteMetadataFieldsEnum {
   internal___type
 }
 
-type SiteSiteMetadataConnection {
-  totalCount: Int!
-  edges: [SiteSiteMetadataEdge!]!
-  nodes: [SiteSiteMetadata!]!
-  pageInfo: PageInfo!
-  distinct(field: SiteSiteMetadataFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: SiteSiteMetadataFieldsEnum!
-  ): [SiteSiteMetadataGroupConnection!]!
-}
-
-type SiteSiteMetadataEdge {
-  next: SiteSiteMetadata
-  node: SiteSiteMetadata!
-  previous: SiteSiteMetadata
-}
-
 type SiteSiteMetadataGroupConnection {
   totalCount: Int!
   edges: [SiteSiteMetadataEdge!]!
@@ -4839,710 +4075,28 @@ type SiteSiteMetadataGroupConnection {
   fieldValue: String
 }
 
-input SitePageContextFilterInput {
-  #
-  slug: StringQueryOperatorInput
-
-  #
-  lastmod: DateQueryOperatorInput
-
-  #
-  prev: SitePageContextPrevFilterInput
-
-  #
-  limit: IntQueryOperatorInput
-
-  #
-  skip: IntQueryOperatorInput
-
-  #
-  total: IntQueryOperatorInput
-
-  #
-  index: IntQueryOperatorInput
-
-  #
-  tag: StringQueryOperatorInput
-
-  #
-  category: StringQueryOperatorInput
-}
-
-input SitePageContextPrevFilterInput {
-  #
-  title: StringQueryOperatorInput
-
-  #
-  path: StringQueryOperatorInput
-}
-
-input SitePluginFilterInput {
-  #
-  id: StringQueryOperatorInput
-
-  #
-  parent: NodeFilterInput
-
-  #
-  children: NodeFilterListInput
-
-  #
-  internal: InternalFilterInput
-
-  #
-  resolve: StringQueryOperatorInput
-
-  #
-  name: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-
-  #
-  pluginOptions: SitePluginPluginOptionsFilterInput
-
-  #
-  nodeAPIs: StringQueryOperatorInput
-
-  #
-  browserAPIs: StringQueryOperatorInput
-
-  #
-  ssrAPIs: StringQueryOperatorInput
-
-  #
-  pluginFilepath: StringQueryOperatorInput
-
-  #
-  packageJson: SitePluginPackageJsonFilterInput
-}
-
-input SitePluginPluginOptionsFilterInput {
-  #
-  plugins: SitePluginPluginOptionsPluginsFilterListInput
-
-  #
-  isTSX: BooleanQueryOperatorInput
-
-  #
-  jsxPragma: StringQueryOperatorInput
-
-  #
-  allExtensions: BooleanQueryOperatorInput
-
-  #
-  output: StringQueryOperatorInput
-
-  #
-  createLinkInHead: BooleanQueryOperatorInput
-
-  #
-  base64Width: IntQueryOperatorInput
-
-  #
-  stripMetadata: BooleanQueryOperatorInput
-
-  #
-  defaultQuality: IntQueryOperatorInput
-
-  #
-  failOnError: BooleanQueryOperatorInput
-
-  #
-  trackingId: StringQueryOperatorInput
-
-  #
-  head: BooleanQueryOperatorInput
-
-  #
-  anonymize: BooleanQueryOperatorInput
-
-  #
-  respectDNT: BooleanQueryOperatorInput
-
-  #
-  pageTransitionDelay: IntQueryOperatorInput
-
-  #
-  name: StringQueryOperatorInput
-
-  #
-  path: StringQueryOperatorInput
-
-  #
-  ignore: StringQueryOperatorInput
-
-  #
-  maxWidth: FloatQueryOperatorInput
-
-  #
-  showCaptions: BooleanQueryOperatorInput
-
-  #
-  loading: StringQueryOperatorInput
-
-  #
-  withWebp: BooleanQueryOperatorInput
-
-  #
-  linkImagesToOriginal: BooleanQueryOperatorInput
-
-  #
-  markdownCaptions: BooleanQueryOperatorInput
-
-  #
-  sizeByPixelDensity: BooleanQueryOperatorInput
-
-  #
-  backgroundColor: StringQueryOperatorInput
-
-  #
-  quality: IntQueryOperatorInput
-
-  #
-  tracedSVG: BooleanQueryOperatorInput
-
-  #
-  disableBgImageOnAlpha: BooleanQueryOperatorInput
-
-  #
-  disableBgImage: BooleanQueryOperatorInput
-
-  #
-  classPrefix: StringQueryOperatorInput
-
-  #
-  showLineNumbers: BooleanQueryOperatorInput
-
-  #
-  noInlineHighlight: BooleanQueryOperatorInput
-
-  #
-  aliases: SitePluginPluginOptionsAliasesFilterInput
-
-  #
-  strict: StringQueryOperatorInput
-
-  #
-  rel: StringQueryOperatorInput
-
-  #
-  short_name: StringQueryOperatorInput
-
-  #
-  description: StringQueryOperatorInput
-
-  #
-  start_url: StringQueryOperatorInput
-
-  #
-  background_color: StringQueryOperatorInput
-
-  #
-  theme_color_in_head: BooleanQueryOperatorInput
-
-  #
-  display: StringQueryOperatorInput
-
-  #
-  lang: StringQueryOperatorInput
-
-  #
-  icon: StringQueryOperatorInput
-
-  #
-  legacy: BooleanQueryOperatorInput
-
-  #
-  include_favicon: BooleanQueryOperatorInput
-
-  #
-  crossOrigin: StringQueryOperatorInput
-
-  #
-  cache_busting_mode: StringQueryOperatorInput
-
-  #
-  cacheDigest: StringQueryOperatorInput
-
-  #
-  query: StringQueryOperatorInput
-
-  #
-  feeds: SitePluginPluginOptionsFeedsFilterListInput
-
-  #
-  host: StringQueryOperatorInput
-
-  #
-  sitemap: StringQueryOperatorInput
-
-  #
-  policy: SitePluginPluginOptionsPolicyFilterListInput
-
-  #
-  pathCheck: BooleanQueryOperatorInput
-}
-
-input SitePluginPluginOptionsPluginsFilterListInput {
-  #
-  elemMatch: SitePluginPluginOptionsPluginsFilterInput
-}
-
-input SitePluginPluginOptionsPluginsFilterInput {
-  #
-  resolve: StringQueryOperatorInput
-
-  #
-  id: StringQueryOperatorInput
-
-  #
-  name: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-
-  #
-  pluginOptions: SitePluginPluginOptionsPluginsPluginOptionsFilterInput
-
-  #
-  nodeAPIs: StringQueryOperatorInput
-
-  #
-  browserAPIs: StringQueryOperatorInput
-
-  #
-  pluginFilepath: StringQueryOperatorInput
-}
-
-input SitePluginPluginOptionsPluginsPluginOptionsFilterInput {
-  #
-  maxWidth: FloatQueryOperatorInput
-
-  #
-  showCaptions: BooleanQueryOperatorInput
-
-  #
-  loading: StringQueryOperatorInput
-
-  #
-  withWebp: BooleanQueryOperatorInput
-
-  #
-  linkImagesToOriginal: BooleanQueryOperatorInput
-
-  #
-  markdownCaptions: BooleanQueryOperatorInput
-
-  #
-  sizeByPixelDensity: BooleanQueryOperatorInput
-
-  #
-  backgroundColor: StringQueryOperatorInput
-
-  #
-  quality: IntQueryOperatorInput
-
-  #
-  tracedSVG: BooleanQueryOperatorInput
-
-  #
-  disableBgImageOnAlpha: BooleanQueryOperatorInput
-
-  #
-  disableBgImage: BooleanQueryOperatorInput
-
-  #
-  classPrefix: StringQueryOperatorInput
-
-  #
-  showLineNumbers: BooleanQueryOperatorInput
-
-  #
-  noInlineHighlight: BooleanQueryOperatorInput
-
-  #
-  aliases: SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput
-
-  #
-  strict: StringQueryOperatorInput
-
-  #
-  rel: StringQueryOperatorInput
-}
-
-input SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput {
-  #
-  react: StringQueryOperatorInput
-
-  #
-  javascriptreact: StringQueryOperatorInput
-
-  #
-  javascript_react: StringQueryOperatorInput
-
-  #
-  typescriptreact: StringQueryOperatorInput
-
-  #
-  typescript_react: StringQueryOperatorInput
-}
-
-input SitePluginPluginOptionsAliasesFilterInput {
-  #
-  react: StringQueryOperatorInput
-
-  #
-  javascriptreact: StringQueryOperatorInput
-
-  #
-  javascript_react: StringQueryOperatorInput
-
-  #
-  typescriptreact: StringQueryOperatorInput
-
-  #
-  typescript_react: StringQueryOperatorInput
-}
-
-input SitePluginPluginOptionsFeedsFilterListInput {
-  #
-  elemMatch: SitePluginPluginOptionsFeedsFilterInput
-}
-
-input SitePluginPluginOptionsFeedsFilterInput {
-  #
-  query: StringQueryOperatorInput
-
-  #
-  output: StringQueryOperatorInput
-
-  #
-  title: StringQueryOperatorInput
-}
-
-input SitePluginPluginOptionsPolicyFilterListInput {
-  #
-  elemMatch: SitePluginPluginOptionsPolicyFilterInput
-}
-
-input SitePluginPluginOptionsPolicyFilterInput {
-  #
-  userAgent: StringQueryOperatorInput
-
-  #
-  allow: StringQueryOperatorInput
-}
-
-input SitePluginPackageJsonFilterInput {
-  #
-  name: StringQueryOperatorInput
-
-  #
-  description: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-
-  #
-  main: StringQueryOperatorInput
-
-  #
-  license: StringQueryOperatorInput
-
-  #
-  dependencies: SitePluginPackageJsonDependenciesFilterListInput
-
-  #
-  devDependencies: SitePluginPackageJsonDevDependenciesFilterListInput
-
-  #
-  peerDependencies: SitePluginPackageJsonPeerDependenciesFilterListInput
-
-  #
-  keywords: StringQueryOperatorInput
-}
-
-input SitePluginPackageJsonDependenciesFilterListInput {
-  #
-  elemMatch: SitePluginPackageJsonDependenciesFilterInput
-}
-
-input SitePluginPackageJsonDependenciesFilterInput {
-  #
-  name: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-}
-
-input SitePluginPackageJsonDevDependenciesFilterListInput {
-  #
-  elemMatch: SitePluginPackageJsonDevDependenciesFilterInput
-}
-
-input SitePluginPackageJsonDevDependenciesFilterInput {
-  #
-  name: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-}
-
-input SitePluginPackageJsonPeerDependenciesFilterListInput {
-  #
-  elemMatch: SitePluginPackageJsonPeerDependenciesFilterInput
-}
-
-input SitePluginPackageJsonPeerDependenciesFilterInput {
-  #
-  name: StringQueryOperatorInput
-
-  #
-  version: StringQueryOperatorInput
-}
-
-type SitePage implements Node {
-  path: String!
-  component: String!
-  internalComponentName: String!
-  componentChunkName: String!
-  matchPath: String
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-  isCreatedByStatefulCreatePages: Boolean
-  context: SitePageContext
-  pluginCreator: SitePlugin
-  pluginCreatorId: String
-  componentPath: String
-}
-
-type SitePageContext {
-  slug: String
-  lastmod: Date
-  prev: SitePageContextPrev
-  limit: Int
-  skip: Int
-  total: Int
-  index: Int
-  tag: String
-  category: String
-}
-
-type SitePageContextPrev {
-  title: String
-  path: String
-}
-
-type SitePlugin implements Node {
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-  resolve: String
-  name: String
-  version: String
-  pluginOptions: SitePluginPluginOptions
-  nodeAPIs: [String]
-  browserAPIs: [String]
-  ssrAPIs: [String]
-  pluginFilepath: String
-  packageJson: SitePluginPackageJson
-}
-
-type SitePluginPluginOptions {
-  plugins: [SitePluginPluginOptionsPlugins]
-  isTSX: Boolean
-  jsxPragma: String
-  allExtensions: Boolean
-  output: String
-  createLinkInHead: Boolean
-  base64Width: Int
-  stripMetadata: Boolean
-  defaultQuality: Int
-  failOnError: Boolean
-  trackingId: String
-  head: Boolean
-  anonymize: Boolean
-  respectDNT: Boolean
-  pageTransitionDelay: Int
-  name: String
-  path: String
-  ignore: [String]
-  maxWidth: Float
-  showCaptions: Boolean
-  loading: String
-  withWebp: Boolean
-  linkImagesToOriginal: Boolean
-  markdownCaptions: Boolean
-  sizeByPixelDensity: Boolean
-  backgroundColor: String
-  quality: Int
-  tracedSVG: Boolean
-  disableBgImageOnAlpha: Boolean
-  disableBgImage: Boolean
-  classPrefix: String
-  showLineNumbers: Boolean
-  noInlineHighlight: Boolean
-  aliases: SitePluginPluginOptionsAliases
-  strict: String
-  rel: String
-  short_name: String
-  description: String
-  start_url: String
-  background_color: String
-  theme_color_in_head: Boolean
-  display: String
-  lang: String
-  icon: String
-  legacy: Boolean
-  include_favicon: Boolean
-  crossOrigin: String
-  cache_busting_mode: String
-  cacheDigest: String
-  query: String
-  feeds: [SitePluginPluginOptionsFeeds]
-  host: String
-  sitemap: String
-  policy: [SitePluginPluginOptionsPolicy]
-  pathCheck: Boolean
-}
-
-type SitePluginPluginOptionsPlugins {
-  resolve: String
-  id: String
-  name: String
-  version: String
-  pluginOptions: SitePluginPluginOptionsPluginsPluginOptions
-  nodeAPIs: [String]
-  browserAPIs: [String]
-  pluginFilepath: String
-}
-
-type SitePluginPluginOptionsPluginsPluginOptions {
-  maxWidth: Float
-  showCaptions: Boolean
-  loading: String
-  withWebp: Boolean
-  linkImagesToOriginal: Boolean
-  markdownCaptions: Boolean
-  sizeByPixelDensity: Boolean
-  backgroundColor: String
-  quality: Int
-  tracedSVG: Boolean
-  disableBgImageOnAlpha: Boolean
-  disableBgImage: Boolean
-  classPrefix: String
-  showLineNumbers: Boolean
-  noInlineHighlight: Boolean
-  aliases: SitePluginPluginOptionsPluginsPluginOptionsAliases
-  strict: String
-  rel: String
-}
-
-type SitePluginPluginOptionsPluginsPluginOptionsAliases {
-  react: String
-  javascriptreact: String
-  javascript_react: String
-  typescriptreact: String
-  typescript_react: String
-}
-
-type SitePluginPluginOptionsAliases {
-  react: String
-  javascriptreact: String
-  javascript_react: String
-  typescriptreact: String
-  typescript_react: String
-}
-
-type SitePluginPluginOptionsFeeds {
-  query: String
-  output: String
-  title: String
-}
-
-type SitePluginPluginOptionsPolicy {
-  userAgent: String
-  allow: String
-}
-
-type SitePluginPackageJson {
-  name: String
-  description: String
-  version: String
-  main: String
-  license: String
-  dependencies: [SitePluginPackageJsonDependencies]
-  devDependencies: [SitePluginPackageJsonDevDependencies]
-  peerDependencies: [SitePluginPackageJsonPeerDependencies]
-  keywords: [String]
-}
-
-type SitePluginPackageJsonDependencies {
-  name: String
-  version: String
-}
-
-type SitePluginPackageJsonDevDependencies {
-  name: String
-  version: String
-}
-
-type SitePluginPackageJsonPeerDependencies {
-  name: String
-  version: String
-}
-
-input SitePageFilterInput {
-  #
-  path: StringQueryOperatorInput
-
-  #
-  component: StringQueryOperatorInput
-
-  #
-  internalComponentName: StringQueryOperatorInput
-
-  #
-  componentChunkName: StringQueryOperatorInput
-
-  #
-  matchPath: StringQueryOperatorInput
-
-  #
-  id: StringQueryOperatorInput
-
-  #
-  parent: NodeFilterInput
-
-  #
-  children: NodeFilterListInput
-
-  #
-  internal: InternalFilterInput
-
-  #
-  isCreatedByStatefulCreatePages: BooleanQueryOperatorInput
-
-  #
-  context: SitePageContextFilterInput
-
-  #
-  pluginCreator: SitePluginFilterInput
-
-  #
-  pluginCreatorId: StringQueryOperatorInput
-
-  #
-  componentPath: StringQueryOperatorInput
-}
-
-input SitePageSortInput {
-  fields: [SitePageFieldsEnum]
+input SiteSiteMetadataSortInput {
+  fields: [SiteSiteMetadataFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type SitePageConnection {
+  totalCount: Int!
+  edges: [SitePageEdge!]!
+  nodes: [SitePage!]!
+  pageInfo: PageInfo!
+  distinct(field: SitePageFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: SitePageFieldsEnum!
+  ): [SitePageGroupConnection!]!
+}
+
+type SitePageEdge {
+  next: SitePage
+  node: SitePage!
+  previous: SitePage
 }
 
 enum SitePageFieldsEnum {
@@ -5637,172 +4191,6 @@ enum SitePageFieldsEnum {
   internal___mediaType
   internal___owner
   internal___type
-  isCreatedByStatefulCreatePages
-  context___slug
-  context___lastmod
-  context___prev___title
-  context___prev___path
-  context___limit
-  context___skip
-  context___total
-  context___index
-  context___tag
-  context___category
-  pluginCreator___id
-  pluginCreator___parent___id
-  pluginCreator___parent___parent___id
-  pluginCreator___parent___parent___children
-  pluginCreator___parent___children
-  pluginCreator___parent___children___id
-  pluginCreator___parent___children___children
-  pluginCreator___parent___internal___content
-  pluginCreator___parent___internal___contentDigest
-  pluginCreator___parent___internal___description
-  pluginCreator___parent___internal___fieldOwners
-  pluginCreator___parent___internal___ignoreType
-  pluginCreator___parent___internal___mediaType
-  pluginCreator___parent___internal___owner
-  pluginCreator___parent___internal___type
-  pluginCreator___children
-  pluginCreator___children___id
-  pluginCreator___children___parent___id
-  pluginCreator___children___parent___children
-  pluginCreator___children___children
-  pluginCreator___children___children___id
-  pluginCreator___children___children___children
-  pluginCreator___children___internal___content
-  pluginCreator___children___internal___contentDigest
-  pluginCreator___children___internal___description
-  pluginCreator___children___internal___fieldOwners
-  pluginCreator___children___internal___ignoreType
-  pluginCreator___children___internal___mediaType
-  pluginCreator___children___internal___owner
-  pluginCreator___children___internal___type
-  pluginCreator___internal___content
-  pluginCreator___internal___contentDigest
-  pluginCreator___internal___description
-  pluginCreator___internal___fieldOwners
-  pluginCreator___internal___ignoreType
-  pluginCreator___internal___mediaType
-  pluginCreator___internal___owner
-  pluginCreator___internal___type
-  pluginCreator___resolve
-  pluginCreator___name
-  pluginCreator___version
-  pluginCreator___pluginOptions___plugins
-  pluginCreator___pluginOptions___plugins___resolve
-  pluginCreator___pluginOptions___plugins___id
-  pluginCreator___pluginOptions___plugins___name
-  pluginCreator___pluginOptions___plugins___version
-  pluginCreator___pluginOptions___plugins___nodeAPIs
-  pluginCreator___pluginOptions___plugins___browserAPIs
-  pluginCreator___pluginOptions___plugins___pluginFilepath
-  pluginCreator___pluginOptions___isTSX
-  pluginCreator___pluginOptions___jsxPragma
-  pluginCreator___pluginOptions___allExtensions
-  pluginCreator___pluginOptions___output
-  pluginCreator___pluginOptions___createLinkInHead
-  pluginCreator___pluginOptions___base64Width
-  pluginCreator___pluginOptions___stripMetadata
-  pluginCreator___pluginOptions___defaultQuality
-  pluginCreator___pluginOptions___failOnError
-  pluginCreator___pluginOptions___trackingId
-  pluginCreator___pluginOptions___head
-  pluginCreator___pluginOptions___anonymize
-  pluginCreator___pluginOptions___respectDNT
-  pluginCreator___pluginOptions___pageTransitionDelay
-  pluginCreator___pluginOptions___name
-  pluginCreator___pluginOptions___path
-  pluginCreator___pluginOptions___ignore
-  pluginCreator___pluginOptions___maxWidth
-  pluginCreator___pluginOptions___showCaptions
-  pluginCreator___pluginOptions___loading
-  pluginCreator___pluginOptions___withWebp
-  pluginCreator___pluginOptions___linkImagesToOriginal
-  pluginCreator___pluginOptions___markdownCaptions
-  pluginCreator___pluginOptions___sizeByPixelDensity
-  pluginCreator___pluginOptions___backgroundColor
-  pluginCreator___pluginOptions___quality
-  pluginCreator___pluginOptions___tracedSVG
-  pluginCreator___pluginOptions___disableBgImageOnAlpha
-  pluginCreator___pluginOptions___disableBgImage
-  pluginCreator___pluginOptions___classPrefix
-  pluginCreator___pluginOptions___showLineNumbers
-  pluginCreator___pluginOptions___noInlineHighlight
-  pluginCreator___pluginOptions___aliases___react
-  pluginCreator___pluginOptions___aliases___javascriptreact
-  pluginCreator___pluginOptions___aliases___javascript_react
-  pluginCreator___pluginOptions___aliases___typescriptreact
-  pluginCreator___pluginOptions___aliases___typescript_react
-  pluginCreator___pluginOptions___strict
-  pluginCreator___pluginOptions___rel
-  pluginCreator___pluginOptions___short_name
-  pluginCreator___pluginOptions___description
-  pluginCreator___pluginOptions___start_url
-  pluginCreator___pluginOptions___background_color
-  pluginCreator___pluginOptions___theme_color_in_head
-  pluginCreator___pluginOptions___display
-  pluginCreator___pluginOptions___lang
-  pluginCreator___pluginOptions___icon
-  pluginCreator___pluginOptions___legacy
-  pluginCreator___pluginOptions___include_favicon
-  pluginCreator___pluginOptions___crossOrigin
-  pluginCreator___pluginOptions___cache_busting_mode
-  pluginCreator___pluginOptions___cacheDigest
-  pluginCreator___pluginOptions___query
-  pluginCreator___pluginOptions___feeds
-  pluginCreator___pluginOptions___feeds___query
-  pluginCreator___pluginOptions___feeds___output
-  pluginCreator___pluginOptions___feeds___title
-  pluginCreator___pluginOptions___host
-  pluginCreator___pluginOptions___sitemap
-  pluginCreator___pluginOptions___policy
-  pluginCreator___pluginOptions___policy___userAgent
-  pluginCreator___pluginOptions___policy___allow
-  pluginCreator___pluginOptions___pathCheck
-  pluginCreator___nodeAPIs
-  pluginCreator___browserAPIs
-  pluginCreator___ssrAPIs
-  pluginCreator___pluginFilepath
-  pluginCreator___packageJson___name
-  pluginCreator___packageJson___description
-  pluginCreator___packageJson___version
-  pluginCreator___packageJson___main
-  pluginCreator___packageJson___license
-  pluginCreator___packageJson___dependencies
-  pluginCreator___packageJson___dependencies___name
-  pluginCreator___packageJson___dependencies___version
-  pluginCreator___packageJson___devDependencies
-  pluginCreator___packageJson___devDependencies___name
-  pluginCreator___packageJson___devDependencies___version
-  pluginCreator___packageJson___peerDependencies
-  pluginCreator___packageJson___peerDependencies___name
-  pluginCreator___packageJson___peerDependencies___version
-  pluginCreator___packageJson___keywords
-  pluginCreatorId
-  componentPath
-}
-
-type SitePageConnection {
-  totalCount: Int!
-  edges: [SitePageEdge!]!
-  nodes: [SitePage!]!
-  pageInfo: PageInfo!
-  distinct(field: SitePageFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: SitePageFieldsEnum!
-  ): [SitePageGroupConnection!]!
-}
-
-type SitePageEdge {
-  #
-  next: SitePage
-  node: SitePage!
-
-  #
-  previous: SitePage
 }
 
 type SitePageGroupConnection {
@@ -5814,9 +4202,40 @@ type SitePageGroupConnection {
   fieldValue: String
 }
 
-input ImageSharpSortInput {
-  fields: [ImageSharpFieldsEnum]
+input SitePageFilterInput {
+  path: StringQueryOperatorInput
+  component: StringQueryOperatorInput
+  internalComponentName: StringQueryOperatorInput
+  componentChunkName: StringQueryOperatorInput
+  matchPath: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+}
+
+input SitePageSortInput {
+  fields: [SitePageFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type ImageSharpConnection {
+  totalCount: Int!
+  edges: [ImageSharpEdge!]!
+  nodes: [ImageSharp!]!
+  pageInfo: PageInfo!
+  distinct(field: ImageSharpFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: ImageSharpFieldsEnum!
+  ): [ImageSharpGroupConnection!]!
+}
+
+type ImageSharpEdge {
+  next: ImageSharp
+  node: ImageSharp!
+  previous: ImageSharp
 }
 
 enum ImageSharpFieldsEnum {
@@ -5857,46 +4276,6 @@ enum ImageSharpFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   fixed___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___width
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___height
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  resolutions___originalName
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -5945,54 +4324,6 @@ enum ImageSharpFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   fluid___presentationHeight
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___sizes
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___originalImg
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___presentationWidth
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  sizes___presentationHeight
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -6382,25 +4713,6 @@ enum ImageSharpFieldsEnum {
     )
 }
 
-type ImageSharpConnection {
-  totalCount: Int!
-  edges: [ImageSharpEdge!]!
-  nodes: [ImageSharp!]!
-  pageInfo: PageInfo!
-  distinct(field: ImageSharpFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: ImageSharpFieldsEnum!
-  ): [ImageSharpGroupConnection!]!
-}
-
-type ImageSharpEdge {
-  next: ImageSharp
-  node: ImageSharp!
-  previous: ImageSharp
-}
-
 type ImageSharpGroupConnection {
   totalCount: Int!
   edges: [ImageSharpEdge!]!
@@ -6410,9 +4722,28 @@ type ImageSharpGroupConnection {
   fieldValue: String
 }
 
-input MarkdownRemarkSortInput {
-  fields: [MarkdownRemarkFieldsEnum]
+input ImageSharpSortInput {
+  fields: [ImageSharpFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type MarkdownRemarkConnection {
+  totalCount: Int!
+  edges: [MarkdownRemarkEdge!]!
+  nodes: [MarkdownRemark!]!
+  pageInfo: PageInfo!
+  distinct(field: MarkdownRemarkFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: MarkdownRemarkFieldsEnum!
+  ): [MarkdownRemarkGroupConnection!]!
+}
+
+type MarkdownRemarkEdge {
+  next: MarkdownRemark
+  node: MarkdownRemark!
+  previous: MarkdownRemark
 }
 
 enum MarkdownRemarkFieldsEnum {
@@ -6682,8 +5013,8 @@ enum MarkdownRemarkFieldsEnum {
   frontmatter___thumbnail___internal___mediaType
   frontmatter___thumbnail___internal___owner
   frontmatter___thumbnail___internal___type
-  frontmatter___modified
   frontmatter____
+  frontmatter___modified
   frontmatter___id
   frontmatter___parent___id
   frontmatter___parent___parent___id
@@ -7284,25 +5615,6 @@ enum MarkdownRemarkFieldsEnum {
     )
 }
 
-type MarkdownRemarkConnection {
-  totalCount: Int!
-  edges: [MarkdownRemarkEdge!]!
-  nodes: [MarkdownRemark!]!
-  pageInfo: PageInfo!
-  distinct(field: MarkdownRemarkFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: MarkdownRemarkFieldsEnum!
-  ): [MarkdownRemarkGroupConnection!]!
-}
-
-type MarkdownRemarkEdge {
-  next: MarkdownRemark
-  node: MarkdownRemark!
-  previous: MarkdownRemark
-}
-
 type MarkdownRemarkGroupConnection {
   totalCount: Int!
   edges: [MarkdownRemarkEdge!]!
@@ -7312,9 +5624,28 @@ type MarkdownRemarkGroupConnection {
   fieldValue: String
 }
 
-input MarkdownRemarkFieldsSortInput {
-  fields: [MarkdownRemarkFieldsFieldsEnum]
+input MarkdownRemarkSortInput {
+  fields: [MarkdownRemarkFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type MarkdownRemarkFieldsConnection {
+  totalCount: Int!
+  edges: [MarkdownRemarkFieldsEdge!]!
+  nodes: [MarkdownRemarkFields!]!
+  pageInfo: PageInfo!
+  distinct(field: MarkdownRemarkFieldsFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: MarkdownRemarkFieldsFieldsEnum!
+  ): [MarkdownRemarkFieldsGroupConnection!]!
+}
+
+type MarkdownRemarkFieldsEdge {
+  next: MarkdownRemarkFields
+  node: MarkdownRemarkFields!
+  previous: MarkdownRemarkFields
 }
 
 enum MarkdownRemarkFieldsFieldsEnum {
@@ -7408,25 +5739,6 @@ enum MarkdownRemarkFieldsFieldsEnum {
   internal___type
 }
 
-type MarkdownRemarkFieldsConnection {
-  totalCount: Int!
-  edges: [MarkdownRemarkFieldsEdge!]!
-  nodes: [MarkdownRemarkFields!]!
-  pageInfo: PageInfo!
-  distinct(field: MarkdownRemarkFieldsFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: MarkdownRemarkFieldsFieldsEnum!
-  ): [MarkdownRemarkFieldsGroupConnection!]!
-}
-
-type MarkdownRemarkFieldsEdge {
-  next: MarkdownRemarkFields
-  node: MarkdownRemarkFields!
-  previous: MarkdownRemarkFields
-}
-
 type MarkdownRemarkFieldsGroupConnection {
   totalCount: Int!
   edges: [MarkdownRemarkFieldsEdge!]!
@@ -7436,9 +5748,28 @@ type MarkdownRemarkFieldsGroupConnection {
   fieldValue: String
 }
 
-input MarkdownRemarkFrontmatterSortInput {
-  fields: [MarkdownRemarkFrontmatterFieldsEnum]
+input MarkdownRemarkFieldsSortInput {
+  fields: [MarkdownRemarkFieldsFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type MarkdownRemarkFrontmatterConnection {
+  totalCount: Int!
+  edges: [MarkdownRemarkFrontmatterEdge!]!
+  nodes: [MarkdownRemarkFrontmatter!]!
+  pageInfo: PageInfo!
+  distinct(field: MarkdownRemarkFrontmatterFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: MarkdownRemarkFrontmatterFieldsEnum!
+  ): [MarkdownRemarkFrontmatterGroupConnection!]!
+}
+
+type MarkdownRemarkFrontmatterEdge {
+  next: MarkdownRemarkFrontmatter
+  node: MarkdownRemarkFrontmatter!
+  previous: MarkdownRemarkFrontmatter
 }
 
 enum MarkdownRemarkFrontmatterFieldsEnum {
@@ -7626,46 +5957,6 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
-  thumbnail___childrenImageSharp___resolutions___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___width
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___height
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___resolutions___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
   thumbnail___childrenImageSharp___fluid___base64
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
@@ -7711,54 +6002,6 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   thumbnail___childrenImageSharp___fluid___presentationHeight
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___sizes
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___originalImg
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___presentationWidth
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childrenImageSharp___sizes___presentationHeight
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -7898,46 +6141,6 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
-  thumbnail___childImageSharp___resolutions___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___width
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___height
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___resolutions___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
   thumbnail___childImageSharp___fluid___base64
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
@@ -7983,54 +6186,6 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
   thumbnail___childImageSharp___fluid___presentationHeight
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___base64
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___tracedSVG
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___aspectRatio
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___src
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___srcSet
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___srcWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___srcSetWebp
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___sizes
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___originalImg
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___originalName
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___presentationWidth
-    @deprecated(
-      reason: "Sorting on fields that need arguments to resolve is deprecated."
-    )
-  thumbnail___childImageSharp___sizes___presentationHeight
     @deprecated(
       reason: "Sorting on fields that need arguments to resolve is deprecated."
     )
@@ -8241,8 +6396,8 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
   thumbnail___childrenMarkdownRemark___frontmatter____97
   thumbnail___childrenMarkdownRemark___frontmatter____98
   thumbnail___childrenMarkdownRemark___frontmatter____99
-  thumbnail___childrenMarkdownRemark___frontmatter___modified
   thumbnail___childrenMarkdownRemark___frontmatter____
+  thumbnail___childrenMarkdownRemark___frontmatter___modified
   thumbnail___childrenMarkdownRemark___frontmatter___id
   thumbnail___childrenMarkdownRemark___frontmatter___children
   thumbnail___childrenMarkdownRemark___excerpt
@@ -8483,8 +6638,8 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
   thumbnail___childMarkdownRemark___frontmatter____97
   thumbnail___childMarkdownRemark___frontmatter____98
   thumbnail___childMarkdownRemark___frontmatter____99
-  thumbnail___childMarkdownRemark___frontmatter___modified
   thumbnail___childMarkdownRemark___frontmatter____
+  thumbnail___childMarkdownRemark___frontmatter___modified
   thumbnail___childMarkdownRemark___frontmatter___id
   thumbnail___childMarkdownRemark___frontmatter___children
   thumbnail___childMarkdownRemark___excerpt
@@ -8653,8 +6808,8 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
   thumbnail___internal___mediaType
   thumbnail___internal___owner
   thumbnail___internal___type
-  modified
   _
+  modified
   id
   parent___id
   parent___parent___id
@@ -8743,25 +6898,6 @@ enum MarkdownRemarkFrontmatterFieldsEnum {
   internal___type
 }
 
-type MarkdownRemarkFrontmatterConnection {
-  totalCount: Int!
-  edges: [MarkdownRemarkFrontmatterEdge!]!
-  nodes: [MarkdownRemarkFrontmatter!]!
-  pageInfo: PageInfo!
-  distinct(field: MarkdownRemarkFrontmatterFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: MarkdownRemarkFrontmatterFieldsEnum!
-  ): [MarkdownRemarkFrontmatterGroupConnection!]!
-}
-
-type MarkdownRemarkFrontmatterEdge {
-  next: MarkdownRemarkFrontmatter
-  node: MarkdownRemarkFrontmatter!
-  previous: MarkdownRemarkFrontmatter
-}
-
 type MarkdownRemarkFrontmatterGroupConnection {
   totalCount: Int!
   edges: [MarkdownRemarkFrontmatterEdge!]!
@@ -8771,46 +6907,28 @@ type MarkdownRemarkFrontmatterGroupConnection {
   fieldValue: String
 }
 
-type SiteBuildMetadata implements Node {
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
-  buildTime(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to "milliseconds" but you can also pass in as the measurement "years", "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date
-}
-
-input SiteBuildMetadataFilterInput {
-  #
-  id: StringQueryOperatorInput
-
-  #
-  parent: NodeFilterInput
-
-  #
-  children: NodeFilterListInput
-
-  #
-  internal: InternalFilterInput
-
-  #
-  buildTime: DateQueryOperatorInput
-}
-
-input SiteBuildMetadataSortInput {
-  fields: [SiteBuildMetadataFieldsEnum]
+input MarkdownRemarkFrontmatterSortInput {
+  fields: [MarkdownRemarkFrontmatterFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type SiteBuildMetadataConnection {
+  totalCount: Int!
+  edges: [SiteBuildMetadataEdge!]!
+  nodes: [SiteBuildMetadata!]!
+  pageInfo: PageInfo!
+  distinct(field: SiteBuildMetadataFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: SiteBuildMetadataFieldsEnum!
+  ): [SiteBuildMetadataGroupConnection!]!
+}
+
+type SiteBuildMetadataEdge {
+  next: SiteBuildMetadata
+  node: SiteBuildMetadata!
+  previous: SiteBuildMetadata
 }
 
 enum SiteBuildMetadataFieldsEnum {
@@ -8903,25 +7021,6 @@ enum SiteBuildMetadataFieldsEnum {
   buildTime
 }
 
-type SiteBuildMetadataConnection {
-  totalCount: Int!
-  edges: [SiteBuildMetadataEdge!]!
-  nodes: [SiteBuildMetadata!]!
-  pageInfo: PageInfo!
-  distinct(field: SiteBuildMetadataFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: SiteBuildMetadataFieldsEnum!
-  ): [SiteBuildMetadataGroupConnection!]!
-}
-
-type SiteBuildMetadataEdge {
-  next: SiteBuildMetadata
-  node: SiteBuildMetadata!
-  previous: SiteBuildMetadata
-}
-
 type SiteBuildMetadataGroupConnection {
   totalCount: Int!
   edges: [SiteBuildMetadataEdge!]!
@@ -8931,9 +7030,202 @@ type SiteBuildMetadataGroupConnection {
   fieldValue: String
 }
 
-input SitePluginSortInput {
-  fields: [SitePluginFieldsEnum]
+input SiteBuildMetadataFilterInput {
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+  buildTime: DateQueryOperatorInput
+}
+
+input SiteBuildMetadataSortInput {
+  fields: [SiteBuildMetadataFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+input SitePluginPluginOptionsFilterInput {
+  plugins: SitePluginPluginOptionsPluginsFilterListInput
+  isTSX: BooleanQueryOperatorInput
+  jsxPragma: StringQueryOperatorInput
+  allExtensions: BooleanQueryOperatorInput
+  output: StringQueryOperatorInput
+  createLinkInHead: BooleanQueryOperatorInput
+  base64Width: IntQueryOperatorInput
+  stripMetadata: BooleanQueryOperatorInput
+  defaultQuality: IntQueryOperatorInput
+  failOnError: BooleanQueryOperatorInput
+  trackingId: StringQueryOperatorInput
+  head: BooleanQueryOperatorInput
+  anonymize: BooleanQueryOperatorInput
+  respectDNT: BooleanQueryOperatorInput
+  pageTransitionDelay: IntQueryOperatorInput
+  name: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+  ignore: StringQueryOperatorInput
+  maxWidth: IntQueryOperatorInput
+  showCaptions: BooleanQueryOperatorInput
+  withWebp: BooleanQueryOperatorInput
+  linkImagesToOriginal: BooleanQueryOperatorInput
+  markdownCaptions: BooleanQueryOperatorInput
+  sizeByPixelDensity: BooleanQueryOperatorInput
+  backgroundColor: StringQueryOperatorInput
+  quality: IntQueryOperatorInput
+  tracedSVG: BooleanQueryOperatorInput
+  loading: StringQueryOperatorInput
+  disableBgImageOnAlpha: BooleanQueryOperatorInput
+  disableBgImage: BooleanQueryOperatorInput
+  classPrefix: StringQueryOperatorInput
+  showLineNumbers: BooleanQueryOperatorInput
+  aliases: SitePluginPluginOptionsAliasesFilterInput
+  strict: StringQueryOperatorInput
+  rel: StringQueryOperatorInput
+  short_name: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  start_url: StringQueryOperatorInput
+  background_color: StringQueryOperatorInput
+  theme_color_in_head: BooleanQueryOperatorInput
+  display: StringQueryOperatorInput
+  lang: StringQueryOperatorInput
+  icon: StringQueryOperatorInput
+  legacy: BooleanQueryOperatorInput
+  include_favicon: BooleanQueryOperatorInput
+  crossOrigin: StringQueryOperatorInput
+  cache_busting_mode: StringQueryOperatorInput
+  cacheDigest: StringQueryOperatorInput
+  query: StringQueryOperatorInput
+  feeds: SitePluginPluginOptionsFeedsFilterListInput
+  host: StringQueryOperatorInput
+  sitemap: StringQueryOperatorInput
+  policy: SitePluginPluginOptionsPolicyFilterListInput
+  pathCheck: BooleanQueryOperatorInput
+}
+
+input SitePluginPluginOptionsPluginsFilterListInput {
+  elemMatch: SitePluginPluginOptionsPluginsFilterInput
+}
+
+input SitePluginPluginOptionsPluginsFilterInput {
+  resolve: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+  pluginOptions: SitePluginPluginOptionsPluginsPluginOptionsFilterInput
+  nodeAPIs: StringQueryOperatorInput
+  browserAPIs: StringQueryOperatorInput
+  pluginFilepath: StringQueryOperatorInput
+}
+
+input SitePluginPluginOptionsPluginsPluginOptionsFilterInput {
+  maxWidth: IntQueryOperatorInput
+  showCaptions: BooleanQueryOperatorInput
+  withWebp: BooleanQueryOperatorInput
+  linkImagesToOriginal: BooleanQueryOperatorInput
+  markdownCaptions: BooleanQueryOperatorInput
+  sizeByPixelDensity: BooleanQueryOperatorInput
+  backgroundColor: StringQueryOperatorInput
+  quality: IntQueryOperatorInput
+  tracedSVG: BooleanQueryOperatorInput
+  loading: StringQueryOperatorInput
+  disableBgImageOnAlpha: BooleanQueryOperatorInput
+  disableBgImage: BooleanQueryOperatorInput
+  classPrefix: StringQueryOperatorInput
+  showLineNumbers: BooleanQueryOperatorInput
+  aliases: SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput
+  strict: StringQueryOperatorInput
+  rel: StringQueryOperatorInput
+}
+
+input SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput {
+  react: StringQueryOperatorInput
+  javascriptreact: StringQueryOperatorInput
+  javascript_react: StringQueryOperatorInput
+  typescriptreact: StringQueryOperatorInput
+  typescript_react: StringQueryOperatorInput
+}
+
+input SitePluginPluginOptionsAliasesFilterInput {
+  react: StringQueryOperatorInput
+  javascriptreact: StringQueryOperatorInput
+  javascript_react: StringQueryOperatorInput
+  typescriptreact: StringQueryOperatorInput
+  typescript_react: StringQueryOperatorInput
+}
+
+input SitePluginPluginOptionsFeedsFilterListInput {
+  elemMatch: SitePluginPluginOptionsFeedsFilterInput
+}
+
+input SitePluginPluginOptionsFeedsFilterInput {
+  query: StringQueryOperatorInput
+  output: StringQueryOperatorInput
+  title: StringQueryOperatorInput
+}
+
+input SitePluginPluginOptionsPolicyFilterListInput {
+  elemMatch: SitePluginPluginOptionsPolicyFilterInput
+}
+
+input SitePluginPluginOptionsPolicyFilterInput {
+  userAgent: StringQueryOperatorInput
+  allow: StringQueryOperatorInput
+}
+
+input SitePluginPackageJsonFilterInput {
+  name: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+  main: StringQueryOperatorInput
+  license: StringQueryOperatorInput
+  dependencies: SitePluginPackageJsonDependenciesFilterListInput
+  devDependencies: SitePluginPackageJsonDevDependenciesFilterListInput
+  peerDependencies: SitePluginPackageJsonPeerDependenciesFilterListInput
+  keywords: StringQueryOperatorInput
+}
+
+input SitePluginPackageJsonDependenciesFilterListInput {
+  elemMatch: SitePluginPackageJsonDependenciesFilterInput
+}
+
+input SitePluginPackageJsonDependenciesFilterInput {
+  name: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+}
+
+input SitePluginPackageJsonDevDependenciesFilterListInput {
+  elemMatch: SitePluginPackageJsonDevDependenciesFilterInput
+}
+
+input SitePluginPackageJsonDevDependenciesFilterInput {
+  name: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+}
+
+input SitePluginPackageJsonPeerDependenciesFilterListInput {
+  elemMatch: SitePluginPackageJsonPeerDependenciesFilterInput
+}
+
+input SitePluginPackageJsonPeerDependenciesFilterInput {
+  name: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+}
+
+type SitePluginConnection {
+  totalCount: Int!
+  edges: [SitePluginEdge!]!
+  nodes: [SitePlugin!]!
+  pageInfo: PageInfo!
+  distinct(field: SitePluginFieldsEnum!): [String!]!
+  group(
+    skip: Int
+    limit: Int
+    field: SitePluginFieldsEnum!
+  ): [SitePluginGroupConnection!]!
+}
+
+type SitePluginEdge {
+  next: SitePlugin
+  node: SitePlugin!
+  previous: SitePlugin
 }
 
 enum SitePluginFieldsEnum {
@@ -9033,7 +7325,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___plugins___version
   pluginOptions___plugins___pluginOptions___maxWidth
   pluginOptions___plugins___pluginOptions___showCaptions
-  pluginOptions___plugins___pluginOptions___loading
   pluginOptions___plugins___pluginOptions___withWebp
   pluginOptions___plugins___pluginOptions___linkImagesToOriginal
   pluginOptions___plugins___pluginOptions___markdownCaptions
@@ -9041,11 +7332,11 @@ enum SitePluginFieldsEnum {
   pluginOptions___plugins___pluginOptions___backgroundColor
   pluginOptions___plugins___pluginOptions___quality
   pluginOptions___plugins___pluginOptions___tracedSVG
+  pluginOptions___plugins___pluginOptions___loading
   pluginOptions___plugins___pluginOptions___disableBgImageOnAlpha
   pluginOptions___plugins___pluginOptions___disableBgImage
   pluginOptions___plugins___pluginOptions___classPrefix
   pluginOptions___plugins___pluginOptions___showLineNumbers
-  pluginOptions___plugins___pluginOptions___noInlineHighlight
   pluginOptions___plugins___pluginOptions___strict
   pluginOptions___plugins___pluginOptions___rel
   pluginOptions___plugins___nodeAPIs
@@ -9070,7 +7361,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___ignore
   pluginOptions___maxWidth
   pluginOptions___showCaptions
-  pluginOptions___loading
   pluginOptions___withWebp
   pluginOptions___linkImagesToOriginal
   pluginOptions___markdownCaptions
@@ -9078,11 +7368,11 @@ enum SitePluginFieldsEnum {
   pluginOptions___backgroundColor
   pluginOptions___quality
   pluginOptions___tracedSVG
+  pluginOptions___loading
   pluginOptions___disableBgImageOnAlpha
   pluginOptions___disableBgImage
   pluginOptions___classPrefix
   pluginOptions___showLineNumbers
-  pluginOptions___noInlineHighlight
   pluginOptions___aliases___react
   pluginOptions___aliases___javascriptreact
   pluginOptions___aliases___javascript_react
@@ -9135,25 +7425,6 @@ enum SitePluginFieldsEnum {
   packageJson___keywords
 }
 
-type SitePluginConnection {
-  totalCount: Int!
-  edges: [SitePluginEdge!]!
-  nodes: [SitePlugin!]!
-  pageInfo: PageInfo!
-  distinct(field: SitePluginFieldsEnum!): [String!]!
-  group(
-    skip: Int
-    limit: Int
-    field: SitePluginFieldsEnum!
-  ): [SitePluginGroupConnection!]!
-}
-
-type SitePluginEdge {
-  next: SitePlugin
-  node: SitePlugin!
-  previous: SitePlugin
-}
-
 type SitePluginGroupConnection {
   totalCount: Int!
   edges: [SitePluginEdge!]!
@@ -9161,4 +7432,25 @@ type SitePluginGroupConnection {
   pageInfo: PageInfo!
   field: String!
   fieldValue: String
+}
+
+input SitePluginFilterInput {
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
+  resolve: StringQueryOperatorInput
+  name: StringQueryOperatorInput
+  version: StringQueryOperatorInput
+  pluginOptions: SitePluginPluginOptionsFilterInput
+  nodeAPIs: StringQueryOperatorInput
+  browserAPIs: StringQueryOperatorInput
+  ssrAPIs: StringQueryOperatorInput
+  pluginFilepath: StringQueryOperatorInput
+  packageJson: SitePluginPackageJsonFilterInput
+}
+
+input SitePluginSortInput {
+  fields: [SitePluginFieldsEnum]
+  order: [SortOrderEnum] = [ASC]
 }

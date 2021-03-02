@@ -18,13 +18,13 @@ dayjs.extend(relativeTime);
 type Frontmatter = ListQuery['allMarkdownRemark']['edges'][0]['node']['frontmatter'];
 
 const FeaturedImage: FC<{ frontmatter: Frontmatter }> = ({ frontmatter }) => {
-  if (!frontmatter?.thumbnail || !frontmatter.thumbnail.childImageSharp?.fluid)
+  if (!frontmatter?.thumbnail || !frontmatter.thumbnail.childImageSharp?.image)
     return null;
   return (
     <Image
       className="featured-image"
       alt=">>>???"
-      image={frontmatter.thumbnail.childImageSharp?.fluid as any}
+      image={frontmatter.thumbnail.childImageSharp?.image}
     />
   );
 };
@@ -223,15 +223,7 @@ export const QUERY_LIST_DSL = graphql`
             excerpt
             thumbnail {
               childImageSharp {
-                fluid {
-                  aspectRatio
-                  src
-                  srcSet
-                  sizes
-                  base64
-                  srcWebp
-                  srcSetWebp
-                }
+                image: gatsbyImageData
               }
             }
           }

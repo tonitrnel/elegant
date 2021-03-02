@@ -22,15 +22,10 @@ const createTempLink = () => {
  * 修改Webpack配置 onCreateWebpackConfig
  * @param {CreateWebpackConfigArgs} args
  */
-exports.onCreateWebpackConfig = function onCreateWebpackConfig({
-  actions,
-  getConfig,
-}) {
+exports.onCreateWebpackConfig = function onCreateWebpackConfig({ actions }) {
   actions.setWebpackConfig({
     resolve,
   });
-  // console.log(getConfig().module.rules[10]);
-  // process.exit();
 };
 
 /**
