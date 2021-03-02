@@ -8,12 +8,12 @@
 }
 .main {
   display: block;
-  width: 890px;
-  padding-top: 60px;
+  min-width: 890px;
+  width: 72vw;
+  padding-top: 60px + 114px; // 114px为header高度
   padding-bottom: 80px;
   padding-left: 10%;
   position: relative;
-  z-index: 2;
   flex: 1;
   box-sizing: border-box;
   //min-height: 100vh;
@@ -26,6 +26,9 @@
   &-inner {
     width: 890px;
     padding-left: 10%;
+  }
+  .site-name, .last-activity{
+    margin-left: 7px;
   }
   a {
     border-bottom: 1px solid transparent;

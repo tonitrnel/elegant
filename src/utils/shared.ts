@@ -49,7 +49,7 @@ export const padString = (
 };
 
 /**
- * 防抖函数 如果在N秒内多次执行只执行最后一次
+ * 防抖函数 如果N秒内多次执行只执行最后一次
  * @param func 目标函数
  * @param delay 延迟
  */
@@ -76,7 +76,7 @@ export function debounce<T extends (...args: any[]) => void>(
   };
 }
 /**
- * 节流函数 如果N秒内多次执行只执行最后一次
+ * 节流函数 每隔一段时间，只执行一次函数
  * @param func 目标函数
  * @param delay 延迟
  */

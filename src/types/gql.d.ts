@@ -3321,6 +3321,7 @@ export enum MarkdownRemarkFrontmatterFieldsEnum {
   ThumbnailInternalOwner = 'thumbnail___internal___owner',
   ThumbnailInternalType = 'thumbnail___internal___type',
   Modified = 'modified',
+  // '' = '_',
   Id = 'id',
   ParentId = 'parent___id',
   ParentParentId = 'parent___parent___id',
@@ -4761,7 +4762,6 @@ export enum SitePageFieldsEnum {
   PluginCreatorPluginOptionsIgnore = 'pluginCreator___pluginOptions___ignore',
   PluginCreatorPluginOptionsMaxWidth = 'pluginCreator___pluginOptions___maxWidth',
   PluginCreatorPluginOptionsShowCaptions = 'pluginCreator___pluginOptions___showCaptions',
-  PluginCreatorPluginOptionsLoading = 'pluginCreator___pluginOptions___loading',
   PluginCreatorPluginOptionsWithWebp = 'pluginCreator___pluginOptions___withWebp',
   PluginCreatorPluginOptionsLinkImagesToOriginal = 'pluginCreator___pluginOptions___linkImagesToOriginal',
   PluginCreatorPluginOptionsMarkdownCaptions = 'pluginCreator___pluginOptions___markdownCaptions',
@@ -4769,11 +4769,11 @@ export enum SitePageFieldsEnum {
   PluginCreatorPluginOptionsBackgroundColor = 'pluginCreator___pluginOptions___backgroundColor',
   PluginCreatorPluginOptionsQuality = 'pluginCreator___pluginOptions___quality',
   PluginCreatorPluginOptionsTracedSvg = 'pluginCreator___pluginOptions___tracedSVG',
+  PluginCreatorPluginOptionsLoading = 'pluginCreator___pluginOptions___loading',
   PluginCreatorPluginOptionsDisableBgImageOnAlpha = 'pluginCreator___pluginOptions___disableBgImageOnAlpha',
   PluginCreatorPluginOptionsDisableBgImage = 'pluginCreator___pluginOptions___disableBgImage',
   PluginCreatorPluginOptionsClassPrefix = 'pluginCreator___pluginOptions___classPrefix',
   PluginCreatorPluginOptionsShowLineNumbers = 'pluginCreator___pluginOptions___showLineNumbers',
-  PluginCreatorPluginOptionsNoInlineHighlight = 'pluginCreator___pluginOptions___noInlineHighlight',
   PluginCreatorPluginOptionsAliasesReact = 'pluginCreator___pluginOptions___aliases___react',
   PluginCreatorPluginOptionsAliasesJavascriptreact = 'pluginCreator___pluginOptions___aliases___javascriptreact',
   PluginCreatorPluginOptionsAliasesJavascriptReact = 'pluginCreator___pluginOptions___aliases___javascript_react',
@@ -4997,7 +4997,6 @@ export enum SitePluginFieldsEnum {
   PluginOptionsPluginsVersion = 'pluginOptions___plugins___version',
   PluginOptionsPluginsPluginOptionsMaxWidth = 'pluginOptions___plugins___pluginOptions___maxWidth',
   PluginOptionsPluginsPluginOptionsShowCaptions = 'pluginOptions___plugins___pluginOptions___showCaptions',
-  PluginOptionsPluginsPluginOptionsLoading = 'pluginOptions___plugins___pluginOptions___loading',
   PluginOptionsPluginsPluginOptionsWithWebp = 'pluginOptions___plugins___pluginOptions___withWebp',
   PluginOptionsPluginsPluginOptionsLinkImagesToOriginal = 'pluginOptions___plugins___pluginOptions___linkImagesToOriginal',
   PluginOptionsPluginsPluginOptionsMarkdownCaptions = 'pluginOptions___plugins___pluginOptions___markdownCaptions',
@@ -5005,11 +5004,11 @@ export enum SitePluginFieldsEnum {
   PluginOptionsPluginsPluginOptionsBackgroundColor = 'pluginOptions___plugins___pluginOptions___backgroundColor',
   PluginOptionsPluginsPluginOptionsQuality = 'pluginOptions___plugins___pluginOptions___quality',
   PluginOptionsPluginsPluginOptionsTracedSvg = 'pluginOptions___plugins___pluginOptions___tracedSVG',
+  PluginOptionsPluginsPluginOptionsLoading = 'pluginOptions___plugins___pluginOptions___loading',
   PluginOptionsPluginsPluginOptionsDisableBgImageOnAlpha = 'pluginOptions___plugins___pluginOptions___disableBgImageOnAlpha',
   PluginOptionsPluginsPluginOptionsDisableBgImage = 'pluginOptions___plugins___pluginOptions___disableBgImage',
   PluginOptionsPluginsPluginOptionsClassPrefix = 'pluginOptions___plugins___pluginOptions___classPrefix',
   PluginOptionsPluginsPluginOptionsShowLineNumbers = 'pluginOptions___plugins___pluginOptions___showLineNumbers',
-  PluginOptionsPluginsPluginOptionsNoInlineHighlight = 'pluginOptions___plugins___pluginOptions___noInlineHighlight',
   PluginOptionsPluginsPluginOptionsStrict = 'pluginOptions___plugins___pluginOptions___strict',
   PluginOptionsPluginsPluginOptionsRel = 'pluginOptions___plugins___pluginOptions___rel',
   PluginOptionsPluginsNodeApIs = 'pluginOptions___plugins___nodeAPIs',
@@ -5034,7 +5033,6 @@ export enum SitePluginFieldsEnum {
   PluginOptionsIgnore = 'pluginOptions___ignore',
   PluginOptionsMaxWidth = 'pluginOptions___maxWidth',
   PluginOptionsShowCaptions = 'pluginOptions___showCaptions',
-  PluginOptionsLoading = 'pluginOptions___loading',
   PluginOptionsWithWebp = 'pluginOptions___withWebp',
   PluginOptionsLinkImagesToOriginal = 'pluginOptions___linkImagesToOriginal',
   PluginOptionsMarkdownCaptions = 'pluginOptions___markdownCaptions',
@@ -5042,11 +5040,11 @@ export enum SitePluginFieldsEnum {
   PluginOptionsBackgroundColor = 'pluginOptions___backgroundColor',
   PluginOptionsQuality = 'pluginOptions___quality',
   PluginOptionsTracedSvg = 'pluginOptions___tracedSVG',
+  PluginOptionsLoading = 'pluginOptions___loading',
   PluginOptionsDisableBgImageOnAlpha = 'pluginOptions___disableBgImageOnAlpha',
   PluginOptionsDisableBgImage = 'pluginOptions___disableBgImage',
   PluginOptionsClassPrefix = 'pluginOptions___classPrefix',
   PluginOptionsShowLineNumbers = 'pluginOptions___showLineNumbers',
-  PluginOptionsNoInlineHighlight = 'pluginOptions___noInlineHighlight',
   PluginOptionsAliasesReact = 'pluginOptions___aliases___react',
   PluginOptionsAliasesJavascriptreact = 'pluginOptions___aliases___javascriptreact',
   PluginOptionsAliasesJavascriptReact = 'pluginOptions___aliases___javascript_react',
@@ -5209,9 +5207,8 @@ export type SitePluginPluginOptions = {
   name?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
   ignore?: Maybe<Array<Maybe<Scalars['String']>>>;
-  maxWidth?: Maybe<Scalars['Float']>;
+  maxWidth?: Maybe<Scalars['Int']>;
   showCaptions?: Maybe<Scalars['Boolean']>;
-  loading?: Maybe<Scalars['String']>;
   withWebp?: Maybe<Scalars['Boolean']>;
   linkImagesToOriginal?: Maybe<Scalars['Boolean']>;
   markdownCaptions?: Maybe<Scalars['Boolean']>;
@@ -5219,11 +5216,11 @@ export type SitePluginPluginOptions = {
   backgroundColor?: Maybe<Scalars['String']>;
   quality?: Maybe<Scalars['Int']>;
   tracedSVG?: Maybe<Scalars['Boolean']>;
+  loading?: Maybe<Scalars['String']>;
   disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>;
   disableBgImage?: Maybe<Scalars['Boolean']>;
   classPrefix?: Maybe<Scalars['String']>;
   showLineNumbers?: Maybe<Scalars['Boolean']>;
-  noInlineHighlight?: Maybe<Scalars['Boolean']>;
   aliases?: Maybe<SitePluginPluginOptionsAliases>;
   strict?: Maybe<Scalars['String']>;
   rel?: Maybe<Scalars['String']>;
@@ -5299,9 +5296,8 @@ export type SitePluginPluginOptionsFilterInput = {
   name?: Maybe<StringQueryOperatorInput>;
   path?: Maybe<StringQueryOperatorInput>;
   ignore?: Maybe<StringQueryOperatorInput>;
-  maxWidth?: Maybe<FloatQueryOperatorInput>;
+  maxWidth?: Maybe<IntQueryOperatorInput>;
   showCaptions?: Maybe<BooleanQueryOperatorInput>;
-  loading?: Maybe<StringQueryOperatorInput>;
   withWebp?: Maybe<BooleanQueryOperatorInput>;
   linkImagesToOriginal?: Maybe<BooleanQueryOperatorInput>;
   markdownCaptions?: Maybe<BooleanQueryOperatorInput>;
@@ -5309,11 +5305,11 @@ export type SitePluginPluginOptionsFilterInput = {
   backgroundColor?: Maybe<StringQueryOperatorInput>;
   quality?: Maybe<IntQueryOperatorInput>;
   tracedSVG?: Maybe<BooleanQueryOperatorInput>;
+  loading?: Maybe<StringQueryOperatorInput>;
   disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>;
   disableBgImage?: Maybe<BooleanQueryOperatorInput>;
   classPrefix?: Maybe<StringQueryOperatorInput>;
   showLineNumbers?: Maybe<BooleanQueryOperatorInput>;
-  noInlineHighlight?: Maybe<BooleanQueryOperatorInput>;
   aliases?: Maybe<SitePluginPluginOptionsAliasesFilterInput>;
   strict?: Maybe<StringQueryOperatorInput>;
   rel?: Maybe<StringQueryOperatorInput>;
@@ -5365,9 +5361,8 @@ export type SitePluginPluginOptionsPluginsFilterListInput = {
 };
 
 export type SitePluginPluginOptionsPluginsPluginOptions = {
-  maxWidth?: Maybe<Scalars['Float']>;
+  maxWidth?: Maybe<Scalars['Int']>;
   showCaptions?: Maybe<Scalars['Boolean']>;
-  loading?: Maybe<Scalars['String']>;
   withWebp?: Maybe<Scalars['Boolean']>;
   linkImagesToOriginal?: Maybe<Scalars['Boolean']>;
   markdownCaptions?: Maybe<Scalars['Boolean']>;
@@ -5375,11 +5370,11 @@ export type SitePluginPluginOptionsPluginsPluginOptions = {
   backgroundColor?: Maybe<Scalars['String']>;
   quality?: Maybe<Scalars['Int']>;
   tracedSVG?: Maybe<Scalars['Boolean']>;
+  loading?: Maybe<Scalars['String']>;
   disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>;
   disableBgImage?: Maybe<Scalars['Boolean']>;
   classPrefix?: Maybe<Scalars['String']>;
   showLineNumbers?: Maybe<Scalars['Boolean']>;
-  noInlineHighlight?: Maybe<Scalars['Boolean']>;
   aliases?: Maybe<SitePluginPluginOptionsPluginsPluginOptionsAliases>;
   strict?: Maybe<Scalars['String']>;
   rel?: Maybe<Scalars['String']>;
@@ -5402,9 +5397,8 @@ export type SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput = {
 };
 
 export type SitePluginPluginOptionsPluginsPluginOptionsFilterInput = {
-  maxWidth?: Maybe<FloatQueryOperatorInput>;
+  maxWidth?: Maybe<IntQueryOperatorInput>;
   showCaptions?: Maybe<BooleanQueryOperatorInput>;
-  loading?: Maybe<StringQueryOperatorInput>;
   withWebp?: Maybe<BooleanQueryOperatorInput>;
   linkImagesToOriginal?: Maybe<BooleanQueryOperatorInput>;
   markdownCaptions?: Maybe<BooleanQueryOperatorInput>;
@@ -5412,11 +5406,11 @@ export type SitePluginPluginOptionsPluginsPluginOptionsFilterInput = {
   backgroundColor?: Maybe<StringQueryOperatorInput>;
   quality?: Maybe<IntQueryOperatorInput>;
   tracedSVG?: Maybe<BooleanQueryOperatorInput>;
+  loading?: Maybe<StringQueryOperatorInput>;
   disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>;
   disableBgImage?: Maybe<BooleanQueryOperatorInput>;
   classPrefix?: Maybe<StringQueryOperatorInput>;
   showLineNumbers?: Maybe<BooleanQueryOperatorInput>;
-  noInlineHighlight?: Maybe<BooleanQueryOperatorInput>;
   aliases?: Maybe<SitePluginPluginOptionsPluginsPluginOptionsAliasesFilterInput>;
   strict?: Maybe<StringQueryOperatorInput>;
   rel?: Maybe<StringQueryOperatorInput>;
@@ -5786,6 +5780,19 @@ export type PostsPaginationQuery = {
             }>;
           }
         >;
+      };
+    }>;
+  };
+};
+
+export type SearchSourceQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SearchSourceQuery = {
+  source: {
+    edges: Array<{
+      node: {
+        fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>>;
+        frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'tags'>>;
       };
     }>;
   };

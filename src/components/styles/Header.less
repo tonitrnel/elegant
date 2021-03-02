@@ -2,7 +2,7 @@
 .header{
   display: flex;
   justify-content: space-between;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -10,6 +10,11 @@
   background: #ffffffE9;
   z-index: 9;
   box-sizing: border-box;
+  transition: all .3s ease;
+  &--hide{
+    opacity: 0;
+    transform: translateY(-100%);
+  }
 }
 .navbar{
   display: flex;
@@ -25,10 +30,30 @@
   margin: 0 10px;
   position: relative;
   text-indent: 4px;
+  a{
+    text-decoration: none;
+    color: @text-color;
+    position: relative;
+    &::after{
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      height: 2px;
+      background-color: @primary-color;
+      width: 0;
+      left: 0;
+      transition: width .13s ease;
+    }
+    &[aria-current="page"]::after, &:hover::after{
+      width: 20%;
+    }
+  }
 }
 .header-profile-image-wrap{
-  border-radius: 8px;
   overflow: hidden;
+  img{
+    border-radius: 4px;
+  }
 }
 .header-title{
   display: flex;
@@ -37,7 +62,6 @@
     color: @text-color;
     font-size: 18px;
     padding: 0;
-    margin: 0 0 0 8px;
     margin: 0 0 0 8px;
   }
   a{

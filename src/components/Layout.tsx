@@ -76,9 +76,8 @@ const Layout: FC<
       <footer className="footer">
         <section className="footer-inner">
           <p>
-            <span className="copyright">&copy;</span>
-            <span>2017-{now.getFullYear()}</span>
-            <span>{metadata?.title}.</span>
+            <span className="copyright">&copy;2017-{now.getFullYear()}</span>
+            <span className="site-name">{metadata?.title}.</span>
             {buildDate && (
               <span className="last-activity">最后活跃：{buildDate}</span>
             )}
@@ -91,7 +90,10 @@ const Layout: FC<
               </a>
             </span>
             <span>
-              Theme By <a href="https://github.com/piecego/elegant">Elegant</a>
+              Theme By{' '}
+              <a href="https://github.com/piecego/elegant" title="主题仓库">
+                Elegant
+              </a>
             </span>
           </p>
           <p className="site-ref">

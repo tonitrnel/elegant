@@ -3,7 +3,7 @@ const std_fs = require('fs');
 const std_path = require('path');
 const dotenv = require('dotenv');
 
-dotenv.config({ debug: process.env.DEBUG, path: '.env.local' });
+dotenv.config({ path: '.env.local' });
 
 const dir = process.env.GATSBY_POSTS_DIRECTORY;
 

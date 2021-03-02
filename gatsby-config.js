@@ -82,6 +82,7 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
     'gatsby-transformer-sharp',
+    `gatsby-plugin-image`,
     'gatsby-plugin-sharp',
     'gatsby-plugin-svgr',
     'gatsby-plugin-less',
@@ -111,9 +112,8 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 890 + (890 / 100) * 4,
+              maxWidth: 1382,
               showCaptions: true,
-              loading: 'lazy',
               withWebp: true,
             },
           },
@@ -121,10 +121,7 @@ module.exports = {
             resolve: `gatsby-remark-prismjs`,
             options: {
               classPrefix: 'language-',
-              inlineCodeMarker: null,
               showLineNumbers: true,
-              noInlineHighlight: false,
-              escapeEntities: {},
               aliases: {
                 react: 'jsx',
                 javascriptreact: 'jsx',

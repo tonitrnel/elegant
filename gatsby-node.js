@@ -22,10 +22,15 @@ const createTempLink = () => {
  * 修改Webpack配置 onCreateWebpackConfig
  * @param {CreateWebpackConfigArgs} args
  */
-exports.onCreateWebpackConfig = function onCreateWebpackConfig({ actions }) {
+exports.onCreateWebpackConfig = function onCreateWebpackConfig({
+  actions,
+  getConfig,
+}) {
   actions.setWebpackConfig({
     resolve,
   });
+  // console.log(getConfig().module.rules[10]);
+  // process.exit();
 };
 
 /**
@@ -286,7 +291,7 @@ exports.createPages = async function createPages({
       const next = i > 0 ? posts[i - 1]?.node : null;
       actions.createPage({
         path: slug,
-        component: resolveTemplate('post'),
+        component: resolveTemplate('article'),
         context: {
           slug,
           lastmod: update,
@@ -328,6 +333,10 @@ exports.createPages = async function createPages({
       },
     });
   }
+  actions.createPage({
+    path: `query/search-source`,
+    component: resolveTemplate('query-search-source'),
+  });
   tags.forEach((tag) => {
     const path = `/tags/${tag.toLowerCase()}`;
     actions.createPage({

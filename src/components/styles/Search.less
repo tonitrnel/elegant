@@ -1,0 +1,37 @@
+@import "~assets/styles/Variables";
+.search-box{
+  display: flex;
+  align-items: center;
+}
+.search-input{
+  width: 0;
+  border: none;
+  outline: none;
+  //background-color: #eee;
+  //border-radius: 4px;
+  //padding: 4px;
+  opacity: 0;
+  transition: width .3s ease, opacity .3s ease;
+  &::placeholder{
+    font-size: 12px;
+  }
+  &--open{
+    width: 160px;
+    opacity: 1;
+  }
+}
+.search-btn{
+  border: none;
+  outline: none;
+  background-color: initial;
+  cursor: pointer;
+  line-height: 0;
+  &__icon{
+    height: 18px;
+    width: $height;
+    fill: @text-color;
+  }
+  &:hover &__icon{
+    fill: #000;
+  }
+}

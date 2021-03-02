@@ -1,35 +1,103 @@
-.post-item {
-  width: 100%;
-  height: auto;
-  margin-bottom: 80px;
-  a{
-    text-decoration: none;
+@import "~assets/styles/Variables";
+.article-list-wrapper{
+  .post-item {
+    width: 100%;
+    height: auto;
+    margin-bottom: 80px;
+    h2 a {
+      font-size: 16px;
+      color: @text-color;
+      &:hover{
+        color: @primary-color;
+      }
+    }
+    h2 {
+      margin: 16px 0;
+    }
   }
-  h2{
-    margin: 16px 0;
+  .post-header {
+    margin-bottom: 26px;
+    padding-top: 10px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .post__date {
+    padding-right: 6px;
+  }
+  .post__date-day {
+    font-size: 18px;
+    line-height: 16px;
+  }
+  .post__date-month, .post__date-relative {
+    margin-left: 6px;
+    font-size: 12px;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+  .featured-image{
+    width: 60%;
+    border-radius: 8px;
+    margin-left: -8px;
+    overflow: hidden;
+  }
+  .post-info{
+    display: flex;
+    align-items: center;
+    a{
+      opacity: .7;
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+  .post__category {
+    color: @text-color;
+    display: block;
+  }
+  .post__tag-list{
+    list-style: none;
+    margin: 4px 0 0 0;
+    padding: 0;
+    line-height: 1.15;
+    li{
+      display: inline-block;
+      margin-left: 6px;
+    }
   }
 }
-.post-header {
-  margin-bottom: 26px;
-  padding-top: 10px;
+.main .next-page__btn {
+  line-height: 1.5;
 }
-.post__date{
-  padding-right: 6px;
+//.next-page__btn-loading{
+//  //border-color: transparent;
+//}
+.next-page__loading-dot {
+  display: inline-block;
+  height: 20px;
+  line-height: 1;
+  text-align: left;
+  vertical-align: -0.4em;
+  overflow: hidden;
+  margin-left: 2px;
+  &::before {
+    display: block;
+    content: '...\A..\A.';
+    white-space: pre-wrap;
+    font-size: 20px;
+    animation: dot-loading-animate 1s infinite step-start both;
+  }
 }
-.post__date-day{
-  font-size: 18px;
-  line-height: 16px;
-  vertical-align: middle;
+.load-done-message{
+  .MuiSnackbarContent-root{
+    min-width: max-content;
+    background-color: @text-color-secondary;
+  }
 }
-.post__date-month{
-  margin-left: 6px;
-  font-size: 12px;
-  line-height: 16px;
-  vertical-align: middle;
-}
-.post__category{
-  margin-left: 6px;
-}
-.next-page-btn{
-  margin-top: 20px;
+@keyframes dot-loading-animate {
+  33% {
+    transform: translateY(-2em);
+  }
+  66% {
+    transform: translateY(-1em);
+  }
 }

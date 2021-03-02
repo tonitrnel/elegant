@@ -9,4 +9,4 @@ dayjs.locale('zh-cn');
 export default (props: Record<'element', any>) => {
   return <ImmerProvider>{props.element}</ImmerProvider>;
 };
-reportWebVitals(console.log).catch(() => {});
+// reportWebVitals(console.log).catch(() => {});

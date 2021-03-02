@@ -1,10 +1,11 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { SiteNavigationMap } from 'types/gql';
 import { useImmer } from 'hooks/useImmer';
 import './styles/Header.less';
 import clsx from 'utils/clsx';
 import { Link } from 'gatsby';
 import { useMetadata } from 'hooks/useMetadata';
+import { Search } from 'components/Search';
 
 const Header: FC<{
   title: string;
@@ -15,6 +16,18 @@ const Header: FC<{
   const metadata = useMetadata();
   const avatarSize = useMemo(() => size ?? '25px', [size]);
   const [isHide, setIsHide] = useState(false);
+  useEffect(() => {
+    let prevYPos = window.pageYOffset;
+    const setVisible = () =>
+      window.requestAnimationFrame(() => {
+        const currentYPos = window.pageYOffset;
+        if (currentYPos === prevYPos) return void 0;
+        if (currentYPos > 0) setIsHide(prevYPos < currentYPos);
+        prevYPos = currentYPos;
+      });
+    document.addEventListener('scroll', setVisible);
+    return () => document.removeEventListener('scroll', setVisible);
+  }, []);
   return (
     <header
       className={clsx(
@@ -41,7 +54,7 @@ const Header: FC<{
         </Link>
       </div>
       <nav className="navbar">
-        <button>搜索</button>
+        <Search />
         <ul className="nav-list">
           {navs.map((it) => (
             <li
@@ -51,7 +64,7 @@ const Header: FC<{
               )}
               key={it.path}
             >
-              {it.name}
+              <Link to={it.path}>{it.name}</Link>
             </li>
           ))}
         </ul>
