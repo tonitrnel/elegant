@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useNavigate } from '@reach/router';
+import { navigate } from 'gatsby';
 import { ReactComponent as SearchIcon } from 'assets/icons/search.svg';
 import { createProduceWrapper } from 'utils/createProduceWrapper';
 import './styles/Search.less';
@@ -19,7 +19,6 @@ export const Search: FC<{}> = () => {
       keywords: '',
     })
   );
-  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const onClickSearch = useCallback(() => {
     setState((draft) => {
@@ -34,7 +33,7 @@ export const Search: FC<{}> = () => {
     (ev: KeyboardEvent<HTMLInputElement>) => {
       if (ev.key !== 'Enter') return void 0;
       ev.preventDefault();
-      navigate(`/s?q=${state.keywords}`).catch(() => console.error('跳转失败'));
+      navigate(`/s?q=${state.keywords}`);
     },
     [state.keywords]
   );
