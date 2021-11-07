@@ -7,10 +7,10 @@ import React, {
   useState,
 } from 'react';
 import { navigate } from 'gatsby';
-import { ReactComponent as SearchIcon } from 'assets/icons/search.svg';
-import { createProduceWrapper } from 'utils/createProduceWrapper';
+import { ReactComponent as SearchIcon } from '~/assets/icons/search.svg';
+import { createProduceWrapper } from '~/utils/createProduceWrapper';
 import './styles/Search.less';
-import clsx from 'utils/clsx';
+import clsx from '~/utils/clsx';
 
 export const Search: FC<{}> = () => {
   const [state, setState] = createProduceWrapper(

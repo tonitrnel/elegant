@@ -1,4 +1,4 @@
-import { isNumber, isObject, isString } from 'utils/shared';
+import { isNumber, isObject, isString } from '~/utils/shared';
 
 type Unit = string | number | boolean | undefined | null;
 type Acceptable = Unit | Record<string, Unit> | Unit[];

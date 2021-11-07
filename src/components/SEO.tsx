@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
-import { SeoQuery } from 'types/gql';
+import { SeoQuery } from '~/types/gql';
 
 const QUERY_METADATA_DSL = graphql`
   query SEO {

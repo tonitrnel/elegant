@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { LayoutQuery, SiteSiteMetadata } from 'types/gql';
+import { LayoutQuery, SiteSiteMetadata } from '~/types/gql';
 
 const metadataContext = createContext<
   NonNullable<LayoutQuery['site']>['metadata'] | null

@@ -7,7 +7,7 @@ import React, {
   PropsWithChildren,
 } from 'react';
 import { Draft, produce } from 'immer';
-import { initial_state, RootState } from 'states/root';
+import { initial_state, RootState } from '~/states/root';
 
 export type MutationCallback<T> = (draft: Draft<ImmerContext['state']>) => T;
 

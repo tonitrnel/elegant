@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { graphql, Link, PageProps } from 'gatsby';
-import { TagQuery } from 'types/gql';
-import Layout from 'components/Layout';
+import { TagQuery } from '~/types/gql';
+import Layout from '~/components/Layout';
 
 const TagTemplatePage: FC<PageProps<TagQuery, { tag: string }>> = ({
   data,

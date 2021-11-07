@@ -1,58 +1,49 @@
 {
-    "extends": "./paths.json",
-    "compilerOptions": {
-      "target": "esnext",
-      "module": "esnext",
-      "allowJs": false,
-      "sourceMap": true,
-      "resolveJsonModule": true,
-      "strict": true,
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "declaration": false,
-      "skipLibCheck": true,
-      "importHelpers": false,
-      "strictNullChecks": true,
-      "noImplicitReturns": false,
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "removeComments": true,
-      "emitDecoratorMetadata": false,
-      "experimentalDecorators": true,
-      "listFiles": false,
-      "noImplicitThis": true,
-      "traceResolution": false,
-      "pretty": false,
-      "noImplicitAny": true,
-      "forceConsistentCasingInFileNames": true,
-      "suppressImplicitAnyIndexErrors": true,
-      "jsx": "react-jsx",
-      "baseUrl": ".",
-      "allowSyntheticDefaultImports": true,
-      "isolatedModules": true,
-      "typeRoots": [
-        "node_modules/@types"
-      ],
-      "types": [
-        "webpack-env",
-        "jest"
-      ],
-      "lib": [
-        "esnext",
-        "dom",
-        "dom.iterable",
-        "scripthost"
-      ],
-      "noEmit": true
-    },
-    "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx",
-      "tests/**/*.ts",
-      "tests/**/*.tsx",
-      "node_modules/gatsby/index.d.ts"
-    ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": false,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declaration": false,
+    "skipLibCheck": true,
+    "importHelpers": false,
+    "strictNullChecks": true,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "listFiles": false,
+    "noImplicitThis": true,
+    "traceResolution": false,
+    "pretty": false,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["webpack-env", "jest"],
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "noEmit": true,
+    "paths": {
+      "~/*": ["./src/*"],
+      "assets/*": ["./src/assets/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "node_modules/gatsby/index.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
-import { get } from 'utils/shared';
-import { BioQuery } from 'types/gql';
+import { get } from '~/utils/shared';
+import { BioQuery } from '~/types/gql';
 
 const QUERY_BIO_DSL = graphql`
   query Bio {

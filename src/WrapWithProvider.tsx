@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImmerProvider } from 'components/ImmerProvider';
-import { reportWebVitals } from 'utils/reportWebVitals';
+import { ImmerProvider } from '~/components/ImmerProvider';
+import { reportWebVitals } from '~/utils/reportWebVitals';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 

@@ -1,14 +1,14 @@
 import React, { FC, PropsWithChildren } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
-import { MetadataProvider } from 'hooks/useMetadata';
+import { MetadataProvider } from '~/hooks/useMetadata';
 import { Helmet } from 'react-helmet';
-import { LayoutQuery } from 'types/gql';
+import { LayoutQuery } from '~/types/gql';
 import './styles/Layout.less';
-import clsx from 'utils/clsx';
+import clsx from '~/utils/clsx';
 import dayjs from 'dayjs';
-import Header from 'components/Header';
+import Header from '~/components/Header';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'assets/styles/Global.less';
+import '~/assets/styles/Global.less';
 
 dayjs.extend(relativeTime);
 
@@ -23,10 +23,6 @@ const QUERY_DSL = graphql`
           metadata {
             google_search_console
           }
-        }
-        navs {
-          name
-          path
         }
       }
       buildTime

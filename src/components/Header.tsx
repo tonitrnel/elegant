@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { SiteNavigationMap } from 'types/gql';
-import { useImmer } from 'hooks/useImmer';
+import { SiteNavigationMap } from '~/types/gql';
+import { useImmer } from '~/hooks/useImmer';
 import './styles/Header.less';
-import clsx from 'utils/clsx';
+import clsx from '~/utils/clsx';
 import { Link } from 'gatsby';
-import { useMetadata } from 'hooks/useMetadata';
-import { Search } from 'components/Search';
+import { useMetadata } from '~/hooks/useMetadata';
+import { Search } from '~/components/Search';
 
 const Header: FC<{
   title: string;

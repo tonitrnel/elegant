@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
-import Layout from 'components/Layout';
+import Layout from '~/components/Layout';
 import { graphql, Link, PageProps } from 'gatsby';
-import { PostQuery } from 'types/gql';
-import NotFound from 'components/NotFound';
+import { PostQuery } from '~/types/gql';
+import NotFound from '~/components/NotFound';
 import './styles/Article.less';
 import dayjs from 'dayjs';
 

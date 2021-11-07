@@ -2,16 +2,16 @@ import React, { useCallback, useState } from 'react';
 import { FC } from 'react';
 import { graphql, Link, PageProps } from 'gatsby';
 import { GatsbyImage as Image } from 'gatsby-plugin-image';
-import Layout from 'components/Layout';
+import Layout from '~/components/Layout';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import SEO from 'components/SEO';
-import { ListQuery, PostsPaginationQuery } from 'types/gql';
-import { PageData } from 'types/helper';
-import { createProduceWrapper } from 'utils/createProduceWrapper';
+import SEO from '~/components/SEO';
+import { ListQuery, PostsPaginationQuery } from '~/types/gql';
+import { PageData } from '~/types/helper';
+import { createProduceWrapper } from '~/utils/createProduceWrapper';
 import { Button, Snackbar, Slide, SlideProps } from '@material-ui/core';
 import dayjs from 'dayjs';
 import './styles/Index.less';
-import clsx from 'utils/clsx';
+import clsx from '~/utils/clsx';
 
 dayjs.extend(relativeTime);
 
